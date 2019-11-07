@@ -1,1 +1,2 @@
-export * from './MyComp';
+export * from './GateKeeper';
+export * from './MainMenu';
