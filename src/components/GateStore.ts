@@ -74,7 +74,7 @@ export class GateStore {
     const { event } = payload;
 
     if (event === 'configured') {
-      console.log('. . . configured . . . ');
+      // console.log('. . . configured . . . ');
       this.state.loading = true;
       this.onChange();
       await sleep(500);
@@ -92,18 +92,18 @@ export class GateStore {
     }
 
     if (event === 'signIn') {
-      console.log('. . . sign in . . . ');
+      // console.log('. . . sign in . . . ');
       const {
         data: {
           attributes: { sub, email },
         },
       } = payload;
-      console.log('IN: ', sub, email);
+      // console.log('IN: ', sub, email);
       await this.handleSignIn(sub, email);
     }
 
     if (event === 'signOut') {
-      console.log('. . . sign out . . . ');
+      // console.log('. . . sign out . . . ');
       await this.handleSignOut();
     }
   };
