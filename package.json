@@ -22,14 +22,16 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build:app": "react-scripts build",
     "test": "react-scripts test",
     "type-check": "tsc",
     "lint": "eslint --ignore-path .eslintignore . --ext ts --ext tsx",
     "lint:fix": "yarn lint --fix",
     "build:lib": "rm -rf dist && rollup --config rollup.config-rlib.js",
     "eject": "react-scripts eject",
-    "postinstall": "rm -rf ./src/rcomps && cp -r ./node_modules/@cpmech/rcomps ./src"
+    "postinstall": "rm -rf ./src/rcomps && cp -r ./node_modules/@cpmech/rcomps ./src",
+    "build": "rm -rf dist && mkdir dist && rsync -av src/components/* dist --exclude __stories__ --exclude __tests__",
+    "dist": "yarn build && cp package.rlib.json dist/package.json && cd dist/ && yarn publish --access=public || true && cd .. && rm -rf dist/"
   },
   "eslintConfig": {
     "extends": "react-app"

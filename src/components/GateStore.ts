@@ -22,8 +22,8 @@ interface IObservers {
   [name: string]: () => void;
 }
 
-// Store holds all state
-export class Store {
+// GateStore holds all state
+export class GateStore {
   // observers holds everyone who is interested in state updates
   private observers: IObservers = {};
 
@@ -131,8 +131,8 @@ export class Store {
   };
 }
 
-/////////////////////////////////
-// make store global ////////////
-export const store = new Store();
-/////////////////////////////////
-/////////////////////////////////
+/////////////////////////////////////////
+// make store global ////////////////////
+export const gateStore = new GateStore();
+/////////////////////////////////////////
+/////////////////////////////////////////

@@ -3,7 +3,7 @@ import { Router, Link } from '@reach/router';
 import Amplify from '@aws-amplify/core';
 import { IconHouseThreeD } from '@cpmech/react-icons';
 import { GateKeeper, MainMenu } from 'components';
-import { store } from 'store';
+import { gateStore } from 'components';
 import { Dashboard, Home, NotFound } from './pages';
 
 Amplify.configure({
@@ -24,7 +24,7 @@ export const App: React.FC = () => {
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
-    return store.subscribe(() => setLoggedIn(store.state.loggedIn), 'App');
+    return gateStore.subscribe(() => setLoggedIn(gateStore.state.loggedIn), 'App');
   }, []);
 
   return (

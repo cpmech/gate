@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from '@reach/router';
 import { ButtonLink, TopMenu, Narrow, Wide, ITopMenuEntry, ButtonSpin } from 'rcomps';
 import { IconAccount, IconClose } from '@cpmech/react-icons';
-import { store } from 'store';
+import { gateStore } from './GateStore';
 
 interface IMainMenuProps {
   NarrowLogoSvg?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
@@ -72,16 +72,16 @@ export const MainMenu: React.FC<IMainMenuProps> = ({
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
-    setLoading(store.state.loading);
-    return store.subscribe(() => {
-      setLoading(store.state.loading);
-      setLoggedIn(store.state.loggedIn);
+    setLoading(gateStore.state.loading);
+    return gateStore.subscribe(() => {
+      setLoading(gateStore.state.loading);
+      setLoggedIn(gateStore.state.loggedIn);
     }, 'MainMenu');
   }, []);
 
   const handleLogInOut = () => {
     if (loggedIn) {
-      store.logout();
+      gateStore.logout();
     }
   };
 
@@ -89,7 +89,7 @@ export const MainMenu: React.FC<IMainMenuProps> = ({
     narrowShowEmail && loggedIn
       ? narrowMiddleEntries.concat([
           <span key="show-email" style={{ fontSize: emailFontSize, color: emailColor }}>
-            {store.state.email}
+            {gateStore.state.email}
           </span>,
         ])
       : narrowMiddleEntries;
@@ -98,7 +98,7 @@ export const MainMenu: React.FC<IMainMenuProps> = ({
     wideShowEmail && loggedIn
       ? wideMiddleEntries.concat([
           <span key="show-email" style={{ fontSize: emailFontSize, color: emailColor }}>
-            {store.state.email}
+            {gateStore.state.email}
           </span>,
         ])
       : wideMiddleEntries;
