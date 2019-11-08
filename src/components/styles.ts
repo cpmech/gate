@@ -14,7 +14,6 @@ export const stylesGateKeeper = {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-width: 460px;
   `,
 
   facebook: css`
