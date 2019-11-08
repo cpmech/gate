@@ -5,7 +5,7 @@
   "dependencies": {
     "@cpmech/basic": "^2.16.0",
     "@cpmech/rcomps": "^1.14.0",
-    "@cpmech/react-icons": "^2.6.0",
+    "@cpmech/react-icons": "^2.7.0",
     "@emotion/core": "^10.0.22",
     "@reach/router": "^1.2.1",
     "@types/jest": "24.0.22",

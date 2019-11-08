@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Router, Link } from '@reach/router';
-import Amplify from '@aws-amplify/core';
 import { IconHouseThreeD } from '@cpmech/react-icons';
-import { GateKeeper, MainMenu } from 'components';
-import { gateStore } from 'components';
+import { GateKeeper, MainMenu, init, gateStore } from 'components';
 import { Dashboard, Home, NotFound } from './pages';
 
-Amplify.configure({
-  Auth: {
-    region: 'us-east-1',
-    userPoolId: 'us-east-1_tl5SLxSyb',
-    userPoolWebClientId: '3skmgvtqjbv8a3lf6qbjav4af6',
-  },
-});
+init(
+  'us-east-1_dCZGZU74z',
+  '5cdculovevq2kqdhj5forn2288',
+  'azcdk.auth.us-east-1.amazoncognito.com',
+  'https://localhost:3000/',
+  'https://localhost:3000/',
+);
 
 const entries = [
   <Link key="link-to-dashboard" to="/dashboard">
