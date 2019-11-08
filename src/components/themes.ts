@@ -32,4 +32,7 @@ export const theme3 = {
   a: {
     color: '#3498db',
   },
+  input: {
+    borderRadius: 200,
+  },
 };
