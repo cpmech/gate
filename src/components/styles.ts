@@ -62,8 +62,9 @@ export const stylesGateKeeper = {
     text-align: center;
     border-bottom: 1px solid #bbb;
     line-height: 0.1em;
-    margin: 32px 0;
     color: #828282;
+    margin-top: 40px;
+    margin-bottom: 8px;
   `,
 
   orLine: css`

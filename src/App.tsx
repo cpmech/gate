@@ -27,20 +27,22 @@ export const App: React.FC = () => {
 
   return (
     <React.Fragment>
-      <MainMenu
-        NarrowLogoIcon={IconHouseThreeD}
-        WideLogoIcon={IconHouseThreeD}
-        wideLogoWidth={60}
-        narrowMiddleEntries={entries}
-        wideMiddleEntries={entries}
-      />
       <GateKeeper />
       {loggedIn && (
-        <Router>
-          <Home path="/" />
-          <Dashboard path="/dashboard" />
-          <NotFound default />
-        </Router>
+        <React.Fragment>
+          <MainMenu
+            NarrowLogoIcon={IconHouseThreeD}
+            WideLogoIcon={IconHouseThreeD}
+            wideLogoWidth={60}
+            narrowMiddleEntries={entries}
+            wideMiddleEntries={entries}
+          />
+          <Router>
+            <Home path="/" />
+            <Dashboard path="/dashboard" />
+            <NotFound default />
+          </Router>
+        </React.Fragment>
       )}
     </React.Fragment>
   );
