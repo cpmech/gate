@@ -35,4 +35,10 @@ export const theme3 = {
   input: {
     borderRadius: 200,
   },
+  oAuthSignInButton: {
+    display: 'none',
+  },
+  strike: {
+    display: 'none',
+  },
 };
