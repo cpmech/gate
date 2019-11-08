@@ -1,8 +1,6 @@
-/* eslint-disable */
-
 import React from 'react';
 /** @jsx jsx */ import { jsx, css } from '@emotion/core';
-import Amplify, { Auth, Hub, I18n } from 'aws-amplify';
+import { Auth, I18n } from 'aws-amplify';
 import { Authenticator, Greetings } from 'aws-amplify-react';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth/lib-esm/types';
 import { UsernameAttributes } from 'aws-amplify-react/lib-esm/Auth/common/types';
