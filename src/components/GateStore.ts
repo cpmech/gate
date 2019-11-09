@@ -1,5 +1,5 @@
 import { Auth, Hub } from 'aws-amplify';
-import { CognitoUser } from 'amazon-cognito-identity-js';
+import { CognitoUser, UserData } from 'amazon-cognito-identity-js';
 // import { sleep } from '@cpmech/basic';
 
 export interface IStateData {
@@ -7,6 +7,8 @@ export interface IStateData {
   loading: boolean;
   lastError: string;
   user: CognitoUser | null;
+  username: string;
+  sub: string;
 }
 
 export const newStateData = (): IStateData => ({
@@ -14,6 +16,8 @@ export const newStateData = (): IStateData => ({
   loading: false,
   lastError: '',
   user: null,
+  username: '',
+  sub: '',
 });
 
 // IObservers defines the object to hold all observers by name
@@ -49,14 +53,20 @@ export class GateStore {
 
   // getters /////////////////////////////////////////////////////////////////////////////////////
 
-  getEmail = () => {
-    if (this.state.user) {
-      console.log(this.state.user);
-    }
-    return '';
-  };
-
   access = () => !this.state.loading && this.state.loggedIn;
+
+  getUserData = (): Promise<UserData | undefined> =>
+    new Promise((resolve, reject) => {
+      if (this.state.user) {
+        this.state.user.getUserData((err, data) => {
+          if (err) {
+            return reject(err);
+          }
+          return resolve(data);
+        });
+      }
+      reject('there is no user yet');
+    });
 
   // setters /////////////////////////////////////////////////////////////////////////////////////
 
@@ -121,8 +131,11 @@ export class GateStore {
     if (!maybeUser) {
       throw new Error('cannot get current user');
     }
+    const { attributes } = maybeUser;
     this.state.loggedIn = true;
     this.state.user = maybeUser;
+    this.state.username = maybeUser.username;
+    this.state.sub = attributes.sub;
   };
 }
 

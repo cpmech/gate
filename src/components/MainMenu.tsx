@@ -35,6 +35,7 @@ interface IMainMenuProps {
   backgroundColor?: string;
   emailFontSize?: string;
   emailColor?: string;
+  getEmail?: () => string;
 }
 
 export const MainMenu: React.FC<IMainMenuProps> = ({
@@ -67,6 +68,7 @@ export const MainMenu: React.FC<IMainMenuProps> = ({
   backgroundColor = '#c5cbe3',
   emailFontSize = '70%',
   emailColor = '#343434',
+  getEmail,
 }) => {
   const [loading, setLoading] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -87,7 +89,7 @@ export const MainMenu: React.FC<IMainMenuProps> = ({
   };
 
   const access = !loading && loggedIn;
-  const email = gate.getEmail();
+  const email = access && getEmail ? getEmail() : '';
 
   const narrowArray =
     narrowShowEmail && loggedIn
