@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from '@reach/router';
 import { ButtonLink, TopMenu, Narrow, Wide, ITopMenuEntry, ButtonSpin } from 'rcomps';
 import { IconAccount, IconClose } from '@cpmech/react-icons';
-import { gateStore } from './GateStore';
+import { gate } from './GateStore';
 
 interface IMainMenuProps {
   NarrowLogoSvg?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
@@ -72,24 +72,28 @@ export const MainMenu: React.FC<IMainMenuProps> = ({
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
-    setLoading(gateStore.state.loading);
-    return gateStore.subscribe(() => {
-      setLoading(gateStore.state.loading);
-      setLoggedIn(gateStore.state.loggedIn);
-    }, 'MainMenu');
+    setLoading(gate.state.loading);
+    setLoggedIn(gate.state.loggedIn);
+    return gate.subscribe(() => {
+      setLoading(gate.state.loading);
+      setLoggedIn(gate.state.loggedIn);
+    }, '@cpmech/gate/MainMenu');
   }, []);
 
   const handleLogInOut = () => {
     if (loggedIn) {
-      gateStore.logout();
+      gate.logout();
     }
   };
+
+  const access = !loading && loggedIn;
+  const email = gate.getEmail();
 
   const narrowArray =
     narrowShowEmail && loggedIn
       ? narrowMiddleEntries.concat([
           <span key="show-email" style={{ fontSize: emailFontSize, color: emailColor }}>
-            {gateStore.state.email}
+            {email}
           </span>,
         ])
       : narrowMiddleEntries;
@@ -98,7 +102,7 @@ export const MainMenu: React.FC<IMainMenuProps> = ({
     wideShowEmail && loggedIn
       ? wideMiddleEntries.concat([
           <span key="show-email" style={{ fontSize: emailFontSize, color: emailColor }}>
-            {gateStore.state.email}
+            {email}
           </span>,
         ])
       : wideMiddleEntries;
@@ -109,6 +113,7 @@ export const MainMenu: React.FC<IMainMenuProps> = ({
         <div
           css={css`
             background-color: ${backgroundColor};
+            ${access ? '' : 'display:none;'}
           `}
         >
           <TopMenu
@@ -141,6 +146,7 @@ export const MainMenu: React.FC<IMainMenuProps> = ({
         <div
           css={css`
             background-color: ${backgroundColor};
+            ${access ? '' : 'display:none;'}
           `}
         >
           <div

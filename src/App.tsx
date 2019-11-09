@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Router, Link } from '@reach/router';
 import { IconHouseThreeD } from '@cpmech/react-icons';
-import { GateKeeper, MainMenu, init, gateStore } from 'components';
+import { GateKeeper, MainMenu, init, gate } from 'components';
 import { Dashboard, Home, NotFound } from './pages';
 
 init(
@@ -19,30 +19,29 @@ const entries = [
 ];
 
 export const App: React.FC = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [access, setAccess] = useState(false);
 
   useEffect(() => {
-    return gateStore.subscribe(() => setLoggedIn(gateStore.state.loggedIn), 'App');
+    setAccess(gate.access());
+    return gate.subscribe(() => setAccess(gate.access()), '@cpmech/gate/App');
   }, []);
 
   return (
     <React.Fragment>
       <GateKeeper />
-      {loggedIn && (
-        <React.Fragment>
-          <MainMenu
-            NarrowLogoIcon={IconHouseThreeD}
-            WideLogoIcon={IconHouseThreeD}
-            wideLogoWidth={60}
-            narrowMiddleEntries={entries}
-            wideMiddleEntries={entries}
-          />
-          <Router>
-            <Home path="/" />
-            <Dashboard path="/dashboard" />
-            <NotFound default />
-          </Router>
-        </React.Fragment>
+      <MainMenu
+        NarrowLogoIcon={IconHouseThreeD}
+        WideLogoIcon={IconHouseThreeD}
+        wideLogoWidth={60}
+        narrowMiddleEntries={entries}
+        wideMiddleEntries={entries}
+      />
+      {access && (
+        <Router>
+          <Home path="/" />
+          <Dashboard path="/dashboard" />
+          <NotFound default />
+        </Router>
       )}
     </React.Fragment>
   );

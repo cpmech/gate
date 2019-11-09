@@ -14,6 +14,7 @@ export const stylesGateKeeper = {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-top: 40px;
   `,
 
   facebook: css`
@@ -58,7 +59,7 @@ export const stylesGateKeeper = {
   `,
 
   orLineContainer: css`
-    width: 100%;
+    width: 80%;
     text-align: center;
     border-bottom: 1px solid #bbb;
     line-height: 0.1em;

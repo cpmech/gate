@@ -1071,10 +1071,10 @@
   resolved "https://registry.yarnpkg.com/@cpmech/basic/-/basic-2.16.0.tgz#02bd993990d4689e423d948245548a382de0bbef"
   integrity sha512-ryoiCQ+DqgcFjPeVSpoAhkERZIpNhx+whd8CxNCqCVBhD/fdlQ4VAkO8lLExYcfZJqQCXwUYXFxmGnpcJCMuAA==
 
-"@cpmech/rcomps@^1.14.0":
-  version "1.14.0"
-  resolved "https://registry.yarnpkg.com/@cpmech/rcomps/-/rcomps-1.14.0.tgz#bf77e96403f81e0e0d2339f1565f85bc66973368"
-  integrity sha512-B7czSqQIayH9sZM9irvO2sfe2g+3OgVpSvGg7w9XSwQXDopHe2JJdBzrWfXdfQS499bLbnCygI8Ix2s/M+Ppsw==
+"@cpmech/rcomps@^1.15.0":
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/@cpmech/rcomps/-/rcomps-1.15.0.tgz#ae4dfa59f31bd1cc001654ccd9854ed59f3ab7d6"
+  integrity sha512-vQ7UQIJLabgSxok1mEuqJkaqZmEnWlt98oJA1yXwdesuHenAd+ehB/uc/6s8oZXl4wRvOF3JcnCE/E511FLlDw==
 
 "@cpmech/react-icons@^2.7.0":
   version "2.7.0"
@@ -1602,10 +1602,15 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
   integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
 
-"@types/node@*", "@types/node@12.12.6":
+"@types/node@*":
   version "12.12.6"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.6.tgz#a47240c10d86a9a57bb0c633f0b2e0aea9ce9253"
   integrity sha512-FjsYUPzEJdGXjwKqSpE0/9QEh6kzhTAeObA54rn6j3rR4C/mzpI9L0KNfoeASSPMMdxIsoJuCLDWcM/rVjIsSA==
+
+"@types/node@12.12.7":
+  version "12.12.7"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.7.tgz#01e4ea724d9e3bd50d90c11fd5980ba317d8fa11"
+  integrity sha512-E6Zn0rffhgd130zbCbAr/JdXfXkoOUFAKNs/rF8qnafSJ8KYaA/j3oz7dcwal+lYjLA7xvdd5J4wdYpCTlP8+w==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -4200,10 +4205,10 @@ eslint-plugin-import@2.18.2:
     read-pkg-up "^2.0.0"
     resolve "^1.11.0"
 
-eslint-plugin-jest@^23.0.2:
-  version "23.0.2"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-23.0.2.tgz#54a59bfe77245186afe13711a297067aefefff0a"
-  integrity sha512-fkxcvOJm0hC/jbJqYJjtuC9mvpTJqXd0Nixx7joVQvJoBQuXk/ws3+MtRYzD/4TcKSgvr21uuSLdwSxKJKC2cg==
+eslint-plugin-jest@^23.0.3:
+  version "23.0.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-23.0.3.tgz#d3f157f7791f97713372c13259ba1dfc436eb4c1"
+  integrity sha512-9cNxr66zeOyz1S9AkQL4/ouilR6QHpYj8vKOQZ60fu9hAt5PJWS4KqWqfr1aqN5NFEZSPjFOla2Azn+KTWiGwg==
   dependencies:
     "@typescript-eslint/experimental-utils" "^2.5.0"
 

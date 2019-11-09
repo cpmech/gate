@@ -1,20 +1,19 @@
 import { Auth, Hub } from 'aws-amplify';
-import { sleep } from '@cpmech/basic';
+import { CognitoUser } from 'amazon-cognito-identity-js';
+// import { sleep } from '@cpmech/basic';
 
 export interface IStateData {
   loggedIn: boolean;
-  userId: string;
-  email: string;
   loading: boolean;
   lastError: string;
+  user: CognitoUser | null;
 }
 
 export const newStateData = (): IStateData => ({
   loggedIn: false,
-  userId: '',
-  email: '',
   loading: false,
   lastError: '',
+  user: null,
 });
 
 // IObservers defines the object to hold all observers by name
@@ -50,10 +49,20 @@ export class GateStore {
 
   // getters /////////////////////////////////////////////////////////////////////////////////////
 
+  getEmail = () => {
+    if (this.state.user) {
+      console.log(this.state.user);
+    }
+    return '';
+  };
+
+  access = () => !this.state.loading && this.state.loggedIn;
+
   // setters /////////////////////////////////////////////////////////////////////////////////////
 
   logout = async () => {
     this.state.loading = true;
+    this.state.lastError = '';
     this.onChange();
     try {
       await Auth.signOut();
@@ -73,66 +82,57 @@ export class GateStore {
     const { payload } = authData;
     const { event } = payload;
 
+    if (event !== 'configured' && event !== 'signIn' && event !== 'signOut') {
+      return;
+    }
+
+    console.log(`. . . ${event} . . . `);
+    this.state.loading = true;
+    this.state.lastError = '';
+    this.onChange();
+    // await sleep(4000);
+
     if (event === 'configured') {
-      // console.log('. . . configured . . . ');
-      this.state.loading = true;
-      this.onChange();
-      await sleep(500);
       try {
-        const data = await Auth.currentAuthenticatedUser();
-        const {
-          attributes: { sub, email },
-        } = data;
-        await this.handleSignIn(sub, email);
+        await this.readUser();
+        console.log('success');
+        console.log(this.state);
       } catch (error) {
-        this.state.loading = false;
-        this.state.lastError = '';
-        this.onChange();
+        /* do nothing */
+        console.log(error);
       }
     }
 
     if (event === 'signIn') {
-      // console.log('. . . sign in . . . ');
-      const {
-        data: {
-          attributes: { sub, email },
-        },
-      } = payload;
-      // console.log('IN: ', sub, email);
-      await this.handleSignIn(sub, email);
+      try {
+        await this.readUser();
+      } catch (error) {
+        console.log('error =', error);
+        this.state.lastError = error.message || JSON.stringify(error);
+      }
     }
 
     if (event === 'signOut') {
-      // console.log('. . . sign out . . . ');
-      await this.handleSignOut();
+      this.state.loggedIn = false;
+      this.state.user = null;
     }
+
+    this.state.loading = false;
+    this.onChange();
   };
 
-  private handleSignIn = async (sub: string | undefined, email: string | undefined) => {
-    if (!sub || !email) {
-      this.state.lastError = 'cannot extract attributes from payload';
-      return;
+  private readUser = async () => {
+    const maybeUser = await Auth.currentAuthenticatedUser();
+    if (!maybeUser) {
+      throw new Error('cannot get current user');
     }
     this.state.loggedIn = true;
-    this.state.userId = sub;
-    this.state.email = email;
-    this.state.loading = false;
-    this.state.lastError = '';
-    this.onChange();
-  };
-
-  private handleSignOut = async () => {
-    this.state.loggedIn = false;
-    this.state.userId = '';
-    this.state.email = '';
-    this.state.loading = false;
-    this.state.lastError = '';
-    this.onChange();
+    this.state.user = maybeUser;
   };
 }
 
 /////////////////////////////////////////
 // make store global ////////////////////
-export const gateStore = new GateStore();
+export const gate = new GateStore();
 /////////////////////////////////////////
 /////////////////////////////////////////

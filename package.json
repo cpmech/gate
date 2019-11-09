@@ -1,15 +1,15 @@
 {
-  "name": "gate",
+  "name": "@cpmech/gate",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@cpmech/basic": "^2.16.0",
-    "@cpmech/rcomps": "^1.14.0",
+    "@cpmech/rcomps": "^1.15.0",
     "@cpmech/react-icons": "^2.7.0",
     "@emotion/core": "^10.0.22",
     "@reach/router": "^1.2.1",
     "@types/jest": "24.0.22",
-    "@types/node": "12.12.6",
+    "@types/node": "12.12.7",
     "@types/react": "16.9.11",
     "@types/react-dom": "16.9.4",
     "aws-amplify": "^1.2.4",
@@ -21,7 +21,7 @@
     "typescript": "^3.7.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "HTTPS=true react-scripts start",
     "build:app": "react-scripts build",
     "test": "react-scripts test",
     "type-check": "tsc",
@@ -55,7 +55,7 @@
     "@typescript-eslint/parser": "^2.6.1",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
-    "eslint-plugin-jest": "^23.0.2",
+    "eslint-plugin-jest": "^23.0.3",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.16.0",
     "husky": "^3.0.9",
