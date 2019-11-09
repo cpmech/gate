@@ -86,7 +86,6 @@ export class GateStore {
       return;
     }
 
-    console.log(`. . . ${event} . . . `);
     this.state.loading = true;
     this.state.lastError = '';
     this.onChange();
@@ -95,11 +94,8 @@ export class GateStore {
     if (event === 'configured') {
       try {
         await this.readUser();
-        console.log('success');
-        console.log(this.state);
       } catch (error) {
         /* do nothing */
-        console.log(error);
       }
     }
 
@@ -107,7 +103,6 @@ export class GateStore {
       try {
         await this.readUser();
       } catch (error) {
-        console.log('error =', error);
         this.state.lastError = error.message || JSON.stringify(error);
       }
     }

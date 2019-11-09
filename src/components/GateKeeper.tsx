@@ -82,17 +82,15 @@ export const GateKeeper: React.FC<IGateKeeperProps> = ({ lang = 'pt' }) => {
   I18n.setLanguage(lang);
 
   const handleFacebookLogin = async () => {
-    const res = await Auth.federatedSignIn({
+    await Auth.federatedSignIn({
       provider: CognitoHostedUIIdentityProvider.Facebook,
     });
-    console.log('got ', res);
   };
 
   const handleGoogleLogin = async () => {
-    const res = await Auth.federatedSignIn({
+    await Auth.federatedSignIn({
       provider: CognitoHostedUIIdentityProvider.Google,
     });
-    console.log('got ', res);
   };
 
   const txt = (str: string) => <div css={styles.txt}>{str}</div>;
