@@ -1,6 +1,6 @@
 import Amplify from 'aws-amplify';
 
-export const init = (
+export const initAuth = (
   userPoolId: string,
   userPoolWebClientId: string,
   oauthDomain: string,

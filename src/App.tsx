@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Router, Link } from '@reach/router';
 import { IconHouseThreeD } from '@cpmech/react-icons';
-import { GateKeeper, MainMenu, init, gate } from 'components';
+import { GateKeeper, MainMenu, initAuth, gate } from 'components';
 import { Dashboard, Home, NotFound } from './pages';
 
-init(
+initAuth(
   'us-east-1_dCZGZU74z',
   '5cdculovevq2kqdhj5forn2288',
   'azcdk.auth.us-east-1.amazoncognito.com',

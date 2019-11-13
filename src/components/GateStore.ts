@@ -55,6 +55,27 @@ export class GateStore {
 
   access = () => !this.state.loading && this.state.loggedIn;
 
+  getToken = async (): Promise<string> => {
+    if (!this.state.user) {
+      throw new Error('user is not Authenticated');
+    }
+    const session = await Auth.currentSession();
+    return session.getIdToken().getJwtToken();
+  };
+
+  getAuthHeader = async (): Promise<{ headers: { authorization: string } }> => {
+    if (!this.state.user) {
+      throw new Error('user is not Authenticated');
+    }
+    const session = await Auth.currentSession();
+    const idToken = session.getIdToken().getJwtToken();
+    return {
+      headers: {
+        authorization: `Bearer ${idToken}`,
+      },
+    };
+  };
+
   getUserData = (): Promise<UserData | undefined> =>
     new Promise((resolve, reject) => {
       if (this.state.user) {

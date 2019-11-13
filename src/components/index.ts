@@ -1,4 +1,4 @@
 export * from './GateKeeper';
 export * from './GateStore';
-export * from './init';
+export * from './initAuth';
 export * from './MainMenu';
