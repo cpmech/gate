@@ -14,7 +14,13 @@ export const stylesGateKeeper = {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 40px;
+    margin-top: 80px;
+    @media only screen and (max-width: 320px) {
+      margin-top: 40px;
+    }
+    @media only screen and (min-width: 620px) {
+      margin-top: 160px;
+    }
   `,
 
   facebook: css`
@@ -59,13 +65,16 @@ export const stylesGateKeeper = {
   `,
 
   orLineContainer: css`
-    width: 80%;
+    width: 275px;
     text-align: center;
     border-bottom: 1px solid #bbb;
     line-height: 0.1em;
     color: #828282;
     margin-top: 40px;
     margin-bottom: 8px;
+    @media only screen and (min-width: 620px) {
+      margin-top: 80px;
+    }
   `,
 
   orLine: css`
