@@ -5,7 +5,7 @@ import { Authenticator, Greetings } from 'aws-amplify-react';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth/lib-esm/types';
 import { UsernameAttributes } from 'aws-amplify-react/lib-esm/Auth/common/types';
 import { IconFacebookCircle, IconGoogle } from '@cpmech/react-icons';
-import { Pair, SpinnerAndMessage } from 'rcomps';
+import { Pair, SpinAndMsgCircle } from 'rcomps';
 import { theme3 as theme } from './themes';
 import { stylesGateKeeper as styles } from './styles';
 import { gate } from './GateStore';
@@ -120,7 +120,7 @@ export const GateKeeper: React.FC<IGateKeeperProps> = ({ lang = 'pt' }) => {
           ${loading ? '' : 'display:none;'}
         `}
       >
-        <SpinnerAndMessage
+        <SpinAndMsgCircle
           color="#343434"
           message={lang === 'pt' ? 'Carregando...' : 'Loading...'}
         />
