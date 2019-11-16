@@ -14,12 +14,19 @@ export const stylesGateKeeper = {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 80px;
-    @media only screen and (max-width: 320px) {
-      margin-top: 40px;
+    margin-top: 30px;
+    min-width: auto;
+    @media only screen and (min-width: 360px) {
+      margin-top: 60px;
+      min-width: 310px;
     }
-    @media only screen and (min-width: 620px) {
+    @media only screen and (min-width: 375px) {
+      margin-top: 60px;
+      min-width: 325px;
+    }
+    @media only screen and (min-width: 600px) {
       margin-top: 160px;
+      min-width: 380px;
     }
   `,
 
@@ -31,7 +38,7 @@ export const stylesGateKeeper = {
     color: white;
     height: 45px;
     text-align: center;
-    min-width: 280px;
+    width: 100%;
     border: 0;
     cursor: pointer;
     &:hover {
@@ -48,14 +55,14 @@ export const stylesGateKeeper = {
     color: white;
     height: 45px;
     text-align: center;
-    min-width: 280px;
+    width: 100%;
     border: 0;
     cursor: pointer;
     &:hover {
       background-color: #7f7f7f;
     }
-    margin-top: 20px;
     border-radius: 200px;
+    margin-top: 30px;
   `,
 
   txt: css`
@@ -72,7 +79,7 @@ export const stylesGateKeeper = {
     color: #828282;
     margin-top: 40px;
     margin-bottom: 8px;
-    @media only screen and (min-width: 620px) {
+    @media only screen and (min-width: 600px) {
       margin-top: 80px;
     }
   `,

@@ -29,7 +29,7 @@ interface IMainMenuProps {
   wideButtonBorderRadius?: number;
   wideButtonFontWeight?: string;
   wideButtonHeight?: number;
-  wideButtonWidth?: number;
+  wideButtonWidth?: string;
   loginText?: string;
   logoutText?: string;
   backgroundColor?: string;
@@ -62,7 +62,7 @@ export const MainMenu: React.FC<IMainMenuProps> = ({
   wideButtonBorderRadius = 200,
   wideButtonFontWeight = 'bold',
   wideButtonHeight = 34,
-  wideButtonWidth = 130,
+  wideButtonWidth = '130px',
   loginText = 'Welcome!',
   logoutText = 'Sign Out',
   backgroundColor = '#c5cbe3',

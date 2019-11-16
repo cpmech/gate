@@ -3,19 +3,19 @@
   "version": "0.3.0",
   "private": true,
   "dependencies": {
-    "@cpmech/basic": "^3.1.0",
-    "@cpmech/rcomps": "^1.15.0",
+    "@cpmech/basic": "^3.2.0",
+    "@cpmech/rcomps": "^1.18.0",
     "@cpmech/react-icons": "^2.7.0",
     "@emotion/core": "^10.0.22",
     "@reach/router": "^1.2.1",
     "@types/jest": "24.0.23",
-    "@types/node": "12.12.7",
+    "@types/node": "12.12.8",
     "@types/react": "16.9.11",
     "@types/react-dom": "16.9.4",
     "aws-amplify": "^1.2.4",
     "aws-amplify-react": "^2.5.4",
-    "react": "^16.11.0",
-    "react-dom": "^16.11.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
     "react-responsive": "^8.0.1",
     "react-scripts": "3.2.0",
     "typescript": "^3.7.2"
@@ -55,11 +55,11 @@
     "@typescript-eslint/parser": "^2.7.0",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
-    "eslint-plugin-jest": "^23.0.3",
+    "eslint-plugin-jest": "^23.0.4",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.16.0",
     "husky": "^3.0.9",
-    "lint-staged": "^9.4.2",
+    "lint-staged": "^9.4.3",
     "prettier": "^1.19.1"
   }
 }

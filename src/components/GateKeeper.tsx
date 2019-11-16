@@ -128,6 +128,10 @@ export const GateKeeper: React.FC<IGateKeeperProps> = ({ lang = 'pt' }) => {
       <div
         css={css`
           ${!loading && !loggedIn ? '' : 'display:none;'}
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
         `}
       >
         {renderButtons()}
