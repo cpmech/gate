@@ -127,8 +127,7 @@ export const GateKeeper: React.FC<IGateKeeperProps> = ({ lang = 'pt' }) => {
       </div>
       <div
         css={css`
-          ${!loading && !loggedIn ? '' : 'display:none;'}
-          display: flex;
+          ${!loading && !loggedIn ? 'display: flex;' : 'display:none;'}
           flex-direction: column;
           justify-content: center;
           align-items: center;
