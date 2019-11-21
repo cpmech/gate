@@ -1,10 +1,10 @@
 {
   "name": "@cpmech/gate",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": true,
   "dependencies": {
     "@cpmech/basic": "^3.7.0",
-    "@cpmech/rcomps": "^1.21.0",
+    "@cpmech/rcomps": "^1.22.0",
     "@cpmech/react-icons": "^2.8.0",
     "@emotion/core": "^10.0.22",
     "@reach/router": "^1.2.1",
