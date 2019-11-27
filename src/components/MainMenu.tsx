@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { Link } from '@reach/router';
 import { ButtonLink, TopMenu, Narrow, Wide, ITopMenuEntry, ButtonSpin } from 'rcomps';
 import { IconAccount, IconClose } from '@cpmech/react-icons';
-import { gate } from './GateStore';
+import { GateStore } from './GateStore';
 
 interface IMainMenuProps {
+  gate: GateStore;
   NarrowLogoSvg?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   NarrowLogoIcon?: React.FunctionComponent<{ size?: number; style?: React.CSSProperties }>;
   narrowMiddleEntries?: ITopMenuEntry[];
@@ -39,6 +40,7 @@ interface IMainMenuProps {
 }
 
 export const MainMenu: React.FC<IMainMenuProps> = ({
+  gate,
   NarrowLogoSvg,
   NarrowLogoIcon,
   narrowMiddleEntries = [],
@@ -74,13 +76,13 @@ export const MainMenu: React.FC<IMainMenuProps> = ({
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
-    setLoading(gate.state.loading);
-    setLoggedIn(gate.state.loggedIn);
+    setLoading(gate.loading);
+    setLoggedIn(gate.loggedIn);
     return gate.subscribe(() => {
-      setLoading(gate.state.loading);
-      setLoggedIn(gate.state.loggedIn);
+      setLoading(gate.loading);
+      setLoggedIn(gate.loggedIn);
     }, '@cpmech/gate/MainMenu');
-  }, []);
+  }, [gate]);
 
   const handleLogInOut = () => {
     if (loggedIn) {

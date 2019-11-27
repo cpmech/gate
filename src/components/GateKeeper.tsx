@@ -5,10 +5,11 @@ import { Authenticator, Greetings } from 'aws-amplify-react';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth/lib-esm/types';
 import { UsernameAttributes } from 'aws-amplify-react/lib-esm/Auth/common/types';
 import { IconFacebookCircle, IconGoogle } from '@cpmech/react-icons';
-import { Pair, SpinAndMsgCircle } from 'rcomps';
+import { Pair } from 'rcomps';
+import { PageLoading, PageNoAccess } from 'components';
+import { GateStore } from './GateStore';
 import { theme3 as theme } from './themes';
 import { stylesGateKeeper as styles } from './styles';
-import { gate } from './GateStore';
 import './translations';
 
 const signUpConfigEn = {
@@ -63,21 +64,25 @@ const txtGoogleEn = 'Continue with Google';
 const txtGooglePt = 'Continuar com Google';
 
 interface IGateKeeperProps {
+  gate: GateStore;
   lang?: string; // 'en' or 'pt'
 }
 
-export const GateKeeper: React.FC<IGateKeeperProps> = ({ lang = 'pt' }) => {
+export const GateKeeper: React.FC<IGateKeeperProps> = ({ gate, lang = 'pt' }) => {
   const [loading, setLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [okGroup, setOkGroup] = useState(false);
 
   useEffect(() => {
-    setLoading(gate.state.loading);
-    setLoggedIn(gate.state.loggedIn);
+    setLoading(gate.loading);
+    setLoggedIn(gate.loggedIn);
+    setOkGroup(gate.okGroup);
     return gate.subscribe(() => {
-      setLoading(gate.state.loading);
-      setLoggedIn(gate.state.loggedIn);
+      setLoading(gate.loading);
+      setLoggedIn(gate.loggedIn);
+      setOkGroup(gate.okGroup);
     }, '@cpmech/gate/GateKeeper');
-  }, []);
+  }, [gate]);
 
   I18n.setLanguage(lang);
 
@@ -114,17 +119,8 @@ export const GateKeeper: React.FC<IGateKeeperProps> = ({ lang = 'pt' }) => {
 
   return (
     <React.Fragment>
-      <div
-        css={css`
-          margin-top: 80px;
-          ${loading ? '' : 'display:none;'}
-        `}
-      >
-        <SpinAndMsgCircle
-          color="#343434"
-          message={lang === 'pt' ? 'Carregando...' : 'Loading...'}
-        />
-      </div>
+      {loading && <PageLoading message={lang === 'pt' ? 'Carregando' : 'Loading'} />}
+      {!loading && loggedIn && !okGroup && <PageNoAccess gate={gate} />}
       <div
         css={css`
           ${!loading && !loggedIn ? 'display: flex;' : 'display:none;'}

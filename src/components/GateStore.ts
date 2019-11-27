@@ -1,24 +1,13 @@
-import { Auth, Hub } from 'aws-amplify';
-import { CognitoUser, UserData } from 'amazon-cognito-identity-js';
-// import { sleep } from '@cpmech/basic';
+import Amplify, { Auth, Hub } from 'aws-amplify';
 
-export interface IStateData {
-  loggedIn: boolean;
-  loading: boolean;
-  lastError: string;
-  user: CognitoUser | null;
-  username: string;
-  sub: string;
+export interface IAmplifyConfig {
+  userPoolId: string;
+  userPoolWebClientId: string;
+  oauthDomain: string;
+  redirectSignIn: string;
+  redirectSignOut: string;
+  awsRegion: string;
 }
-
-export const newStateData = (): IStateData => ({
-  loggedIn: false,
-  loading: false,
-  lastError: '',
-  user: null,
-  username: '',
-  sub: '',
-});
 
 // IObservers defines the object to hold all observers by name
 interface IObservers {
@@ -31,15 +20,34 @@ export class GateStore {
   private observers: IObservers = {};
 
   // all data is held here
-  // NOTE: (1) do not change anything here, use setters instead!
-  //       (2) you may read from state though
-  readonly state: IStateData = newStateData();
+  /* readonly */ loading = false;
+  /* readonly */ lastError = '';
+  /* readonly */ loggedIn = false;
+  /* readonly */ idToken = '';
+  /* readonly */ username = '';
+  /* readonly */ sub = '';
+  /* readonly */ okGroup = false;
 
   // onChange notifies all observers that the state has been changed
   private onChange = () => Object.keys(this.observers).forEach(name => this.observers[name]());
 
-  constructor() {
-    Hub.listen('auth', this.listener);
+  // constructor initializes Amplify and sets the groups that may give access to the user
+  constructor(amplifyConfig: IAmplifyConfig, private okGroups?: string[]) {
+    Hub.listen('auth', this.listener); // must be the first (to catch the configure event)
+    Amplify.configure({
+      Auth: {
+        region: amplifyConfig.awsRegion,
+        userPoolId: amplifyConfig.userPoolId,
+        userPoolWebClientId: amplifyConfig.userPoolWebClientId,
+        oauth: {
+          domain: amplifyConfig.oauthDomain,
+          redirectSignIn: amplifyConfig.redirectSignIn,
+          redirectSignOut: amplifyConfig.redirectSignOut,
+          responseType: 'code',
+          scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
+        },
+      },
+    });
   }
 
   // subscribe adds someone to be notified about state updates
@@ -53,56 +61,20 @@ export class GateStore {
 
   // getters /////////////////////////////////////////////////////////////////////////////////////
 
-  access = () => !this.state.loading && this.state.loggedIn;
-
-  getToken = async (): Promise<string> => {
-    if (!this.state.user) {
-      throw new Error('user is not Authenticated');
-    }
-    const session = await Auth.currentSession();
-    return session.getIdToken().getJwtToken();
-  };
-
-  getAuthHeader = async (): Promise<{ headers: { authorization: string } }> => {
-    if (!this.state.user) {
-      throw new Error('user is not Authenticated');
-    }
-    const session = await Auth.currentSession();
-    const idToken = session.getIdToken().getJwtToken();
-    return {
-      headers: {
-        authorization: `Bearer ${idToken}`,
-      },
-    };
-  };
-
-  getUserData = (): Promise<UserData | undefined> =>
-    new Promise((resolve, reject) => {
-      if (this.state.user) {
-        this.state.user.getUserData((err, data) => {
-          if (err) {
-            return reject(err);
-          }
-          return resolve(data);
-        });
-      }
-      reject('there is no user yet');
-    });
+  access = (): boolean => !this.loading && this.loggedIn && this.okGroup;
 
   // setters /////////////////////////////////////////////////////////////////////////////////////
 
   logout = async () => {
-    this.state.loading = true;
-    this.state.lastError = '';
+    this.loading = true;
+    this.lastError = '';
     this.onChange();
     try {
       await Auth.signOut();
-      // listener should receive event
-      // and flip the loading flag
-      // and call onChange
+      // listener should receive event, flip the loading flag and call onChange
     } catch (error) {
-      this.state.loading = false;
-      this.state.lastError = error.message || JSON.stringify(error);
+      this.loading = false;
+      this.lastError = error.message || JSON.stringify(error);
       this.onChange();
     }
   };
@@ -117,16 +89,15 @@ export class GateStore {
       return;
     }
 
-    this.state.loading = true;
-    this.state.lastError = '';
+    this.loading = true;
+    this.lastError = '';
     this.onChange();
-    // await sleep(4000);
 
     if (event === 'configured') {
       try {
         await this.readUser();
       } catch (error) {
-        /* do nothing */
+        // ignore error, because there may not be an authenticated user
       }
     }
 
@@ -134,34 +105,46 @@ export class GateStore {
       try {
         await this.readUser();
       } catch (error) {
-        this.state.lastError = error.message || JSON.stringify(error);
+        this.lastError = error.message || JSON.stringify(error);
       }
     }
 
     if (event === 'signOut') {
-      this.state.loggedIn = false;
-      this.state.user = null;
+      this.loggedIn = false;
+      this.idToken = '';
+      this.username = '';
+      this.sub = '';
+      this.okGroup = false;
     }
 
-    this.state.loading = false;
+    this.loading = false;
     this.onChange();
   };
 
   private readUser = async () => {
+    // get current user
     const maybeUser = await Auth.currentAuthenticatedUser();
     if (!maybeUser) {
       throw new Error('cannot get current user');
     }
-    const { attributes } = maybeUser;
-    this.state.loggedIn = true;
-    this.state.user = maybeUser;
-    this.state.username = maybeUser.username;
-    this.state.sub = attributes.sub;
+
+    // get attributes and set state
+    const { attributes, signInUserSession } = maybeUser;
+    const { idToken } = signInUserSession;
+    const { payload } = idToken;
+    this.loggedIn = true;
+    this.idToken = idToken.jwtToken;
+    this.username = maybeUser.username;
+    this.sub = attributes.sub;
+    this.okGroup = true;
+
+    // set groups that this user belongs to
+    if (this.okGroups) {
+      this.okGroup = false;
+      if (payload && payload['cognito:groups']) {
+        const groups = payload['cognito:groups'] as string[];
+        this.okGroup = this.okGroups.some(g => groups.includes(g));
+      }
+    }
   };
 }
-
-/////////////////////////////////////////
-// make store global ////////////////////
-export const gate = new GateStore();
-/////////////////////////////////////////
-/////////////////////////////////////////
