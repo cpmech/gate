@@ -64,12 +64,19 @@ const txtFacebookPt = 'Continuar com Facebook';
 const txtGoogleEn = 'Continue with Google';
 const txtGooglePt = 'Continuar com Google';
 
+const txtLoadingEn = 'Loading';
+const txtLoadingPt = 'Carregando';
+const txtNoAccessEn = 'Cannot complete request';
+const txtNoAccessPt = 'Não foi possível completar a requisição';
+const txtSignOutEn = 'Sign Out';
+const txtSignOutPt = 'Sair';
+
 interface IGateKeeperProps {
   gate: GateStore;
-  lang?: string; // 'en' or 'pt'
+  lang?: 'en' | 'pt';
 }
 
-export const GateKeeper: React.FC<IGateKeeperProps> = ({ gate, lang = 'pt' }) => {
+export const GateKeeper: React.FC<IGateKeeperProps> = ({ gate, lang = 'en' }) => {
   const [loading, setLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
   const [okGroup, setOkGroup] = useState(false);
@@ -120,8 +127,14 @@ export const GateKeeper: React.FC<IGateKeeperProps> = ({ gate, lang = 'pt' }) =>
 
   return (
     <React.Fragment>
-      {loading && <PageLoading message={lang === 'pt' ? 'Carregando' : 'Loading'} />}
-      {!loading && loggedIn && !okGroup && <PageNoAccess gate={gate} />}
+      {loading && <PageLoading message={lang === 'pt' ? txtLoadingPt : txtLoadingEn} />}
+      {!loading && loggedIn && !okGroup && (
+        <PageNoAccess
+          gate={gate}
+          message={lang === 'pt' ? txtNoAccessPt : txtNoAccessEn}
+          btnText={lang === 'pt' ? txtSignOutPt : txtSignOutEn}
+        />
+      )}
       <div
         css={css`
           ${!loading && !loggedIn ? 'display: flex;' : 'display:none;'}
