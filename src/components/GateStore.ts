@@ -25,6 +25,7 @@ export class GateStore {
   /* readonly */ loggedIn = false;
   /* readonly */ idToken = '';
   /* readonly */ username = '';
+  /* readonly */ email = '';
   /* readonly */ sub = '';
   /* readonly */ okGroup = false;
 
@@ -127,6 +128,7 @@ export class GateStore {
       this.loggedIn = false;
       this.idToken = '';
       this.username = '';
+      this.email = '';
       this.sub = '';
       this.okGroup = false;
     }
@@ -149,6 +151,7 @@ export class GateStore {
     this.loggedIn = true;
     this.idToken = idToken.jwtToken;
     this.username = maybeUser.username;
+    this.email = attributes.email;
     this.sub = attributes.sub;
     this.okGroup = true;
 
