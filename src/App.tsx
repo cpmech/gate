@@ -44,7 +44,7 @@ export const App: React.FC = () => {
             wideMiddleEntries={entries}
           />
           <Router>
-            <Home path="/" />
+            <Home path="/" gate={gate} />
             <Dashboard path="/dashboard" />
             <NotFound default />
           </Router>

@@ -63,6 +63,20 @@ export class GateStore {
 
   access = (): boolean => !this.loading && this.loggedIn && this.okGroup;
 
+  getRefreshedAuthHeader = async () => {
+    try {
+      const session = await Auth.currentSession();
+      const idToken = session.getIdToken().getJwtToken();
+      return {
+        headers: {
+          authorization: `Bearer ${idToken}`,
+        },
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // setters /////////////////////////////////////////////////////////////////////////////////////
 
   logout = async () => {
