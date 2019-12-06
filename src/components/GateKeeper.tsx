@@ -74,9 +74,14 @@ const txtSignOutPt = 'Sair';
 interface IGateKeeperProps {
   gate: GateStore;
   lang?: 'en' | 'pt';
+  buttonBackgroundColor?: string;
 }
 
-export const GateKeeper: React.FC<IGateKeeperProps> = ({ gate, lang = 'en' }) => {
+export const GateKeeper: React.FC<IGateKeeperProps> = ({
+  gate,
+  lang = 'en',
+  buttonBackgroundColor,
+}) => {
   const [loading, setLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
   const [okGroup, setOkGroup] = useState(false);
@@ -93,6 +98,10 @@ export const GateKeeper: React.FC<IGateKeeperProps> = ({ gate, lang = 'en' }) =>
   }, [gate]);
 
   I18n.setLanguage(lang);
+
+  if (buttonBackgroundColor) {
+    theme.button.backgroundColor = buttonBackgroundColor;
+  }
 
   const handleFacebookLogin = async () => {
     await Auth.federatedSignIn({
