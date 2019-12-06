@@ -9,6 +9,7 @@ interface IMainMenuProps {
   gate: GateStore;
   NarrowLogoSvg?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   NarrowLogoIcon?: React.FunctionComponent<{ size?: number; style?: React.CSSProperties }>;
+  narrowUserActionButton?: boolean;
   narrowMiddleEntries?: ITopMenuEntry[];
   narrowShowEmail?: boolean;
   narrowLogoSize?: number;
@@ -43,6 +44,7 @@ export const MainMenu: React.FC<IMainMenuProps> = ({
   gate,
   NarrowLogoSvg,
   NarrowLogoIcon,
+  narrowUserActionButton,
   narrowMiddleEntries = [],
   narrowShowEmail = false,
   narrowLogoSize = 38,
@@ -111,6 +113,26 @@ export const MainMenu: React.FC<IMainMenuProps> = ({
         ])
       : wideMiddleEntries;
 
+  const actionButton = (
+    <ButtonSpin
+      key="mainmenu-login-logout"
+      spin={loading}
+      disabled={false}
+      onClick={handleLogInOut}
+      colorSpinner={wideButtonColorSpinner}
+      color={wideButtonColor}
+      colorDisabled={wideButtonColorDisabled}
+      backgroundColor={wideButtonBackgroundColor}
+      hoverColor={wideButtonHoverColor}
+      borderRadius={wideButtonBorderRadius}
+      fontWeight={wideButtonFontWeight}
+      height={wideButtonHeight}
+      width={wideButtonWidth}
+    >
+      {loggedIn ? logoutText : loginText}
+    </ButtonSpin>
+  );
+
   return (
     <React.Fragment>
       <Narrow>
@@ -130,18 +152,22 @@ export const MainMenu: React.FC<IMainMenuProps> = ({
 
               ...narrowArray,
 
-              <ButtonLink
-                key="mainmenu-login-logout"
-                onClick={handleLogInOut}
-                color={narrowButtonColor}
-                hoverColor={narrowButtonHoverColor}
-              >
-                {loggedIn ? (
-                  <IconClose size={narrowButtonHeight} />
-                ) : (
-                  <IconAccount size={narrowButtonHeight} />
-                )}
-              </ButtonLink>,
+              narrowUserActionButton ? (
+                actionButton
+              ) : (
+                <ButtonLink
+                  key="mainmenu-login-logout"
+                  onClick={handleLogInOut}
+                  color={narrowButtonColor}
+                  hoverColor={narrowButtonHoverColor}
+                >
+                  {loggedIn ? (
+                    <IconClose size={narrowButtonHeight} />
+                  ) : (
+                    <IconAccount size={narrowButtonHeight} />
+                  )}
+                </ButtonLink>
+              ),
             ]}
           />
         </div>
@@ -168,23 +194,7 @@ export const MainMenu: React.FC<IMainMenuProps> = ({
 
                 ...wideArray,
 
-                <ButtonSpin
-                  key="mainmenu-login-logout"
-                  spin={loading}
-                  disabled={false}
-                  onClick={handleLogInOut}
-                  colorSpinner={wideButtonColorSpinner}
-                  color={wideButtonColor}
-                  colorDisabled={wideButtonColorDisabled}
-                  backgroundColor={wideButtonBackgroundColor}
-                  hoverColor={wideButtonHoverColor}
-                  borderRadius={wideButtonBorderRadius}
-                  fontWeight={wideButtonFontWeight}
-                  height={wideButtonHeight}
-                  width={wideButtonWidth}
-                >
-                  {loggedIn ? logoutText : loginText}
-                </ButtonSpin>,
+                actionButton,
               ]}
             />
           </div>
