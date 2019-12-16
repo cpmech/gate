@@ -3,7 +3,7 @@
   "version": "1.10.0",
   "private": true,
   "dependencies": {
-    "@cpmech/basic": "^3.14.0",
+    "@cpmech/basic": "^3.15.0",
     "@cpmech/rcomps": "^1.44.1",
     "@cpmech/react-icons": "^2.10.0",
     "@emotion/core": "^10.0.22",
