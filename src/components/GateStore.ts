@@ -30,7 +30,8 @@ export class GateStore {
   /* readonly */ okGroup = false;
 
   // onChange notifies all observers that the state has been changed
-  private onChange = () => Object.keys(this.observers).forEach(name => this.observers[name]());
+  private onChange = () =>
+    Object.keys(this.observers).forEach(name => this.observers[name] && this.observers[name]());
 
   // constructor initializes Amplify and sets the groups that may give access to the user
   constructor(amplifyConfig: IAmplifyConfig, private okGroups?: string[]) {
