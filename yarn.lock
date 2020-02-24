@@ -1039,15 +1039,15 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@cpmech/basic@^4.4.0":
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/@cpmech/basic/-/basic-4.4.0.tgz#5c651b7c03506129ad7447e47dc8a9905f964214"
-  integrity sha512-j3Z1KvmtjjzXEeVz+iSOityggInO19BQlalSIY5fvQVpN6jfNx5464Dv5QgZj2TrEfLVSAQLsVpAr96NWkKr5g==
+"@cpmech/basic@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@cpmech/basic/-/basic-4.5.0.tgz#48f2df72537d39a24036cf054d4b1533da8b1045"
+  integrity sha512-AHTqqf1mHGL9umj4S0RpZFtNFzZZWD/wa2cMvv0GwUDwARQX3c3P3WIsVO+zwlMGyZyXiPSh+oG24E+pWF50RQ==
 
-"@cpmech/rcomps@^2.6.0":
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/@cpmech/rcomps/-/rcomps-2.6.0.tgz#8787840c2e18b0d5f6dd3b356d1667bd493f9636"
-  integrity sha512-U+VlD4MULnUWgW7vWJEwC/qSiDMd86YNZWMzxJIRyKwH5f0mJhlzv4nzIeyq002OkOxmzlYKnaWF6U6FnSS9Kg==
+"@cpmech/rcomps@^2.7.1":
+  version "2.7.1"
+  resolved "https://registry.yarnpkg.com/@cpmech/rcomps/-/rcomps-2.7.1.tgz#a3f723062c4676c7001e82ee4fa71fb36f4629c8"
+  integrity sha512-YxayZ5EO84ltcYLjtC+oXCkq6Xye7BWKAna96qHH7uLsSrOV56xUFfFSYSncR6RSIMS6bqm0sYKXkpUsCEQOxg==
 
 "@cpmech/react-icons@^2.14.0":
   version "2.14.0"
@@ -4212,10 +4212,10 @@ eslint-plugin-import@2.20.0:
     read-pkg-up "^2.0.0"
     resolve "^1.12.0"
 
-eslint-plugin-jest@^23.7.0:
-  version "23.7.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-23.7.0.tgz#84d5603b6e745b59898cb6750df6a44782a39b04"
-  integrity sha512-zkiyGlvJeHNjAEz8FaIxTXNblJJ/zj3waNbYbgflK7K6uy0cpE5zJBt/JpJtOBGM/UGkC6BqsQ4n0y7kQ2HA8w==
+eslint-plugin-jest@^23.8.0:
+  version "23.8.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-23.8.0.tgz#c978f959fa8395801742d13c5a3125a986d2661e"
+  integrity sha512-DKXmLxguZ1Lru4u5YM12ko3WLq6gqo7dhV2b63K731+/PNyZ/Ff6NGONQsGUtPLG9zU3kdz/N+2LTbweNZifeg==
   dependencies:
     "@typescript-eslint/experimental-utils" "^2.5.0"
 
