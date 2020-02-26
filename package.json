@@ -1,6 +1,6 @@
 {
   "name": "@cpmech/gate",
-  "version": "1.21.0",
+  "version": "1.22.0",
   "private": true,
   "dependencies": {
     "@cpmech/basic": "^4.6.0",
