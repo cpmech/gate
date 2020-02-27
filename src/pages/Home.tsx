@@ -2,7 +2,7 @@ import React from 'react';
 /** @jsx jsx */ import { jsx, css } from '@emotion/core';
 import { RouteComponentProps } from '@reach/router';
 import { Button } from 'rcomps';
-import { GateStore } from 'components';
+import { GateStore } from 'service';
 
 interface IHomeProps extends RouteComponentProps {
   gate: GateStore;

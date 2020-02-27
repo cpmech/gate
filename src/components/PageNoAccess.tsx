@@ -1,7 +1,7 @@
 import React from 'react';
 /** @jsx jsx */ import { jsx, css } from '@emotion/core';
 import { Button } from 'rcomps';
-import { GateStore } from './GateStore';
+import { GateStore } from 'service';
 
 interface INoAccessPage {
   gate: GateStore;

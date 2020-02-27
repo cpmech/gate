@@ -6,9 +6,9 @@ import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth/lib-esm/types
 import { UsernameAttributes } from 'aws-amplify-react/lib-esm/Auth/common/types';
 import { IconFacebookCircle, IconGoogle } from '@cpmech/react-icons';
 import { Pair } from 'rcomps';
+import { GateStore } from 'service';
 import { PageLoading } from './PageLoading';
 import { PageNoAccess } from './PageNoAccess';
-import { GateStore } from './GateStore';
 import { theme3 as theme } from './themes';
 import { stylesGateKeeper as styles } from './styles';
 import './translations';

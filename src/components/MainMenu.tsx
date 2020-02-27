@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 /** @jsx jsx */ import { jsx, css } from '@emotion/core';
 import { Link } from '@reach/router';
-import { ButtonLink, TopMenu, Narrow, Wide, ITopMenuEntry, ButtonSpin } from 'rcomps';
 import { IconAccount, IconClose } from '@cpmech/react-icons';
-import { GateStore } from './GateStore';
+import { ButtonLink, TopMenu, Narrow, Wide, ITopMenuEntry, ButtonSpin } from 'rcomps';
+import { GateStore } from 'service';
 
 interface IMainMenuProps {
   gate: GateStore;

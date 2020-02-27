@@ -16,14 +16,7 @@
     "message": "echo && echo 'IGNORE THE NEXT ERROR MESSAGE (cannot prevent npm from running git)' && echo",
     "postpublish": "yarn fix:ver1 && yarn fix:ver2 && yarn git:all && yarn message"
   },
-  "repository": "cpmech/gate",
-  "main": "index.ts",
-  "description": "React Components for AWS Cognito",
-  "keywords": [
-    "React",
-    "Components",
-    "AWS",
-    "Cognito",
-    "Amplify"
-  ]
+  "repository": "cpmech/rcomps",
+  "description": "My components for AWS Cognito projects",
+  "keywords": ["React", "Components", "Cognito", "Amplify"]
 }

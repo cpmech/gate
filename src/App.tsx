@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Router, Link } from '@reach/router';
 import { IconHouseThreeD } from '@cpmech/react-icons';
-import { GateStore, GateKeeper, MainMenu } from 'components';
+import { GateStore } from 'service';
+import { GateKeeper, MainMenu } from 'components';
 import { Dashboard, Home, NotFound } from './pages';
 
 const gate = new GateStore(
