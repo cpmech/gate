@@ -1,6 +1,6 @@
 {
   "name": "@cpmech/gate",
-  "version": "1.22.0",
+  "version": "2.0.0",
   "license": "MIT",
   "author": {
     "name": "Dorival Pedroso",
@@ -18,5 +18,10 @@
   },
   "repository": "cpmech/rcomps",
   "description": "My components for AWS Cognito projects",
-  "keywords": ["React", "Components", "Cognito", "Amplify"]
+  "keywords": [
+    "React",
+    "Components",
+    "Cognito",
+    "Amplify"
+  ]
 }
