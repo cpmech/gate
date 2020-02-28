@@ -20,12 +20,12 @@ import {
 
 initAmplifyTranslations();
 
-interface IGateKeeperProps {
+interface IGateKeeperAwsProps {
   gate: GateStore;
   buttonBackgroundColor?: string;
 }
 
-export const GateKeeper: React.FC<IGateKeeperProps> = ({ gate, buttonBackgroundColor }) => {
+export const GateKeeperAws: React.FC<IGateKeeperAwsProps> = ({ gate, buttonBackgroundColor }) => {
   const [loading, setLoading] = useState(true);
   const [signedIn, setLoggedIn] = useState(false);
   const [belongsToGroup, setOkGroup] = useState(false);
