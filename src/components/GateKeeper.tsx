@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 /** @jsx jsx */ import { jsx, css } from '@emotion/core';
 import { Auth } from 'aws-amplify';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth/lib-esm/types';
@@ -7,11 +7,11 @@ import { Pair, InputTypeA, Link, Button } from 'rcomps';
 import { GateStore } from 'service';
 import { PageLoading } from './PageLoading';
 import { PageNoAccess } from './PageNoAccess';
-import { theme3 as theme } from './themes';
 import { stylesGateKeeper as styles, colors } from './styles';
 import { ISignInValues, signInValues2errors } from 'helpers';
 import { t } from 'locale';
 import { VSpace } from './VSpace';
+import { useObserver } from './useObserver';
 
 interface IGateKeeperProps {
   gate: GateStore;
@@ -22,23 +22,10 @@ export const GateKeeper: React.FC<IGateKeeperProps> = ({
   gate,
   buttonBackgroundColor = '#5d5c61',
 }) => {
-  const [loading, setLoading] = useState(true);
-  const [signedIn, setLoggedIn] = useState(false);
-  const [belongsToGroup, setOkGroup] = useState(false);
+  const { loading, signedIn, belongsToGroup } = useObserver(gate);
+  const [showPassword, setShowPassword] = useState(false);
   const [touchedButtons, setTouchedButtons] = useState(false);
   const [values, setValues] = useState<ISignInValues>({ email: '', password: '' });
-  const [showPassword, setShowPassword] = useState(false);
-
-  useEffect(() => {
-    setLoading(gate.loading);
-    setLoggedIn(gate.signedIn);
-    setOkGroup(gate.belongsToGroup);
-    return gate.subscribe(() => {
-      setLoading(gate.loading);
-      setLoggedIn(gate.signedIn);
-      setOkGroup(gate.belongsToGroup);
-    }, '@cpmech/gate/CustomGateKeeper');
-  }, [gate]);
 
   const handleFacebookLogin = async () => {
     await Auth.federatedSignIn({
