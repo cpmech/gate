@@ -62,22 +62,29 @@ export const pt = {
   skip: 'Pular',
 
   // errors
+  error: 'Erro',
   errorEmail: 'Por favor, entre com um email válido',
   errorPassword:
     'A senha dever ter um mínimo de: 8 caracteres, 1 maiúscula, 1 minúscula, 1 número, e 1 símbolo',
   errorCode: 'O código não dever ser em branco',
-
+  errorNoAuthUser: 'Error interno: não existe um usuário autenticado',
   errorSomethingHappened: 'Algo de errado aconteceu',
+  errorConfirm: 'Não foi possível confirmar a conta com este código',
+
+  // signUp_failure
+  UsernameExistsException: 'Já existe uma conta com o email fornecido.',
+  InvalidPasswordException: 'O formato da senha é inválido',
+  InvalidParameterException: 'Algum parâmetro é inválido',
+  UnknownSignUpException: 'Algum erro aconteceu na criação da conta',
+
+  // signIn_failure
+  UserNotConfirmedException: 'O email não foi confirmado ainda',
+  PasswordResetRequiredException: 'A senha deve ser redefinida',
+  NotAuthorizedException: 'A senha está possivelmente errada',
+  UserNotFoundException: 'O usuário não existe',
+  UnknownSignInException: 'Algum erro aconteceu ao tentar entrar com essas credenciais',
 
   // Errors
-  error: 'Erro',
-  unknownSignUpError: 'Algum erro aconteceu na criação da conta',
-  usernameExistsException: 'Já existe uma conta com o email fornecido.',
-  invalidParameterException: 'Formato de senha inválido',
-  userNotConfirmedException: 'O email não foi confirmado ainda',
-  userNotFoundException: 'Usuário não existe',
-  notAuthorizedException: 'Usuário não é autorizado',
-  passwordResetRequiredException: 'A senha deve ser redefinida',
   'Username cannot be empty': 'O nome de usuário não pode estar vazio',
   'Password attempts exceeded': 'Tentativas de senha excedidas',
   'User does not exist': 'Usuário não existe',

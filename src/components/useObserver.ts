@@ -3,21 +3,27 @@ import { GateStore } from 'service';
 
 export const useObserver = (gate: GateStore, observerName: string) => {
   const [state, setState] = useState({
+    // flags
     error: '',
-    configured: false,
+    needToConfirm: false,
+    ready: false,
     processing: false,
-    hasAccess: false,
+    // user
     email: '',
+    hasAccess: false,
   });
 
   useEffect(() => {
     return gate.subscribe(() => {
       setState({
-        error: gate.error,
-        configured: gate.configured,
-        processing: gate.processing,
-        hasAccess: gate.state.hasAccess,
-        email: gate.state.email,
+        // flags
+        error: gate.flags.error,
+        needToConfirm: gate.flags.needToConfirm,
+        ready: gate.flags.ready,
+        processing: gate.flags.processing,
+        // user
+        hasAccess: gate.user.hasAccess,
+        email: gate.user.email,
       });
     }, observerName);
   }, [gate, observerName]);
