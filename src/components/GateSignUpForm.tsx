@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 /** @jsx jsx */ import { jsx } from '@emotion/core';
 import { IconEye, IconEyeNo } from '@cpmech/react-icons';
 import { InputTypeA, Link, Button, FormErrorField, Popup } from 'rcomps';
-import { GateStore } from 'service';
+import { GateStore, ISignUpValues } from 'service';
+import { signUpValues2errors } from 'helpers';
 import { GateFederatedButtons } from './GateFederatedButtons';
 import { VSpace } from './VSpace';
 import { styles, colors, params } from './styles';
-import { ISignUpValues, signUpValues2errors } from 'helpers';
 import { t } from 'locale';
 import { useObserver } from './useObserver';
 
@@ -23,15 +23,17 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
 }) => {
   const { error, processing } = useObserver(gate, '@cpmech/gate/components/GateSignUpForm');
   const [isSignIn, setIsSignIn] = useState(false);
+  const [isConfirmSignUp, setIsConfirmSignUp] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [touchedButtons, setTouchedButtons] = useState(false);
   const [values, setValues] = useState<ISignUpValues>({
     email: 'doriv4l+2@gmail.com',
     password: '1carro$violeTA',
+    code: '',
   });
 
   const validate = (): boolean => {
-    const errors = signUpValues2errors(values);
+    const errors = signUpValues2errors(values, !isConfirmSignUp);
     if (errors) {
       setValues({ ...values, errors }); // update state so we can flag errors
     }
@@ -42,9 +44,10 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
     setTouchedButtons(true);
     if (validate()) {
       if (isSignIn) {
-        gate.signIn(values.email, values.password);
+        await gate.signIn(values.email, values.password);
       } else {
-        gate.signUp(values.email, values.password);
+        await gate.signUp(values.email, values.password);
+        setIsConfirmSignUp(true);
       }
     }
   };
@@ -52,7 +55,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   const setValue = <K extends keyof ISignUpValues>(key: K, value: string) => {
     const newValues = { ...values, [key]: value.trim() };
     if (touchedButtons) {
-      const errors = signUpValues2errors(newValues);
+      const errors = signUpValues2errors(newValues, !isConfirmSignUp);
       setValues({ ...newValues, errors });
     } else {
       setValues(newValues);
@@ -69,34 +72,53 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
     <div css={s.root}>
       <GateFederatedButtons gate={gate} />
 
-      <div css={s.container}>
+      <form css={s.container}>
         <div css={s.centered}>
-          <span css={s.header}>{isSignIn ? t('signIn') : t('createAccount')}</span>
+          <span css={s.header}>
+            {isConfirmSignUp ? t('confirmSignUp') : isSignIn ? t('signIn') : t('createAccount')}
+          </span>
         </div>
 
         <VSpace />
 
         <InputTypeA
-          label="Email"
+          label={isConfirmSignUp ? '' : 'Email'}
           value={values.email}
           onChange={e => setValue('email', e.target.value)}
           hlColor={colors.blue}
           error={values.errors?.email}
+          readOnly={isConfirmSignUp}
+          bgColor={isConfirmSignUp ? '#e1e4ea' : undefined}
         />
         <FormErrorField error={values.errors?.email} />
 
         <VSpace />
 
-        <InputTypeA
-          label={t('password')}
-          value={values.password}
-          password={!showPassword}
-          suffix={passwordIcon}
-          onChange={e => setValue('password', e.target.value)}
-          hlColor={colors.blue}
-          error={values.errors?.password}
-        />
-        <FormErrorField error={values.errors?.password} />
+        {isConfirmSignUp ? (
+          <React.Fragment>
+            <InputTypeA
+              label={t('confirmationCode')}
+              value={values.code}
+              onChange={e => setValue('code', e.target.value)}
+              hlColor={colors.blue}
+              error={values.errors?.code}
+            />
+            <FormErrorField error={values.errors?.code} />
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <InputTypeA
+              label={t('password')}
+              value={values.password}
+              password={!showPassword}
+              suffix={passwordIcon}
+              onChange={e => setValue('password', e.target.value)}
+              hlColor={colors.blue}
+              error={values.errors?.password}
+            />
+            <FormErrorField error={values.errors?.password} />
+          </React.Fragment>
+        )}
 
         <VSpace />
 
@@ -112,15 +134,41 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
           </React.Fragment>
         )}
 
+        {isConfirmSignUp && (
+          <React.Fragment>
+            <div css={s.smallFootnote}>
+              <span>{t('lostCode')}</span>
+              <Link css={s.link} onClick={() => console.log('resetar')}>
+                {t('resendCode')}
+              </Link>
+            </div>
+            <VSpace />
+          </React.Fragment>
+        )}
+
         <VSpace />
 
         <div css={s.row}>
-          <div css={s.footnote}>
-            <span>{isSignIn ? t('noAccount') : t('haveAnAccount')}</span>
-            <Link css={s.link} onClick={() => setIsSignIn(!isSignIn)}>
-              {isSignIn ? t('signUp') : t('enter')}
-            </Link>
-          </div>
+          {isConfirmSignUp ? (
+            <div css={s.footnote}>
+              <Link
+                css={s.link}
+                onClick={() => {
+                  setIsSignIn(true);
+                  setIsConfirmSignUp(false);
+                }}
+              >
+                {t('back')}
+              </Link>
+            </div>
+          ) : (
+            <div css={s.footnote}>
+              <span>{isSignIn ? t('noAccount') : t('haveAnAccount')}</span>
+              <Link css={s.link} onClick={() => setIsSignIn(!isSignIn)}>
+                {isSignIn ? t('signUp') : t('enter')}
+              </Link>
+            </div>
+          )}
 
           <Button
             onClick={async () => await submit()}
@@ -134,11 +182,19 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
             {isSignIn ? t('enter').toUpperCase() : t('signUp').toUpperCase()}
           </Button>
         </div>
-      </div>
+      </form>
 
       {processing && <Popup title={t('loading')} isLoading={true} />}
       {error && (
-        <Popup title={t('error')} onClose={() => gate.notify()} isError={true} message={error} />
+        <Popup
+          title={t('error')}
+          onClose={() => {
+            gate.notify();
+            setIsConfirmSignUp(false);
+          }}
+          isError={true}
+          message={error}
+        />
       )}
     </div>
   );
