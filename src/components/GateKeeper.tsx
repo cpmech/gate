@@ -10,19 +10,14 @@ import { PageNoAccess } from './PageNoAccess';
 import { theme3 as theme } from './themes';
 import { stylesGateKeeper as styles } from './styles';
 import { ISignInValues, signInValues2errors } from 'helpers';
-import { locale, t } from 'locale';
+import { t } from 'locale';
 
 interface IGateKeeperProps {
   gate: GateStore;
-  lang?: 'en' | 'pt';
   buttonBackgroundColor?: string;
 }
 
-export const CustomGateKeeper: React.FC<IGateKeeperProps> = ({
-  gate,
-  lang = 'en',
-  buttonBackgroundColor,
-}) => {
+export const GateKeeper: React.FC<IGateKeeperProps> = ({ gate, buttonBackgroundColor }) => {
   const [loading, setLoading] = useState(true);
   const [signedIn, setLoggedIn] = useState(false);
   const [belongsToGroup, setOkGroup] = useState(false);
@@ -39,8 +34,6 @@ export const CustomGateKeeper: React.FC<IGateKeeperProps> = ({
       setOkGroup(gate.belongsToGroup);
     }, '@cpmech/gate/CustomGateKeeper');
   }, [gate]);
-
-  locale.setLocale(lang);
 
   if (buttonBackgroundColor) {
     theme.button.backgroundColor = buttonBackgroundColor;
