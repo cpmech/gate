@@ -1,24 +1,16 @@
 import React, { useState, useEffect } from 'react';
 /** @jsx jsx */ import { jsx, css } from '@emotion/core';
-import { Auth, I18n } from 'aws-amplify';
-import { Authenticator, Greetings } from 'aws-amplify-react';
+import { Auth } from 'aws-amplify';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth/lib-esm/types';
-import { UsernameAttributes } from 'aws-amplify-react/lib-esm/Auth/common/types';
 import { IconFacebookCircle, IconGoogle } from '@cpmech/react-icons';
-import { Pair } from 'rcomps';
+import { Pair, InputTypeA } from 'rcomps';
 import { GateStore } from 'service';
 import { PageLoading } from './PageLoading';
 import { PageNoAccess } from './PageNoAccess';
 import { theme3 as theme } from './themes';
 import { stylesGateKeeper as styles } from './styles';
+import { ISignInValues, signInValues2errors } from 'helpers';
 import { locale, t } from 'locale';
-import {
-  initAmplifyTranslations,
-  signUpConfigEn,
-  signUpConfigPt,
-} from 'locale/amplifyTranslations';
-
-initAmplifyTranslations();
 
 interface IGateKeeperProps {
   gate: GateStore;
@@ -26,7 +18,7 @@ interface IGateKeeperProps {
   buttonBackgroundColor?: string;
 }
 
-export const GateKeeper: React.FC<IGateKeeperProps> = ({
+export const CustomGateKeeper: React.FC<IGateKeeperProps> = ({
   gate,
   lang = 'en',
   buttonBackgroundColor,
@@ -34,6 +26,8 @@ export const GateKeeper: React.FC<IGateKeeperProps> = ({
   const [loading, setLoading] = useState(true);
   const [signedIn, setLoggedIn] = useState(false);
   const [belongsToGroup, setOkGroup] = useState(false);
+  const [touchedButtons, setTouchedButtons] = useState(false);
+  const [values, setValues] = useState<ISignInValues>({ email: '', password: '' });
 
   useEffect(() => {
     setLoading(gate.loading);
@@ -43,10 +37,9 @@ export const GateKeeper: React.FC<IGateKeeperProps> = ({
       setLoading(gate.loading);
       setLoggedIn(gate.signedIn);
       setOkGroup(gate.belongsToGroup);
-    }, '@cpmech/gate/GateKeeper');
+    }, '@cpmech/gate/CustomGateKeeper');
   }, [gate]);
 
-  I18n.setLanguage(lang);
   locale.setLocale(lang);
 
   if (buttonBackgroundColor) {
@@ -65,6 +58,16 @@ export const GateKeeper: React.FC<IGateKeeperProps> = ({
     });
   };
 
+  const setValue = <K extends keyof ISignInValues>(key: K, value: string) => {
+    const newValues = { ...values, [key]: value };
+    if (touchedButtons) {
+      const errors = signInValues2errors(newValues);
+      setValues({ ...newValues, errors });
+    } else {
+      setValues(newValues);
+    }
+  };
+
   const renderButtons = () => (
     <div css={styles.firstContainer}>
       <button css={styles.facebook} onClick={handleFacebookLogin}>
@@ -76,6 +79,16 @@ export const GateKeeper: React.FC<IGateKeeperProps> = ({
       <div css={styles.orLineContainer}>
         <span css={styles.orLine}>{t('or')}</span>
       </div>
+    </div>
+  );
+
+  const renderInputs = () => (
+    <div css={styles.container}>
+      <InputTypeA
+        label="Email"
+        value={values.email}
+        onChange={e => setValue('email', e.target.value)}
+      />
     </div>
   );
 
@@ -94,12 +107,7 @@ export const GateKeeper: React.FC<IGateKeeperProps> = ({
         `}
       >
         {renderButtons()}
-        <Authenticator
-          hide={[Greetings]}
-          theme={theme}
-          signUpConfig={lang === 'pt' ? signUpConfigPt : signUpConfigEn}
-          usernameAttributes={UsernameAttributes.EMAIL}
-        />
+        {renderInputs()}
       </div>
     </React.Fragment>
   );

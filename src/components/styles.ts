@@ -9,7 +9,7 @@ export const stylesGateKeeper = {
     margin-top: 40px;
   `,
 
-  container: css`
+  firstContainer: css`
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -26,6 +26,24 @@ export const stylesGateKeeper = {
     }
     @media only screen and (min-width: 600px) {
       margin-top: 160px;
+      min-width: 380px;
+    }
+  `,
+
+  container: css`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px;
+    min-width: auto;
+    @media only screen and (min-width: 360px) {
+      min-width: 310px;
+    }
+    @media only screen and (min-width: 375px) {
+      min-width: 325px;
+    }
+    @media only screen and (min-width: 600px) {
       min-width: 380px;
     }
   `,
