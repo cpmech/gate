@@ -70,7 +70,9 @@ export const pt = {
 
   // Errors
   error: 'Erro',
+  unknownSignUpError: 'Algum erro aconteceu na criação da conta',
   usernameExistsException: 'Já existe uma conta com o email fornecido.',
+  invalidParameterException: 'Formato de senha inválido',
   'Username cannot be empty': 'O nome de usuário não pode estar vazio',
   'Password attempts exceeded': 'Tentativas de senha excedidas',
   'User does not exist': 'Usuário não existe',

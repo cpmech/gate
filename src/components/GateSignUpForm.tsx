@@ -51,7 +51,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   };
 
   const setValue = <K extends keyof ISignUpValues>(key: K, value: string) => {
-    const newValues = { ...values, [key]: value };
+    const newValues = { ...values, [key]: value.trim() };
     if (touchedButtons) {
       const errors = signUpValues2errors(newValues);
       setValues({ ...newValues, errors });

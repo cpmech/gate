@@ -89,6 +89,9 @@ export class GateStore {
 
   // returns the username
   signUp = async (email: string, password: string) => {
+    if (!email || !password) {
+      return;
+    }
     this.begin();
     try {
       const res = await Auth.signUp({ username: email, password });
@@ -102,10 +105,11 @@ export class GateStore {
       switch (error.code) {
         case 'UsernameExistsException':
           return this.end(t('usernameExistsException'));
+        case 'InvalidParameterException':
+          return this.end(t('invalidParameterException'));
       }
-      // return this.end('Algum erro aconteceu na criação da conta');
+      return this.end(t('unknownSignUpError'));
     }
-    // this.end();
   };
 
   confirmSignUp = async (code: string) => {
