@@ -22,15 +22,10 @@ initAmplifyTranslations();
 
 interface IGateKeeperProps {
   gate: GateStore;
-  lang?: 'en' | 'pt';
   buttonBackgroundColor?: string;
 }
 
-export const GateKeeper: React.FC<IGateKeeperProps> = ({
-  gate,
-  lang = 'en',
-  buttonBackgroundColor,
-}) => {
+export const GateKeeper: React.FC<IGateKeeperProps> = ({ gate, buttonBackgroundColor }) => {
   const [loading, setLoading] = useState(true);
   const [signedIn, setLoggedIn] = useState(false);
   const [belongsToGroup, setOkGroup] = useState(false);
@@ -46,8 +41,7 @@ export const GateKeeper: React.FC<IGateKeeperProps> = ({
     }, '@cpmech/gate/GateKeeper');
   }, [gate]);
 
-  I18n.setLanguage(lang);
-  locale.setLocale(lang);
+  I18n.setLanguage(locale.getLocale());
 
   if (buttonBackgroundColor) {
     theme.button.backgroundColor = buttonBackgroundColor;
@@ -97,7 +91,7 @@ export const GateKeeper: React.FC<IGateKeeperProps> = ({
         <Authenticator
           hide={[Greetings]}
           theme={theme}
-          signUpConfig={lang === 'pt' ? signUpConfigPt : signUpConfigEn}
+          signUpConfig={locale.getLocale() === 'pt' ? signUpConfigPt : signUpConfigEn}
           usernameAttributes={UsernameAttributes.EMAIL}
         />
       </div>

@@ -4,6 +4,9 @@ import { IconHouseThreeD } from '@cpmech/react-icons';
 import { GateStore } from 'service';
 import { GateKeeper, MainMenu } from 'components';
 import { Dashboard, Home, NotFound } from './pages';
+import { locale } from 'locale';
+
+locale.setLocale('pt');
 
 const gate = new GateStore(
   {
