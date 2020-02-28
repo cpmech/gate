@@ -1,7 +1,6 @@
 import Amplify, { Auth, Hub } from 'aws-amplify';
 import { HubCapsule } from '@aws-amplify/core/lib/Hub';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth/lib/types';
-import { sleep } from '@cpmech/basic';
 import { IAmplifyConfig, IGateObservers, IGateState, newBlankState } from './types';
 import { setTimeout } from 'timers';
 import { t } from 'locale';
@@ -190,7 +189,7 @@ export class GateStore {
     try {
       await Auth.signOut(); // listener should receive event and call this.end()
     } catch (_) {
-      this.end('signOut failed');
+      /* ok */
     }
   };
 
@@ -203,6 +202,7 @@ export class GateStore {
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   private listener = async (data: HubCapsule) => {
+    // detect event
     switch (data.payload.event) {
       case 'codeFlow':
         this.codeFlow = true;
@@ -231,6 +231,18 @@ export class GateStore {
         this.error = 'user sign in failed';
         break;
     }
+
+    // check if user has access
+    if (this.state.username && !this.state.hasAccess) {
+      try {
+        await Auth.signOut(); // listener should receive event and call this.end()
+      } catch (_) {
+        /* ok */
+      }
+      console.error('unauthorized user');
+    }
+
+    // notify observers
     this.end();
     return;
   };
