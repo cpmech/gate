@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-/** @jsx jsx */ import { jsx, css } from '@emotion/core';
+/** @jsx jsx */ import { jsx } from '@emotion/core';
 import { IconEye, IconEyeNo } from '@cpmech/react-icons';
-import { InputTypeA, Link, Button, FormErrorField } from 'rcomps';
+import { InputTypeA, Link, Button, FormErrorField, Popup } from 'rcomps';
 import { GateStore } from 'service';
 import { GateFederatedButtons } from './GateFederatedButtons';
 import { VSpace } from './VSpace';
-import { GateModalError } from './';
 import { styles, colors, params } from './styles';
 import { ISignUpValues, signUpValues2errors } from 'helpers';
 import { t } from 'locale';
@@ -22,7 +21,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   gate,
   buttonBackgroundColor = '#5d5c61',
 }) => {
-  const { error } = useObserver(gate, '@cpmech/gate/components/GateSignUpForm');
+  const { error, processing } = useObserver(gate, '@cpmech/gate/components/GateSignUpForm');
   const [isSignIn, setIsSignIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [touchedButtons, setTouchedButtons] = useState(false);
@@ -137,7 +136,10 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
         </div>
       </div>
 
-      {error && <GateModalError message={error} onClose={() => gate.notify()}></GateModalError>}
+      {processing && <Popup title={t('loading')} isLoading={true} />}
+      {error && (
+        <Popup title={t('error')} onClose={() => gate.notify()} isError={true} message={error} />
+      )}
     </div>
   );
 };

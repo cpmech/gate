@@ -18,7 +18,7 @@ export const useObserver = (gate: GateStore, observerName: string) => {
         hasAccess: gate.state.hasAccess,
       });
     }, observerName);
-  }, [gate]);
+  }, [gate, observerName]);
 
   return state;
 };

@@ -3,6 +3,7 @@ import { css } from '@emotion/core';
 export const colors = {
   blue: '#236cd2',
   darkRed: '#c01626',
+  darkGrey: '#343434',
 };
 
 export const params = {
@@ -180,22 +181,6 @@ export const styles = {
       :hover {
         text-decoration: underline;
       }
-    `,
-  },
-
-  modalError: {
-    minWidth: '290px',
-    maxWidth: '500px',
-
-    title: css`
-      color: ${colors.darkRed};
-      font-size: 1.2em;
-      font-weight: bold;
-    `,
-
-    content: css`
-      margin-top: ${params.vspace.normal}px;
-      margin-bottom: ${params.vspace.normal}px;
     `,
   },
 };
