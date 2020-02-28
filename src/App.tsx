@@ -17,7 +17,7 @@ const gate = new GateStore(
     redirectSignOut: 'https://localhost:3000/',
     awsRegion: 'us-east-1',
   },
-  ['testers'],
+  // ['testers'],
 );
 
 const entries = [

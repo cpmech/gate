@@ -7,6 +7,7 @@ export const useObserver = (gate: GateStore, observerName: string) => {
     configured: false,
     processing: false,
     hasAccess: false,
+    email: '',
   });
 
   useEffect(() => {
@@ -16,6 +17,7 @@ export const useObserver = (gate: GateStore, observerName: string) => {
         configured: gate.configured,
         processing: gate.processing,
         hasAccess: gate.state.hasAccess,
+        email: gate.state.email,
       });
     }, observerName);
   }, [gate, observerName]);

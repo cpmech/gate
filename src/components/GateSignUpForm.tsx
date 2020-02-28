@@ -21,14 +21,16 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   gate,
   buttonBackgroundColor = '#5d5c61',
 }) => {
-  const { error, processing } = useObserver(gate, '@cpmech/gate/components/GateSignUpForm');
+  const { error, processing, email } = useObserver(gate, '@cpmech/gate/components/GateSignUpForm');
   const [isSignIn, setIsSignIn] = useState(false);
-  const [isConfirmSignUp, setIsConfirmSignUp] = useState(true);
+  const [isConfirmSignUp, setIsConfirmSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [touchedButtons, setTouchedButtons] = useState(false);
   const [values, setValues] = useState<ISignUpValues>({
-    email: 'doriv4l+2@gmail.com',
-    password: '1carro$violeTA',
+    // email: 'doriv4l+2@gmail.com',
+    // password: '1carro$violeTA',
+    email,
+    password: '',
     code: '',
   });
 
@@ -43,11 +45,15 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   const submit = async () => {
     setTouchedButtons(true);
     if (validate()) {
-      if (isSignIn) {
-        await gate.signIn(values.email, values.password);
+      if (isConfirmSignUp) {
+        await gate.confirmSignUp(values.email, values.password, values.code);
       } else {
-        await gate.signUp(values.email, values.password);
-        setIsConfirmSignUp(true);
+        if (isSignIn) {
+          await gate.signIn(values.email, values.password);
+        } else {
+          await gate.signUp(values.email, values.password);
+          setIsConfirmSignUp(true);
+        }
       }
     }
   };
@@ -179,7 +185,11 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
             height={params.buttonHeight}
             backgroundColor={buttonBackgroundColor}
           >
-            {isSignIn ? t('enter').toUpperCase() : t('signUp').toUpperCase()}
+            {isConfirmSignUp
+              ? t('confirm').toUpperCase()
+              : isSignIn
+              ? t('enter').toUpperCase()
+              : t('signUp').toUpperCase()}
           </Button>
         </div>
       </form>

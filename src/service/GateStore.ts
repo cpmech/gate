@@ -112,24 +112,31 @@ export class GateStore {
     }
   };
 
-  confirmSignUp = async (code: string) => {
-    // this.begin();
+  confirmSignUp = async (email: string, password: string, code: string) => {
+    if (!email || !password || !code) {
+      return;
+    }
+    this.begin();
     try {
-      // const res = await Auth.confirmSignUp(this.username, code);
-      // console.log(res);
+      const res = await Auth.confirmSignUp(email, code);
+      console.log('>> res = ', res);
+      if (res === 'SUCCESS') {
+        const r2 = await Auth.signIn(email, password);
+      }
     } catch (error) {
       console.log(error);
-      // return this.end(error);
+      return this.end(t('asdfasd'));
     }
   };
 
-  resendCode = async () => {
-    // this.begin();
+  resendCode = async (email: string) => {
+    this.begin();
     try {
-      // await Auth.resendSignUp(this.username);
+      const res = await Auth.resendSignUp(email);
+      console.log('resend results = ', res);
     } catch (error) {
       console.log(error);
-      // return this.end(error);
+      return this.end(t('resend failed'));
     }
   };
 
@@ -137,40 +144,10 @@ export class GateStore {
     this.begin();
     try {
       const user = await Auth.signIn(email, password);
-      console.log(user);
-      if (user.challengeName === 'SMS_MFA' || user.challengeName === 'SOFTWARE_TOKEN_MFA') {
-        console.log('Not implemented: SMS_MFA or SOFTWARE_TOKEN_MFA');
-        // return this.end('Not implemented: SMS_MFA or SOFTWARE_TOKEN_MFA');
-      }
-      if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
-        console.log('Not implemented: NEW_PASSWORD_REQUIRED');
-        // return this.end('Not implemented: NEW_PASSWORD_REQUIRED');
-      }
-      if (user.challengeName === 'MFA_SETUP') {
-        console.log('Not implemented: MFA_SETUP');
-        // return this.end('Not implemented: MFA_SETUP');
-      }
+      console.log('user = ', user);
     } catch (error) {
-      if (error.code === 'UserNotConfirmedException') {
-        // return this.end('UserNotConfirmedException');
-        // The error happens if the user didn't finish the confirmation step when signing up
-        // In this case you need to resend the code and confirm the user
-        // About how to resend the code and confirm the user, please check the signUp part
-      } else if (error.code === 'PasswordResetRequiredException') {
-        // return this.end('PasswordResetRequiredException');
-        // The error happens when the password is reset in the Cognito console
-        // In this case you need to call forgotPassword to reset the password
-        // Please check the Forgot Password part.
-      } else if (error.code === 'NotAuthorizedException') {
-        // return this.end('NotAuthorizedException');
-        // The error happens when the incorrect password is provided
-      } else if (error.code === 'UserNotFoundException') {
-        // return this.end('UserNotFoundException');
-        // The error happens when the supplied username/email does not exist in the Cognito user pool
-      } else {
-        console.log(error);
-        // return this.end(error);
-      }
+      console.log(error);
+      return this.end(t('signIn failed'));
     }
   };
 
@@ -202,6 +179,7 @@ export class GateStore {
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   private listener = async (data: HubCapsule) => {
+    console.log('##############', data.payload.event);
     // detect event
     switch (data.payload.event) {
       case 'codeFlow':
@@ -285,3 +263,37 @@ export class GateStore {
     };
   };
 }
+
+/*
+if (user.challengeName === 'SMS_MFA' || user.challengeName === 'SOFTWARE_TOKEN_MFA') {
+  console.log('Not implemented: SMS_MFA or SOFTWARE_TOKEN_MFA');
+  // return this.end('Not implemented: SMS_MFA or SOFTWARE_TOKEN_MFA');
+}
+if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
+  console.log('Not implemented: NEW_PASSWORD_REQUIRED');
+  // return this.end('Not implemented: NEW_PASSWORD_REQUIRED');
+}
+if (user.challengeName === 'MFA_SETUP') {
+  console.log('Not implemented: MFA_SETUP');
+  // return this.end('Not implemented: MFA_SETUP');
+}
+*/
+
+/*
+if (error.code === 'UserNotConfirmedException') {
+  // return this.end('UserNotConfirmedException');
+  // The error happens if the user didn't finish the confirmation step when signing up
+  // In this case you need to resend the code and confirm the user
+  // About how to resend the code and confirm the user, please check the signUp part
+} else if (error.code === 'PasswordResetRequiredException') {
+  // return this.end('PasswordResetRequiredException');
+  // The error happens when the password is reset in the Cognito console
+  // In this case you need to call forgotPassword to reset the password
+  // Please check the Forgot Password part.
+} else if (error.code === 'NotAuthorizedException') {
+  // return this.end('NotAuthorizedException');
+  // The error happens when the incorrect password is provided
+} else if (error.code === 'UserNotFoundException') {
+  // return this.end('UserNotFoundException');
+  // The error happens when the supplied username/email does not exist in the Cognito user pool
+*/
