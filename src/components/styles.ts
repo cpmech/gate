@@ -43,7 +43,7 @@ export const stylesGateKeeper = {
     margin-top: 40px;
   `,
 
-  firstContainer: css`
+  federationContainer: css`
     display: flex;
     flex-direction: column;
     justify-content: center;
