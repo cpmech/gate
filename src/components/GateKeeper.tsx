@@ -109,7 +109,7 @@ export const GateKeeper: React.FC<IGateKeeperProps> = ({
           align-items: center;
         `}
       >
-        <FedButtons />
+        <FedButtons gate={gate} />
         {renderInputs()}
       </div>
     </React.Fragment>

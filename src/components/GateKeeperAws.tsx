@@ -46,7 +46,7 @@ export const GateKeeperAws: React.FC<IGateKeeperAwsProps> = ({ gate, buttonBackg
           align-items: center;
         `}
       >
-        <FedButtons />
+        <FedButtons gate={gate} />
         <Authenticator
           hide={[Greetings]}
           theme={theme}

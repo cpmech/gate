@@ -4,17 +4,24 @@ import { Auth } from 'aws-amplify';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth/lib-esm/types';
 import { IconFacebookCircle, IconGoogle } from '@cpmech/react-icons';
 import { Pair } from 'rcomps';
+import { GateStore } from 'service';
 import { stylesGateKeeper as styles } from './styles';
 import { t } from 'locale';
 
-export const FedButtons: React.FC = () => {
+interface IFedButtonsProps {
+  gate: GateStore;
+}
+
+export const FedButtons: React.FC<IFedButtonsProps> = ({ gate }) => {
   const handleFacebookLogin = async () => {
+    gate.notifyLoading();
     await Auth.federatedSignIn({
       provider: CognitoHostedUIIdentityProvider.Facebook,
     });
   };
 
   const handleGoogleLogin = async () => {
+    gate.notifyLoading();
     await Auth.federatedSignIn({
       provider: CognitoHostedUIIdentityProvider.Google,
     });
