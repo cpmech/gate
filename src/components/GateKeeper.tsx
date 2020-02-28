@@ -83,17 +83,17 @@ export const GateKeeper: React.FC<IGateKeeperProps> = ({
   buttonBackgroundColor,
 }) => {
   const [loading, setLoading] = useState(true);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [okGroup, setOkGroup] = useState(false);
+  const [signedIn, setLoggedIn] = useState(false);
+  const [belongsToGroup, setOkGroup] = useState(false);
 
   useEffect(() => {
     setLoading(gate.loading);
-    setLoggedIn(gate.loggedIn);
-    setOkGroup(gate.okGroup);
+    setLoggedIn(gate.signedIn);
+    setOkGroup(gate.belongsToGroup);
     return gate.subscribe(() => {
       setLoading(gate.loading);
-      setLoggedIn(gate.loggedIn);
-      setOkGroup(gate.okGroup);
+      setLoggedIn(gate.signedIn);
+      setOkGroup(gate.belongsToGroup);
     }, '@cpmech/gate/GateKeeper');
   }, [gate]);
 
@@ -137,7 +137,7 @@ export const GateKeeper: React.FC<IGateKeeperProps> = ({
   return (
     <React.Fragment>
       {loading && <PageLoading message={lang === 'pt' ? txtLoadingPt : txtLoadingEn} />}
-      {!loading && loggedIn && !okGroup && (
+      {!loading && signedIn && !belongsToGroup && (
         <PageNoAccess
           gate={gate}
           message={lang === 'pt' ? txtNoAccessPt : txtNoAccessEn}
@@ -146,7 +146,7 @@ export const GateKeeper: React.FC<IGateKeeperProps> = ({
       )}
       <div
         css={css`
-          ${!loading && !loggedIn ? 'display: flex;' : 'display:none;'}
+          ${!loading && !signedIn ? 'display: flex;' : 'display:none;'}
           flex-direction: column;
           justify-content: center;
           align-items: center;

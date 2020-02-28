@@ -79,10 +79,10 @@ export const MainMenu: React.FC<IMainMenuProps> = ({
 
   useEffect(() => {
     setLoading(gate.loading);
-    setLoggedIn(gate.loggedIn);
+    setLoggedIn(gate.signedIn);
     return gate.subscribe(() => {
       setLoading(gate.loading);
-      setLoggedIn(gate.loggedIn);
+      setLoggedIn(gate.signedIn);
     }, '@cpmech/gate/MainMenu');
   }, [gate]);
 

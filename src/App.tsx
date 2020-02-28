@@ -27,8 +27,8 @@ export const App: React.FC = () => {
   const [access, setAccess] = useState(false);
 
   useEffect(() => {
-    setAccess(gate.access());
-    return gate.subscribe(() => setAccess(gate.access()), '@cpmech/gate/App');
+    setAccess(gate.hasAccess());
+    return gate.subscribe(() => setAccess(gate.hasAccess()), '@cpmech/gate/App');
   }, []);
 
   return (

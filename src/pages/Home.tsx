@@ -1,7 +1,6 @@
 import React from 'react';
 /** @jsx jsx */ import { jsx, css } from '@emotion/core';
 import { RouteComponentProps } from '@reach/router';
-import { Button } from 'rcomps';
 import { GateStore } from 'service';
 
 interface IHomeProps extends RouteComponentProps {
@@ -26,14 +25,6 @@ export const Home: React.FC<IHomeProps> = ({ gate }) => {
       `}
     >
       <p>HOME</p>
-      <Button
-        onClick={async () => {
-          const header = await gate.getRefreshedAuthHeader();
-          console.log('header = ', header);
-        }}
-      >
-        Get Auth Header
-      </Button>
     </div>
   );
 };
