@@ -29,7 +29,10 @@ export class GateStore {
 
   // onChange notifies all observers that the state has been changed
   private onChange = () =>
-    Object.keys(this.observers).forEach(name => this.observers[name] && this.observers[name]());
+    Object.keys(this.observers).forEach(name => {
+      // console.log('notifying ', name, this.state, this.error, this.configured, this.processing);
+      this.observers[name] && this.observers[name]();
+    });
 
   // begin processing
   private begin = () => {
@@ -146,8 +149,19 @@ export class GateStore {
       const user = await Auth.signIn(email, password);
       console.log('user = ', user);
     } catch (error) {
-      console.log(error);
-      return this.end(t('signIn failed'));
+      console.log('signIn: error = ', error);
+      switch (error.code) {
+        case 'UserNotConfirmedException':
+          return this.end(t('userNotConfirmedException'));
+        case 'PasswordResetRequiredException':
+          return this.end(t('passwordResetRequiredException'));
+        case 'NotAuthorizedException':
+          return this.end(t('notAuthorizedException'));
+        case 'UserNotFoundException':
+          return this.end(t('userNotFoundException'));
+        default:
+          return this.end(t('errorSomethingHappened'));
+      }
     }
   };
 
@@ -184,30 +198,52 @@ export class GateStore {
     switch (data.payload.event) {
       case 'codeFlow':
         this.codeFlow = true;
+        console.log('>>> codeFlow, state = ', this.state);
         break;
+
       case 'configured':
         this.state = await this.getCurrentUser(true); // ignore error, because we may not have an authenticated user
         if (!this.codeFlow) {
           this.configured = true;
         }
+        console.log('>>> configured, state = ', this.state);
         break;
+
       case 'signIn':
         this.state = await this.getCurrentUser();
         if (this.codeFlow) {
           this.codeFlow = false;
           this.configured = true;
         }
+        console.log('>>> signIn, state = ', this.state);
         break;
+
       case 'signUp':
         // this.error = 'user signed up';
+        console.log('>>> signUp, state = ', this.state);
         break;
+
       case 'signOut':
         this.clearData();
+        console.log('>>> signOut <<<');
+        this.configured = true;
         break;
+
+      case 'signUp_failure':
+        this.clearData();
+        console.log('>>> signUp_failure <<<');
+        this.configured = true;
+        break;
+
       case 'signIn_failure':
         this.clearData();
-        this.error = 'user sign in failed';
+        console.log('>>> signIn_failure <<<');
+        this.configured = true;
         break;
+
+      default:
+        this.clearData();
+        console.log('>>> dont know this event <<<');
     }
 
     // check if user has access
@@ -221,6 +257,7 @@ export class GateStore {
     }
 
     // notify observers
+    console.log('... notifying observers ...');
     this.end();
     return;
   };
@@ -277,23 +314,4 @@ if (user.challengeName === 'MFA_SETUP') {
   console.log('Not implemented: MFA_SETUP');
   // return this.end('Not implemented: MFA_SETUP');
 }
-*/
-
-/*
-if (error.code === 'UserNotConfirmedException') {
-  // return this.end('UserNotConfirmedException');
-  // The error happens if the user didn't finish the confirmation step when signing up
-  // In this case you need to resend the code and confirm the user
-  // About how to resend the code and confirm the user, please check the signUp part
-} else if (error.code === 'PasswordResetRequiredException') {
-  // return this.end('PasswordResetRequiredException');
-  // The error happens when the password is reset in the Cognito console
-  // In this case you need to call forgotPassword to reset the password
-  // Please check the Forgot Password part.
-} else if (error.code === 'NotAuthorizedException') {
-  // return this.end('NotAuthorizedException');
-  // The error happens when the incorrect password is provided
-} else if (error.code === 'UserNotFoundException') {
-  // return this.end('UserNotFoundException');
-  // The error happens when the supplied username/email does not exist in the Cognito user pool
 */
