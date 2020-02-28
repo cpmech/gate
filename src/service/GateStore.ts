@@ -193,7 +193,8 @@ export class GateStore {
     const { payload } = authData;
     const { event } = payload;
 
-    console.log(event);
+    console.log('################################################');
+    console.log('event = ', event);
 
     if (event !== 'configured' && event !== 'signIn' && event !== 'signOut') {
       return;

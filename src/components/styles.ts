@@ -1,5 +1,39 @@
 import { css } from '@emotion/core';
 
+export const colors = {
+  blue: '#236cd2',
+};
+
+export const params = {
+  vspace: {
+    tiny: 5,
+    small: 10,
+    normal: 20,
+    medium: 30,
+    large: 50,
+    huge: 80,
+  },
+  hspace: {
+    small: 15,
+    normal: 25,
+    medium: 35,
+    large: 55,
+    huge: 85,
+  },
+  vpadding: {
+    small: 5,
+    normal: 10,
+    large: 20,
+    huge: 30,
+  },
+  hpadding: {
+    small: 10,
+    normal: 20,
+    large: 40,
+    huge: 60,
+  },
+};
+
 export const stylesGateKeeper = {
   root: css`
     display: flex;
@@ -83,12 +117,6 @@ export const stylesGateKeeper = {
     margin-top: 30px;
   `,
 
-  txt: css`
-    min-width: 200px;
-    text-align: left;
-    background-color: red;
-  `,
-
   orLineContainer: css`
     width: 275px;
     text-align: center;
@@ -107,5 +135,36 @@ export const stylesGateKeeper = {
     padding: 0 25px;
     font-size: 14px;
     font-weight: 500;
+  `,
+
+  row: css`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+  `,
+
+  header: css`
+    font-size: 1.15em;
+    color: #484848;
+  `,
+
+  smallFootnote: css`
+    width: 100%;
+    font-size: 0.8em;
+    color: #484848;
+  `,
+
+  footnote: css`
+    width: 100%;
+    font-size: 0.95em;
+    color: #484848;
+  `,
+
+  link: css`
+    color: ${colors.blue};
+    :hover {
+      text-decoration: underline;
+    }
   `,
 };

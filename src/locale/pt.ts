@@ -52,6 +52,7 @@ export const pt = {
 
   // SignUp
   haveAnAccount: 'Já tem conta? ',
+  signUp: 'Criar conta',
 
   // VerifyContact
   phoneNumber: 'Telefone',

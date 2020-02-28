@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Router, Link } from '@reach/router';
 import { IconHouseThreeD } from '@cpmech/react-icons';
 import { GateStore } from 'service';
-import { GateKeeperAws, MainMenu } from 'components';
+import { GateKeeper, GateKeeperAws, MainMenu } from 'components';
 import { Dashboard, Home, NotFound } from './pages';
 import { locale } from 'locale';
 
@@ -36,6 +36,7 @@ export const App: React.FC = () => {
 
   return (
     <React.Fragment>
+      <GateKeeper gate={gate} />
       <GateKeeperAws gate={gate} />
       {access && (
         <React.Fragment>
