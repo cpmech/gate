@@ -27,7 +27,7 @@ const entries = [
 ];
 
 export const App: React.FC = () => {
-  const { configured, processing, hasAccess } = useObserver(gate);
+  const { configured, processing, hasAccess } = useObserver(gate, '@cpmech/gate/App');
 
   if (!configured) {
     return <PageLoading message={t('initializing')} />;

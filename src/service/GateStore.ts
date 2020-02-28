@@ -4,6 +4,7 @@ import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth/lib/types';
 import { sleep } from '@cpmech/basic';
 import { IAmplifyConfig, IGateObservers, IGateState, newBlankState } from './types';
 import { setTimeout } from 'timers';
+import { t } from 'locale';
 
 const NOTIFY_DELAY = 50; // to allow calling begin/end immediately and force re-rendering
 
@@ -81,17 +82,27 @@ export class GateStore {
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  notify = (error = '') => {
+    this.error = error;
+    this.onChange();
+  };
+
   // returns the username
   signUp = async (email: string, password: string) => {
     this.begin();
     try {
-      await Auth.signUp({ username: email, password });
+      const res = await Auth.signUp({ username: email, password });
+      console.log('res = ', res);
       // if (!res.userSub) {
       // return this.end('Não foi possível iniciar criação de conta');
       // }
       // this.state.username = res.userSub;
     } catch (error) {
-      console.log(error);
+      console.log('error = ', error);
+      switch (error.code) {
+        case 'UsernameExistsException':
+          return this.end(t('usernameExistsException'));
+      }
       // return this.end('Algum erro aconteceu na criação da conta');
     }
     // this.end();
