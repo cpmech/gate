@@ -1,10 +1,10 @@
-import { signInValues2errors } from '../errorChecks';
+import { signUpValues2errors } from '../errorChecks';
 import { t } from '../../locale';
 
-describe('signInValues2errors', () => {
+describe('signUpValues2errors', () => {
   it('should detect all wrong values', () => {
     expect(
-      signInValues2errors({
+      signUpValues2errors({
         email: '',
         password: '',
       }),
@@ -16,7 +16,7 @@ describe('signInValues2errors', () => {
 
   it('should detect correct and wrong values', () => {
     expect(
-      signInValues2errors({
+      signUpValues2errors({
         email: 'a@a.co',
         password: '',
       }),
@@ -28,7 +28,7 @@ describe('signInValues2errors', () => {
 
   it('should detect correct values', () => {
     expect(
-      signInValues2errors({
+      signUpValues2errors({
         email: 'a@a.co',
         password: '1carro$violeTA',
       }),

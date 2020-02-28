@@ -1,55 +1,52 @@
 import Amplify, { Auth, Hub } from 'aws-amplify';
+import { HubCapsule } from '@aws-amplify/core/lib/Hub';
+import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth/lib/types';
+import { sleep } from '@cpmech/basic';
+import { IAmplifyConfig, IGateObservers, IGateState, newBlankState } from './types';
+import { setTimeout } from 'timers';
 
 const NOTIFY_DELAY = 50; // to allow calling begin/end immediately and force re-rendering
-
-export interface IAmplifyConfig {
-  userPoolId: string;
-  userPoolWebClientId: string;
-  oauthDomain: string;
-  redirectSignIn: string;
-  redirectSignOut: string;
-  awsRegion: string;
-}
-
-// IObservers defines the object to hold all observers by name
-interface IObservers {
-  [name: string]: () => void;
-}
 
 // GateStore holds all state
 export class GateStore {
   // observers holds everyone who is interested in state updates
-  private observers: IObservers = {};
+  private observers: IGateObservers = {};
 
   // all data is held here
-  /* readonly */ email = '';
-  /* readonly */ username = '';
-  /* readonly */ idToken = '';
-  /* readonly */ error = '';
-  /* readonly */ loading = false;
-  /* readonly */ signedIn = false;
-  /* readonly */ belongsToGroup = false;
+  /* readonly */ error = ''; // some error happened
+  /* readonly */ codeFlow = false; // oAuth is processing
+  /* readonly */ configured = false; // amplify has been configured
+  /* readonly */ processing = false; // something is happening
+  /* readonly */ state: IGateState = newBlankState();
+
+  private clearData = () => {
+    this.error = '';
+    this.codeFlow = false;
+    this.configured = false;
+    this.processing = false;
+    this.state = newBlankState();
+  };
 
   // onChange notifies all observers that the state has been changed
   private onChange = () =>
     Object.keys(this.observers).forEach(name => this.observers[name] && this.observers[name]());
 
-  // loading: prepare for changes
+  // begin processing
   private begin = () => {
     this.error = '';
-    this.loading = true;
+    this.processing = true;
     this.onChange();
   };
 
-  // loading: notify observers. returns success flag
+  // end processing
   private end = (withError = '') => {
     this.error = withError;
-    this.loading = false;
+    this.processing = false;
     setTimeout(() => this.onChange(), NOTIFY_DELAY);
   };
 
   // constructor initializes Amplify and sets the groups that may give access to the user
-  constructor(amplifyConfig: IAmplifyConfig, private okGroups?: string[]) {
+  constructor(amplifyConfig: IAmplifyConfig, private mustBeInGroups?: string[]) {
     Hub.listen('auth', this.listener); // must be the first (to catch the configure event)
     Amplify.configure({
       Auth: {
@@ -78,64 +75,47 @@ export class GateStore {
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  ////               ////////////////////////////////////////////////////////////////////////////////////////////////
-  ////    getters    ////////////////////////////////////////////////////////////////////////////////////////////////
-  ////               ////////////////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  hasAccess = (): boolean => !this.loading && this.signedIn && this.belongsToGroup;
-
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   ////                ///////////////////////////////////////////////////////////////////////////////////////////////
   ////  main setters  ///////////////////////////////////////////////////////////////////////////////////////////////
   ////                ///////////////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  notifyLoading = () => {
-    this.loading = true;
-    this.onChange();
-  };
-
   // returns the username
   signUp = async (email: string, password: string) => {
     this.begin();
     try {
-      const res = await Auth.signUp({ username: email, password });
-      if (!res.userSub) {
-        return this.end('Não foi possível iniciar criação de conta');
-      }
-      this.username = res.userSub;
+      await Auth.signUp({ username: email, password });
+      // if (!res.userSub) {
+      // return this.end('Não foi possível iniciar criação de conta');
+      // }
+      // this.state.username = res.userSub;
     } catch (error) {
       console.log(error);
-      return this.end('Algum erro aconteceu na criação da conta');
+      // return this.end('Algum erro aconteceu na criação da conta');
     }
-    this.end();
+    // this.end();
   };
 
   confirmSignUp = async (code: string) => {
-    this.begin();
+    // this.begin();
     try {
-      const res = await Auth.confirmSignUp(this.username, code);
-      console.log(res);
+      // const res = await Auth.confirmSignUp(this.username, code);
+      // console.log(res);
     } catch (error) {
       console.log(error);
-      return this.end(error);
+      // return this.end(error);
     }
-    this.end();
   };
 
   resendCode = async () => {
-    this.begin();
+    // this.begin();
     try {
-      await Auth.resendSignUp(this.username);
+      // await Auth.resendSignUp(this.username);
     } catch (error) {
       console.log(error);
-      return this.end(error);
+      // return this.end(error);
     }
-    this.end();
   };
 
   signIn = async (email: string, password: string) => {
@@ -145,122 +125,135 @@ export class GateStore {
       console.log(user);
       if (user.challengeName === 'SMS_MFA' || user.challengeName === 'SOFTWARE_TOKEN_MFA') {
         console.log('Not implemented: SMS_MFA or SOFTWARE_TOKEN_MFA');
-        return this.end('Not implemented: SMS_MFA or SOFTWARE_TOKEN_MFA');
+        // return this.end('Not implemented: SMS_MFA or SOFTWARE_TOKEN_MFA');
       }
       if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
         console.log('Not implemented: NEW_PASSWORD_REQUIRED');
-        return this.end('Not implemented: NEW_PASSWORD_REQUIRED');
+        // return this.end('Not implemented: NEW_PASSWORD_REQUIRED');
       }
       if (user.challengeName === 'MFA_SETUP') {
         console.log('Not implemented: MFA_SETUP');
-        return this.end('Not implemented: MFA_SETUP');
+        // return this.end('Not implemented: MFA_SETUP');
       }
     } catch (error) {
       if (error.code === 'UserNotConfirmedException') {
-        return this.end('UserNotConfirmedException');
+        // return this.end('UserNotConfirmedException');
         // The error happens if the user didn't finish the confirmation step when signing up
         // In this case you need to resend the code and confirm the user
         // About how to resend the code and confirm the user, please check the signUp part
       } else if (error.code === 'PasswordResetRequiredException') {
-        return this.end('PasswordResetRequiredException');
+        // return this.end('PasswordResetRequiredException');
         // The error happens when the password is reset in the Cognito console
         // In this case you need to call forgotPassword to reset the password
         // Please check the Forgot Password part.
       } else if (error.code === 'NotAuthorizedException') {
-        return this.end('NotAuthorizedException');
+        // return this.end('NotAuthorizedException');
         // The error happens when the incorrect password is provided
       } else if (error.code === 'UserNotFoundException') {
-        return this.end('UserNotFoundException');
+        // return this.end('UserNotFoundException');
         // The error happens when the supplied username/email does not exist in the Cognito user pool
       } else {
         console.log(error);
-        return this.end(error);
+        // return this.end(error);
       }
     }
-    return this.end();
   };
 
-  logout = async () => {
+  facebookSignIn = async () => {
+    this.begin();
+    await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Facebook });
+  };
+
+  googleSignIn = async () => {
+    this.begin();
+    await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google });
+  };
+
+  signOut = async () => {
     this.begin();
     try {
-      await Auth.signOut();
-      // listener should receive event, flip the loading flag and call onChange
-    } catch (error) {
-      this.loading = false;
-      this.error = error.message || JSON.stringify(error);
-      this.onChange();
+      await Auth.signOut(); // listener should receive event and call this.end()
+    } catch (_) {
+      this.end('signOut failed');
     }
   };
 
-  // internal ////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ////                ///////////////////////////////////////////////////////////////////////////////////////////////
+  ////    internal    ///////////////////////////////////////////////////////////////////////////////////////////////
+  ////                ///////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  private listener = async (authData: any) => {
-    const { payload } = authData;
-    const { event } = payload;
-
-    console.log('################################################');
-    console.log('event = ', event);
-
-    if (event !== 'configured' && event !== 'signIn' && event !== 'signOut') {
-      return;
+  private listener = async (data: HubCapsule) => {
+    switch (data.payload.event) {
+      case 'codeFlow':
+        this.codeFlow = true;
+        break;
+      case 'configured':
+        this.state = await this.getCurrentUser(true); // ignore error, because we may not have an authenticated user
+        if (!this.codeFlow) {
+          this.configured = true;
+        }
+        break;
+      case 'signIn':
+        this.state = await this.getCurrentUser();
+        if (this.codeFlow) {
+          this.codeFlow = false;
+          this.configured = true;
+        }
+        break;
+      case 'signUp':
+        // this.error = 'user signed up';
+        break;
+      case 'signOut':
+        this.clearData();
+        break;
+      case 'signIn_failure':
+        this.clearData();
+        this.error = 'user sign in failed';
+        break;
     }
-
-    this.loading = true;
-    this.error = '';
-    this.onChange();
-
-    if (event === 'configured') {
-      try {
-        await this.readUser();
-      } catch (error) {
-        // ignore error, because there may not be an authenticated user
-      }
-    }
-
-    if (event === 'signIn') {
-      try {
-        await this.readUser();
-      } catch (error) {
-        this.error = error.message || JSON.stringify(error);
-      }
-    }
-
-    if (event === 'signOut') {
-      this.signedIn = false;
-      this.idToken = '';
-      this.username = '';
-      this.email = '';
-      this.belongsToGroup = false;
-    }
-
-    this.loading = false;
-    this.onChange();
+    this.end();
+    return;
   };
 
-  private readUser = async () => {
+  // returns error
+  private getCurrentUser = async (ignoreError = false): Promise<IGateState> => {
     // get current user
-    const maybeUser = await Auth.currentAuthenticatedUser();
-    if (!maybeUser) {
-      throw new Error('cannot get current user');
+    let user: any;
+    try {
+      user = await Auth.currentAuthenticatedUser();
+    } catch (error) {
+      if (!ignoreError) {
+        this.error = 'there is no current authenticated user';
+      }
+      return newBlankState();
     }
 
-    // get attributes and set state
-    const { attributes, signInUserSession } = maybeUser;
+    // extract attributes
+    const { attributes, signInUserSession } = user;
     const { idToken } = signInUserSession;
     const { payload } = idToken;
-    this.signedIn = true;
-    this.idToken = idToken.jwtToken;
-    this.username = maybeUser.username;
-    this.email = attributes.email;
-    this.belongsToGroup = true;
 
     // set groups that this user belongs to
-    if (this.okGroups) {
-      this.belongsToGroup = false;
+    let hasAccess = false;
+    if (this.mustBeInGroups) {
       if (payload && payload['cognito:groups']) {
         const groups = payload['cognito:groups'] as string[];
-        this.belongsToGroup = this.okGroups.some(g => groups.includes(g));
+        hasAccess = this.mustBeInGroups.some(g => groups.includes(g));
       }
+    } else {
+      hasAccess = true;
     }
+
+    // results
+    return {
+      email: attributes.email,
+      idToken: idToken.jwtToken,
+      username: user.username,
+      hasAccess,
+    };
   };
 }

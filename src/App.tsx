@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Router, Link } from '@reach/router';
 import { IconHouseThreeD } from '@cpmech/react-icons';
 import { GateStore } from 'service';
-import { GateKeeper, GateKeeperAws, MainMenu } from 'components';
+import { useObserver, GateTopMenu, PageLoading, GateSignUpForm } from 'components';
 import { Dashboard, Home, NotFound } from './pages';
-import { locale } from 'locale';
+import { locale, t } from 'locale';
 
 locale.setLocale('pt');
 
@@ -27,34 +27,36 @@ const entries = [
 ];
 
 export const App: React.FC = () => {
-  const [access, setAccess] = useState(false);
+  const { configured, processing, hasAccess } = useObserver(gate);
 
-  useEffect(() => {
-    setAccess(gate.hasAccess());
-    return gate.subscribe(() => setAccess(gate.hasAccess()), '@cpmech/gate/App');
-  }, []);
+  if (!configured) {
+    return <PageLoading message={t('initializing')} />;
+  }
+
+  if (processing) {
+    return <PageLoading message={t('processing')} />;
+  }
+
+  if (!hasAccess) {
+    return <GateSignUpForm gate={gate} />;
+  }
 
   return (
     <React.Fragment>
-      <GateKeeper gate={gate} />
-      <GateKeeperAws gate={gate} />
-      {access && (
-        <React.Fragment>
-          <MainMenu
-            gate={gate}
-            NarrowLogoIcon={IconHouseThreeD}
-            WideLogoIcon={IconHouseThreeD}
-            wideLogoWidth={60}
-            narrowMiddleEntries={entries}
-            wideMiddleEntries={entries}
-          />
-          <Router>
-            <Home path="/" gate={gate} />
-            <Dashboard path="/dashboard" />
-            <NotFound default />
-          </Router>
-        </React.Fragment>
-      )}
+      <GateTopMenu gate={gate} />
+      {/* <MainMenu
+        gate={gate}
+        NarrowLogoIcon={IconHouseThreeD}
+        WideLogoIcon={IconHouseThreeD}
+        wideLogoWidth={60}
+        narrowMiddleEntries={entries}
+        wideMiddleEntries={entries}
+      /> */}
+      <Router>
+        <Home path="/" gate={gate} />
+        <Dashboard path="/dashboard" />
+        <NotFound default />
+      </Router>
     </React.Fragment>
   );
 };

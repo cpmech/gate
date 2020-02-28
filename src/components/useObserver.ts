@@ -3,22 +3,25 @@ import { GateStore } from 'service';
 
 export const useObserver = (gate: GateStore) => {
   const [state, setState] = useState({
-    loading: true,
-    signedIn: false,
-    belongsToGroup: false,
+    configured: false,
+    processing: false,
+    hasAccess: false,
+    // signingIn: false,
+    // signedIn: false,
+    // belongsToGroup: false,
+    // email: '',
   });
 
   useEffect(() => {
-    setState({
-      loading: gate.loading,
-      signedIn: gate.signedIn,
-      belongsToGroup: gate.belongsToGroup,
-    });
     return gate.subscribe(() => {
       setState({
-        loading: gate.loading,
-        signedIn: gate.signedIn,
-        belongsToGroup: gate.belongsToGroup,
+        configured: gate.configured,
+        processing: gate.processing,
+        hasAccess: gate.state.hasAccess,
+        // signingIn: gate.signingIn,
+        // signedIn: gate.signedIn,
+        // belongsToGroup: gate.belongsToGroup,
+        // email: gate.email,
       });
     }, '@cpmech/components/useObserver');
   }, [gate]);

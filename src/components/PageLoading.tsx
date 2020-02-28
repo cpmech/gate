@@ -1,12 +1,17 @@
 import React from 'react';
 /** @jsx jsx */ import { jsx, css } from '@emotion/core';
 import { SpinAndMsgCircle } from 'rcomps';
+import { colors } from './styles';
 
 interface IPageLoading {
   message?: string;
+  spinnerColor?: string;
 }
 
-export const PageLoading: React.FC<IPageLoading> = ({ message = 'Loading' }) => {
+export const PageLoading: React.FC<IPageLoading> = ({
+  message = 'Loading',
+  spinnerColor = colors.blue,
+}) => {
   return (
     <div
       css={css`
@@ -18,7 +23,7 @@ export const PageLoading: React.FC<IPageLoading> = ({ message = 'Loading' }) => 
         height: 100vh;
       `}
     >
-      <SpinAndMsgCircle color="#343434" message={message} />
+      <SpinAndMsgCircle color={spinnerColor} message={message} />
     </div>
   );
 };

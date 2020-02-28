@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 /** @jsx jsx */ import { jsx, css } from '@emotion/core';
 import { Link } from '@reach/router';
 import { IconAccount, IconClose } from '@cpmech/react-icons';
 import { ButtonLink, TopMenu, Narrow, Wide, ITopMenuEntry, ButtonSpin } from 'rcomps';
 import { GateStore } from 'service';
+import { useObserver } from './useObserver';
 
 interface IMainMenuProps {
   gate: GateStore;
@@ -72,51 +73,31 @@ export const MainMenu: React.FC<IMainMenuProps> = ({
   backgroundColor = '#c5cbe3',
   emailFontSize = '70%',
   emailColor = '#343434',
-  getEmail,
 }) => {
-  const [loading, setLoading] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
-
-  useEffect(() => {
-    setLoading(gate.loading);
-    setLoggedIn(gate.signedIn);
-    return gate.subscribe(() => {
-      setLoading(gate.loading);
-      setLoggedIn(gate.signedIn);
-    }, '@cpmech/gate/MainMenu');
-  }, [gate]);
-
   const handleLogInOut = () => {
-    if (loggedIn) {
-      gate.logout();
-    }
+    gate.signOut();
   };
 
-  const access = !loading && loggedIn;
-  const email = access && getEmail ? getEmail() : '';
+  const narrowArray = narrowShowEmail //&& loggedIn
+    ? narrowMiddleEntries.concat([
+        <span key="show-email" style={{ fontSize: emailFontSize, color: emailColor }}>
+          {gate.email}
+        </span>,
+      ])
+    : narrowMiddleEntries;
 
-  const narrowArray =
-    narrowShowEmail && loggedIn
-      ? narrowMiddleEntries.concat([
-          <span key="show-email" style={{ fontSize: emailFontSize, color: emailColor }}>
-            {email}
-          </span>,
-        ])
-      : narrowMiddleEntries;
-
-  const wideArray =
-    wideShowEmail && loggedIn
-      ? wideMiddleEntries.concat([
-          <span key="show-email" style={{ fontSize: emailFontSize, color: emailColor }}>
-            {email}
-          </span>,
-        ])
-      : wideMiddleEntries;
+  const wideArray = wideShowEmail //&& loggedIn
+    ? wideMiddleEntries.concat([
+        <span key="show-email" style={{ fontSize: emailFontSize, color: emailColor }}>
+          {gate.email}
+        </span>,
+      ])
+    : wideMiddleEntries;
 
   const actionButton = (
     <ButtonSpin
       key="mainmenu-login-logout"
-      spin={loading}
+      // spin={loading}
       disabled={false}
       onClick={handleLogInOut}
       colorSpinner={wideButtonColorSpinner}
@@ -129,7 +110,7 @@ export const MainMenu: React.FC<IMainMenuProps> = ({
       height={wideButtonHeight}
       width={wideButtonWidth}
     >
-      {loggedIn ? logoutText : loginText}
+      {logoutText}
     </ButtonSpin>
   );
 
@@ -139,7 +120,6 @@ export const MainMenu: React.FC<IMainMenuProps> = ({
         <div
           css={css`
             background-color: ${backgroundColor};
-            ${access ? '' : 'display:none;'}
           `}
         >
           <TopMenu
@@ -161,11 +141,7 @@ export const MainMenu: React.FC<IMainMenuProps> = ({
                   color={narrowButtonColor}
                   hoverColor={narrowButtonHoverColor}
                 >
-                  {loggedIn ? (
-                    <IconClose size={narrowButtonHeight} />
-                  ) : (
-                    <IconAccount size={narrowButtonHeight} />
-                  )}
+                  <IconClose size={narrowButtonHeight} />
                 </ButtonLink>
               ),
             ]}
@@ -176,7 +152,6 @@ export const MainMenu: React.FC<IMainMenuProps> = ({
         <div
           css={css`
             background-color: ${backgroundColor};
-            ${access ? '' : 'display:none;'}
           `}
         >
           <div

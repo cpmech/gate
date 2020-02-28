@@ -24,7 +24,7 @@ interface IGateKeeperAwsProps {
 }
 
 export const GateKeeperAws: React.FC<IGateKeeperAwsProps> = ({ gate, buttonBackgroundColor }) => {
-  const { loading, signedIn, belongsToGroup } = useObserver(gate);
+  const { signedIn, belongsToGroup } = useObserver(gate);
 
   I18n.setLanguage(locale.getLocale());
 
@@ -34,13 +34,12 @@ export const GateKeeperAws: React.FC<IGateKeeperAwsProps> = ({ gate, buttonBackg
 
   return (
     <React.Fragment>
-      {loading && <PageLoading message={t('loading')} />}
+      {/* {loading && <PageLoading message={t('loading')} />}
       {!loading && signedIn && !belongsToGroup && (
         <PageNoAccess gate={gate} message={t('noAccess')} btnText={t('signOut')} />
-      )}
+      )} */}
       <div
         css={css`
-          ${!loading && !signedIn ? 'display: flex;' : 'display:none;'}
           flex-direction: column;
           justify-content: center;
           align-items: center;
@@ -57,3 +56,5 @@ export const GateKeeperAws: React.FC<IGateKeeperAwsProps> = ({ gate, buttonBackg
     </React.Fragment>
   );
 };
+
+/* ${!loading && !signedIn ? 'display: flex;' : 'display:none;'} */

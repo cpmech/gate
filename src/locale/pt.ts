@@ -38,6 +38,8 @@ export const pt = {
 
   // Loading
   loading: 'Carregando...',
+  processing: 'Processando...',
+  initializing: 'Inicializando...',
 
   // RequireNewPassword
   change: 'Alterar',
@@ -63,4 +65,6 @@ export const pt = {
   errorEmail: 'Por favor, entre com um email válido',
   errorPassword:
     'A senha dever ter um mínimo de: 8 caracteres, 1 maiúscula, 1 minúscula, 1 número, e 1 símbolo',
+
+  errorSomethingHappened: 'Algo de errado aconteceu',
 };

@@ -38,6 +38,8 @@ export const en = {
 
   // Loading
   loading: 'Loading...',
+  processing: 'Processing...',
+  initializing: 'Initializing...',
 
   // RequireNewPassword
   change: 'Change',
