@@ -2,14 +2,14 @@ import React from 'react';
 import { Router, Link } from '@reach/router';
 import { Helmet } from 'react-helmet';
 import { IconHouseThreeD } from '@cpmech/react-icons';
-import { GateStore } from 'service';
+import { GateStore } from './service';
 import {
   useObserver,
   GateSignUpForm,
   // GateSignUpFormAws,
-} from 'components';
+} from './components';
 import { Dashboard, Home, NotFound } from './pages';
-import { locale, t } from 'locale';
+import { locale, t } from './locale';
 import { typography } from './typoStyle';
 import { TopMenu, Button, Popup } from 'rcomps';
 
@@ -42,6 +42,8 @@ const entries = [
 ];
 
 const renderTopMenu = () => <TopMenu entries={entries} />;
+
+console.log('here');
 
 export const App: React.FC = () => {
   const { ready, hasAccess } = useObserver(gate, '@cpmech/gate/App');

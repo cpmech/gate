@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 /** @jsx jsx */ import { jsx } from '@emotion/core';
 import { IconEye, IconEyeNo } from '@cpmech/react-icons';
 import { InputTypeA, Link, Button, FormErrorField, Popup } from 'rcomps';
-import { GateStore, ISignUpValues } from 'service';
-import { signUpValues2errors } from 'helpers';
+import { GateStore, ISignUpValues } from '../service';
+import { signUpValues2errors } from '../helpers';
 import { GateFederatedButtons } from './GateFederatedButtons';
 import { VSpace } from './VSpace';
 import { VSpaceLarge } from './VSpaceLarge';
 import { VSpaceSmall } from './VSpaceSmall';
 import { styles, colors, params } from './styles';
-import { t } from 'locale';
+import { t } from '../locale';
 import { useObserver } from './useObserver';
 
 const s = styles.signUpForm;

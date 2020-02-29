@@ -2,8 +2,8 @@ import React from 'react';
 /** @jsx jsx */ import { jsx } from '@emotion/core';
 import { IconFacebookCircle, IconGoogle } from '@cpmech/react-icons';
 import { Pair } from 'rcomps';
-import { GateStore } from 'service';
-import { t } from 'locale';
+import { GateStore } from '../service';
+import { t } from '../locale';
 import { styles } from './styles';
 
 const s = styles.federatedButtons;

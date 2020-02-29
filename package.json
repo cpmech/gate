@@ -17,6 +17,7 @@
     "lint": "eslint --ignore-path .eslintignore . --ext ts --ext tsx",
     "lint:fix": "yarn lint --fix",
     "postinstall": "rm -rf ./src/rcomps && cp -r ./node_modules/@cpmech/rcomps ./src",
+    "build:lib": "rm -rf dist && rollup --config rollup.config.js",
     "build": "rm -rf dist && mkdir dist && rsync -av src/components/* dist/components --exclude __stories__ --exclude __tests__ && rsync -av src/service/* dist/service --exclude __tests__",
     "dist": "yarn build && cp package.rlib.json dist/package.json && cd dist/ && yarn publish --access=public || true && cd .. && rm -rf dist/"
   },
@@ -61,6 +62,8 @@
     "husky": "^4.2.3",
     "lint-staged": "^10.0.8",
     "prettier": "^1.19.1",
+    "rollup": "^1.32.0",
+    "rollup-plugin-typescript2": "^0.26.0",
     "typescript": "^3.8.2"
   },
   "eslintConfig": {

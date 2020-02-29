@@ -3,15 +3,15 @@ import React from 'react';
 import { I18n } from 'aws-amplify';
 import { Authenticator, Greetings } from 'aws-amplify-react';
 import { UsernameAttributes } from 'aws-amplify-react/lib-esm/Auth/common/types';
-import { GateStore } from 'service';
+import { GateStore } from '../service';
 import { useObserver } from './useObserver';
 import { theme3 as theme } from './themes';
-import { locale, t } from 'locale';
+import { locale, t } from '../locale';
 import {
   initAmplifyTranslations,
   signUpConfigEn,
   signUpConfigPt,
-} from 'locale/amplifyTranslations';
+} from '../locale/amplifyTranslations';
 import { Popup } from 'rcomps';
 import { styles } from './styles';
 

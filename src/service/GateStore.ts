@@ -11,7 +11,7 @@ import {
   newBlankUser,
 } from './types';
 import { setTimeout } from 'timers';
-import { t } from 'locale';
+import { t } from '../locale';
 
 const NOTIFY_DELAY = 50; // to allow calling begin/end immediately and force re-rendering
 const RESEND_DELAY = 5000; // to let the user find the email or to prevent sending many codes

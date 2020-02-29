@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { GateStore } from 'service';
+import { GateStore } from '../service';
 
 export const useObserver = (gate: GateStore, observerName: string) => {
   const [state, setState] = useState({
