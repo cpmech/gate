@@ -3,7 +3,13 @@ import { Router, Link } from '@reach/router';
 import { Helmet } from 'react-helmet';
 import { IconHouseThreeD } from '@cpmech/react-icons';
 import { GateStore } from 'service';
-import { useObserver, GateTopMenu, PageLoading, GateSignUpForm } from 'components';
+import {
+  useObserver,
+  GateTopMenu,
+  PageLoading,
+  GateSignUpForm,
+  // GateSignUpFormAws,
+} from 'components';
 import { Dashboard, Home, NotFound } from './pages';
 import { locale, t } from 'locale';
 import { typography } from './typoStyle';
@@ -38,6 +44,7 @@ export const App: React.FC = () => {
       </Helmet>
       {!ready && <PageLoading message={t('initializing')} />}
       {!hasAccess && <GateSignUpForm gate={gate} />}
+      {/* {!hasAccess && <GateSignUpFormAws gate={gate} />} */}
       {ready && hasAccess && (
         <React.Fragment>
           <GateTopMenu gate={gate} />

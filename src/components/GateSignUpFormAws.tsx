@@ -5,8 +5,6 @@ import { Authenticator, Greetings } from 'aws-amplify-react';
 import { UsernameAttributes } from 'aws-amplify-react/lib-esm/Auth/common/types';
 import { GateStore } from 'service';
 import { useObserver } from './useObserver';
-import { PageLoading } from './PageLoading';
-import { PageNoAccess } from './PageNoAccess';
 import { theme3 as theme } from './themes';
 import { locale, t } from 'locale';
 import {
@@ -14,17 +12,24 @@ import {
   signUpConfigEn,
   signUpConfigPt,
 } from 'locale/amplifyTranslations';
-import { FedButtons } from './FedButtons';
+import { GateFederatedButtons } from './GateFederatedButtons';
+import { Popup } from 'rcomps';
+import { styles } from './styles';
+
+const s = styles.signUpForm;
 
 initAmplifyTranslations();
 
-interface IGateKeeperAwsProps {
+interface IGateSignUpFormAwsProps {
   gate: GateStore;
   buttonBackgroundColor?: string;
 }
 
-export const GateKeeperAws: React.FC<IGateKeeperAwsProps> = ({ gate, buttonBackgroundColor }) => {
-  const { signedIn, belongsToGroup } = useObserver(gate);
+export const GateSignUpFormAws: React.FC<IGateSignUpFormAwsProps> = ({
+  gate,
+  buttonBackgroundColor,
+}) => {
+  const { error, processing } = useObserver(gate, '@cpmech/gate/components/GateSignUpFormAws');
 
   I18n.setLanguage(locale.getLocale());
 
@@ -33,11 +38,7 @@ export const GateKeeperAws: React.FC<IGateKeeperAwsProps> = ({ gate, buttonBackg
   }
 
   return (
-    <React.Fragment>
-      {/* {loading && <PageLoading message={t('loading')} />}
-      {!loading && signedIn && !belongsToGroup && (
-        <PageNoAccess gate={gate} message={t('noAccess')} btnText={t('signOut')} />
-      )} */}
+    <div css={s.root}>
       <div
         css={css`
           flex-direction: column;
@@ -45,7 +46,6 @@ export const GateKeeperAws: React.FC<IGateKeeperAwsProps> = ({ gate, buttonBackg
           align-items: center;
         `}
       >
-        <FedButtons gate={gate} />
         <Authenticator
           hide={[Greetings]}
           theme={theme}
@@ -53,8 +53,16 @@ export const GateKeeperAws: React.FC<IGateKeeperAwsProps> = ({ gate, buttonBackg
           usernameAttributes={UsernameAttributes.EMAIL}
         />
       </div>
-    </React.Fragment>
+
+      {processing && <Popup title={t('loading')} fontSizeTitle="1em" isLoading={true} />}
+      {error && (
+        <Popup
+          title={t('error')}
+          onClose={() => gate.notify({ error: '' })}
+          isError={true}
+          message={error}
+        />
+      )}
+    </div>
   );
 };
-
-/* ${!loading && !signedIn ? 'display: flex;' : 'display:none;'} */

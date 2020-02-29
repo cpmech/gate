@@ -32,8 +32,6 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   const [showPassword, setShowPassword] = useState(false);
   const [touchedButtons, setTouchedButtons] = useState(false);
   const [values, setValues] = useState<ISignUpValues>({
-    // email: 'doriv4l+2@gmail.com',
-    // password: '1carro$violeTA',
     email,
     password: '',
     code: '',
