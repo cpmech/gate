@@ -17,15 +17,23 @@
     "lint": "eslint --ignore-path .eslintignore . --ext ts --ext tsx",
     "lint:fix": "yarn lint --fix",
     "postinstall": "rm -rf ./src/rcomps && cp -r ./node_modules/@cpmech/rcomps ./src",
-    "build:lib": "rm -rf dist && rollup --config rollup.config.js",
-    "build": "rm -rf dist && mkdir dist && rsync -av src/components/* dist/components --exclude __stories__ --exclude __tests__ && rsync -av src/service/* dist/service --exclude __tests__",
-    "dist": "yarn build && cp package.rlib.json dist/package.json && cd dist/ && yarn publish --access=public || true && cd .. && rm -rf dist/"
+    "build:lib": "rm -rf dist && rollup --config rollup.config.js ",
+    "build:comps": "rsync -av src/components/* dist/components --exclude __stories__ --exclude __tests__",
+    "build": "yarn build:lib && yarn build:comps",
+    "dist": "yarn build && yarn publish --access=public"
   },
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
   "files": [
     "dist"
+  ],
+  "description": "My components for AWS Cognito projects",
+  "keywords": [
+    "React",
+    "Components",
+    "Cognito",
+    "Amplify"
   ],
   "dependencies": {
     "@cpmech/basic": "^4.7.0",

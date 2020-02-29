@@ -5,7 +5,7 @@ const cacheRoot = '/tmp/rollup_typescript_cache';
 const config = ['cjs', 'esm'].map(format => {
   return {
     input: {
-      index: 'src/index.ts',
+      index: 'src/lib.ts',
     },
     output: [
       {
@@ -13,20 +13,14 @@ const config = ['cjs', 'esm'].map(format => {
         format,
       },
     ],
-    external: [
-      // 'aws-amplify',
-      // 'aws-amplify-react',
-      // '@cpmech/react-icons',
-      // '@aws-amplify/auth/lib-esm/types',
-      // 'aws-amplify-react/lib-esm/Auth/common/types',
-    ],
+    external: ['@cpmech/basic', 'aws-amplify', '@aws-amplify/auth/lib/types'],
     plugins: [
       typescript({
         cacheRoot,
         typescript: require('typescript'),
         tsconfigOverride: {
           compilerOptions: { declaration: format === 'esm' },
-          include: [],
+          include: ['src/helpers', 'src/locale', 'src/service'],
         },
       }),
     ],
