@@ -78,6 +78,7 @@ export const pt = {
   errorAlreadyConfirmed: 'O usuário já está confirmado',
   errorResend: 'Não foi possível re-enviar código',
   errorResendLimitExceeded: 'Por favor espere um pouco para re-enviar outro código',
+  errorNoGroup: 'O usuário não pertence aos grupos corretos',
 
   // signUp_failure
   UsernameExistsException: 'Já existe uma conta com o email fornecido',
@@ -95,23 +96,4 @@ export const pt = {
   // forgotPassword_failure
   LimitExceededException: 'Por favor espere um pouco para redefinir a senha',
   UnknownForgotPasswordException: 'Algum erro aconteceu ao tentar redefiniar a senha',
-
-  // Errors
-  'Username cannot be empty': 'O nome de usuário não pode estar vazio',
-  'Password attempts exceeded': 'Tentativas de senha excedidas',
-  'User does not exist': 'Usuário não existe',
-  'User already exists': 'Usuário já existe',
-  'Incorrect username or password': 'Usuário ou senha incorretos',
-  'Invalid password format': 'Formato de senha inválido',
-  'Invalid phone number format': 'Formato de número de telefone inválido',
 };
-
-// Errors
-// 'An account with the given email already exists.': 'Já existe uma conta com o email fornecido.',
-// 'Username cannot be empty': 'O nome de usuário não pode estar vazio',
-// 'Password attempts exceeded': 'Tentativas de senha excedidas',
-// 'User does not exist': 'Usuário não existe',
-// 'User already exists': 'Usuário já existe',
-// 'Incorrect username or password': 'Usuário ou senha incorretos',
-// 'Invalid password format': 'Formato de senha inválido',
-// 'Invalid phone number format': 'Formato de número de telefone inválido',

@@ -345,21 +345,19 @@ export class GateStore {
       hasAccess = true;
     }
 
-    /*
     // check if user has access
     if (!ignoreError) {
-      if (user.username && !hasAccess) {
-        console.error('unauthorized user');
-        this.error = t('notAuthorizedException');
+      // user is signedIn but doesn't have access => sign him/her out
+      if (amplifyUser.username && !hasAccess) {
+        console.error('[noGroup] unauthorized user');
+        this.flags.error = t('errorNoGroup');
         try {
           await Auth.signOut(); // listener should receive event and call this.end()
         } catch (_) {
           // ok
         }
-        return newBlankState();
       }
     }
-    */
 
     // results
     this.user.email = attributes.email;
