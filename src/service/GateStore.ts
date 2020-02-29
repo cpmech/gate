@@ -316,9 +316,6 @@ export class GateStore {
       case 'parsingCallbackUrl':
         console.log('parsingCallbackUrl');
         break;
-
-      default:
-        return;
     }
   };
 
