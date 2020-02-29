@@ -5,7 +5,7 @@ const cacheRoot = '/tmp/rollup_typescript_cache';
 const config = ['cjs', 'esm'].map(format => {
   return {
     input: {
-      index: 'src/lib.ts',
+      lib: 'src/lib.ts',
     },
     output: [
       {
