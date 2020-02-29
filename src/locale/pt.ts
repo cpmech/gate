@@ -80,7 +80,7 @@ export const pt = {
   errorResendLimitExceeded: 'Por favor espere um pouco para re-enviar outro código',
 
   // signUp_failure
-  UsernameExistsException: 'Já existe uma conta com o email fornecido.',
+  UsernameExistsException: 'Já existe uma conta com o email fornecido',
   InvalidPasswordException: 'O formato da senha é inválido',
   InvalidParameterException: 'Algum parâmetro é inválido',
   UnknownSignUpException: 'Algum erro aconteceu na criação da conta',
