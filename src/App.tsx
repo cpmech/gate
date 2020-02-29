@@ -2,6 +2,7 @@ import React from 'react';
 import { Router, Link } from '@reach/router';
 import { Helmet } from 'react-helmet';
 import { IconHouseThreeD } from '@cpmech/react-icons';
+import { TopMenu, Button, Popup } from 'rcomps';
 import {
   useObserver,
   GateSignUpForm,
@@ -11,7 +12,6 @@ import { Dashboard, Home, NotFound } from './pages';
 import { GateStore } from './service';
 import { locale, t } from './locale';
 import { typography } from './typoStyle';
-import { TopMenu, Button, Popup } from 'rcomps';
 
 locale.setLocale('pt');
 
