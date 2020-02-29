@@ -23,13 +23,15 @@ export const pt = {
   enterCode: 'Entre o código',
   lostCode: 'Perdeu o código? ',
   resendCode: 'Enviar código novamente',
+  wantToConfirm: 'Deseja entrar código? ',
+  gotoConfirm: 'Confirmar código',
 
   // FederatedSignIn
   or: 'ou',
 
   // ForgotPassword
   newPassword: 'Nova senha',
-  resetPassword: 'Redefinir a senha',
+  resetPassword: 'Redefinir senha',
   submit: 'Enviar',
   sendCode: 'Enviar código',
 
@@ -47,10 +49,11 @@ export const pt = {
 
   // SignIn
   enter: 'Entrar',
+  gotoSignIn: 'Ir para o login',
   signIn: 'Fazer o login',
   password: 'Senha',
   forgotPassword: 'Esqueceu sua senha? ',
-  noAccount: 'Novo cliente? ',
+  noAccount: 'Novo usuário? ',
 
   // SignUp
   haveAnAccount: 'Já tem conta? ',
@@ -70,6 +73,9 @@ export const pt = {
   errorNoAuthUser: 'Error interno: não existe um usuário autenticado',
   errorSomethingHappened: 'Algo de errado aconteceu',
   errorConfirm: 'Não foi possível confirmar a conta com este código',
+  errorAlreadyConfirmed: 'O usuário já está confirmado',
+  errorResend: 'Não foi possível re-enviar código',
+  errorResendLimitExceeded: 'Por favor espere um pouco para re-enviar outro código',
 
   // signUp_failure
   UsernameExistsException: 'Já existe uma conta com o email fornecido.',

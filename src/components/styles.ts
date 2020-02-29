@@ -172,7 +172,7 @@ export const styles = {
       display: flex;
       flex-direction: column;
       width: 100%;
-      font-size: 0.95em;
+      font-size: 0.98em;
       color: #484848;
     `,
 

@@ -1,7 +1,7 @@
 import Amplify, { Auth, Hub } from 'aws-amplify';
 import { HubCapsule } from '@aws-amplify/core/lib/Hub';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth/lib/types';
-import { copySimple } from '@cpmech/basic';
+import { copySimple, sleep } from '@cpmech/basic';
 import {
   IAmplifyConfig,
   IGateObservers,
@@ -14,6 +14,7 @@ import { setTimeout } from 'timers';
 import { t } from 'locale';
 
 const NOTIFY_DELAY = 50; // to allow calling begin/end immediately and force re-rendering
+const RESEND_DELAY = 10000; // to let the user find the email or to prevent sending many codes
 
 // GateStore holds all state
 export class GateStore {
@@ -85,8 +86,9 @@ export class GateStore {
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  notify = (input?: { error?: string; processing?: boolean }) => {
+  notify = (input?: { error?: string; needToConfirm?: boolean; processing?: boolean }) => {
     this.flags.error = input?.error || '';
+    this.flags.needToConfirm = input?.needToConfirm || false;
     this.flags.processing = input?.processing || false;
     this.onChange();
   };
@@ -113,30 +115,36 @@ export class GateStore {
     this.begin();
     try {
       const res = await Auth.confirmSignUp(email, code);
-      console.log('****** confirmSignUp: res = ', res);
       if (res === 'SUCCESS') {
         await Auth.signIn(email, password);
         // do not call this.end() because the listener will deal with it
+      } else {
+        console.error('[confirmSignUp]', res);
       }
     } catch (error) {
-      // only capturing AuthError here because the listener will capture others
-      // if (error.name === 'AuthError') {
-      console.log('confirm error = ', error);
+      if (error.message === 'User cannot be confirmed. Current status is CONFIRMED') {
+        return this.end(t('errorAlreadyConfirmed'));
+      }
+      console.error('[confirmSignUp]', error);
       return this.end(t('errorConfirm'));
-      // }
     }
   };
 
   resendCode = async (email: string) => {
     this.begin();
     try {
-      const res = await Auth.resendSignUp(email);
-      console.log('****** resend results = ', res);
+      await Auth.resendSignUp(email);
+      await sleep(RESEND_DELAY);
+      return this.end();
     } catch (error) {
-      // only capturing AuthError here because the listener will capture others
-      if (error.name === 'AuthError') {
-        return this.end(t('UnknownSignUpException'));
+      if (error.message === 'User is already confirmed.') {
+        return this.end(t('errorAlreadyConfirmed'));
       }
+      if (error.code === 'LimitExceededException') {
+        return this.end(t('errorResendLimitExceeded'));
+      }
+      console.error('[resendCode]', error);
+      return this.end(t('errorResend'));
     }
   };
 
@@ -149,6 +157,16 @@ export class GateStore {
       if (error.name === 'AuthError') {
         return this.end(t('UnknownSignUpException'));
       }
+    }
+  };
+
+  forgotPassword = async (email: string) => {
+    this.begin();
+    try {
+      const res = await Auth.forgotPassword(email);
+      console.log('... res = ', res);
+    } catch (error) {
+      console.error('[resetPassword]', error);
     }
   };
 

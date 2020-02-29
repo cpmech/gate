@@ -25,11 +25,11 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
     gate,
     '@cpmech/gate/components/GateSignUpForm',
   );
-  const [isSignIn, setIsSignIn] = useState(true);
+  const [isSignIn, setIsSignIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [touchedButtons, setTouchedButtons] = useState(false);
   const [values, setValues] = useState<ISignUpValues>({
-    email: 'doriv4l+2@gmail.co',
+    email: 'doriv4l+2@gmail.com',
     password: '1carro$violeTA',
     // email,
     // password: '',
@@ -137,11 +137,11 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
 
         <VSpace />
 
-        {isSignIn && (
+        {isSignIn && !needToConfirm && (
           <React.Fragment>
             <div css={s.smallFootnote}>
               <span>{t('forgotPassword')}</span>
-              <Link css={s.link} onClick={() => console.log('resetar')}>
+              <Link css={s.link} onClick={() => gate.forgotPassword(values.email)}>
                 {t('resetPassword')}
               </Link>
             </div>
@@ -153,8 +153,20 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
           <React.Fragment>
             <div css={s.smallFootnote}>
               <span>{t('lostCode')}</span>
-              <Link css={s.link} onClick={() => console.log('resetar')}>
+              <Link css={s.link} onClick={() => gate.resendCode(values.email)}>
                 {t('resendCode')}
+              </Link>
+            </div>
+            <VSpace />
+          </React.Fragment>
+        )}
+
+        {!needToConfirm && (
+          <React.Fragment>
+            <div css={s.smallFootnote}>
+              <span>{t('wantToConfirm')}</span>
+              <Link css={s.link} onClick={() => gate.notify({ needToConfirm: true })}>
+                {t('gotoConfirm')}
               </Link>
             </div>
             <VSpace />
@@ -166,7 +178,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
         <div css={s.row}>
           {needToConfirm ? (
             <div css={s.footnote}>
-              <Link css={s.link} onClick={() => setIsSignIn(true)}>
+              <Link css={s.link} onClick={() => gate.notify({ needToConfirm: false })}>
                 {t('back')}
               </Link>
             </div>
@@ -174,7 +186,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
             <div css={s.footnote}>
               <span>{isSignIn ? t('noAccount') : t('haveAnAccount')}</span>
               <Link css={s.link} onClick={() => setIsSignIn(!isSignIn)}>
-                {isSignIn ? t('signUp') : t('enter')}
+                {isSignIn ? t('signUp') : t('gotoSignIn')}
               </Link>
             </div>
           )}
