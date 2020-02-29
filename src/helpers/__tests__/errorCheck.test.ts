@@ -32,6 +32,7 @@ describe('signUpValues2errors', () => {
     ).toStrictEqual({
       email: '',
       password: t('errorPassword'),
+      code: '',
     });
   });
 

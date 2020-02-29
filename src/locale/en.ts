@@ -21,8 +21,10 @@ export const en = {
   confirmSignUp: 'Confirm Sign Up',
   confirmationCode: 'Confirmation Code',
   enterCode: 'Enter your code',
-  lostCode: 'Lost your code? ',
+  lostCode: 'Lost your code?',
   resendCode: 'Resend Code',
+  wantToConfirm: 'Got an email?',
+  gotoConfirm: 'Enter code',
 
   // FederatedSignIn
   or: 'or',
@@ -30,6 +32,8 @@ export const en = {
   // ForgotPassword
   newPassword: 'New Password',
   resetPassword: 'Reset your password',
+  resetPassword1: 'Step 1: get code',
+  resetPassword2: 'Step 2: change password',
   submit: 'Submit',
   sendCode: 'Send Code',
 
@@ -47,10 +51,11 @@ export const en = {
 
   // SignIn
   enter: 'Sign in',
+  gotoSignIn: 'Go to sign in',
   signIn: 'Sign in to your account',
   password: 'Password',
-  forgotPassword: 'Forgot your password? ',
-  noAccount: 'No account? ',
+  forgotPassword: 'Forgot your password?',
+  noAccount: 'New user?',
 
   // SignUp
   haveAnAccount: 'Have an account? ',
@@ -62,7 +67,33 @@ export const en = {
   skip: 'Skip',
 
   // errors
+  error: 'Error',
   errorEmail: 'Please, enter a valid email',
   errorPassword:
     'The password must have a minimum of: 8 characters, 1 smallcase, 1 uppercase, 1 number, and 1 symbol',
+  errorCode: 'The code must not be blank',
+  errorNoAuthUser: 'Internal error: there is no authenticated user',
+  errorSomethingHappened: 'Something went wrong',
+  errorConfirm: 'The account could not be verified with this code',
+  errorAlreadyConfirmed: 'The user is already confirmed',
+  errorResend: 'Could not resend code',
+  errorResendLimitExceeded: 'Please wait a while to resend another code',
+  errorNoGroup: 'The user does not belong to the correct groups',
+
+  // signUp_failure
+  UsernameExistsException: 'An account already exists with the email provided',
+  InvalidPasswordException: 'The password format is invalid',
+  InvalidParameterException: 'Some parameter is invalid',
+  UnknownSignUpException: 'There was an error creating the account',
+
+  // signIn_failure
+  UserNotConfirmedException: 'The email has not been confirmed yet',
+  PasswordResetRequiredException: 'Password must be reset',
+  NotAuthorizedException: 'The password is possibly wrong',
+  UserNotFoundException: 'The user does not exist',
+  UnknownSignInException: 'An error occurred while trying to enter these credentials',
+
+  // forgotPassword_failure
+  LimitExceededException: 'Please wait a while to reset the password',
+  UnknownForgotPasswordException: 'An error occurred while trying to reset the password',
 };
