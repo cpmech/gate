@@ -10,7 +10,6 @@ import {
   newBlankFlags,
   newBlankUser,
 } from './types';
-import { setTimeout } from 'timers';
 import { t } from '../locale';
 
 const NOTIFY_DELAY = 50; // to allow calling begin/end immediately and force re-rendering
@@ -170,9 +169,6 @@ export class GateStore {
     this.begin();
     try {
       await Auth.forgotPassword(email);
-      // await sleep(RESEND_DELAY);
-      // this.flags.resetPasswordStep2 = true;
-      // this.end();
     } catch (error) {
       console.error('[resetPassword]', error);
     }
