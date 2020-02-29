@@ -12,7 +12,6 @@ import {
   signUpConfigEn,
   signUpConfigPt,
 } from 'locale/amplifyTranslations';
-import { GateFederatedButtons } from './GateFederatedButtons';
 import { Popup } from 'rcomps';
 import { styles } from './styles';
 
