@@ -5,13 +5,13 @@ import { Authenticator, Greetings } from 'aws-amplify-react';
 import { UsernameAttributes } from 'aws-amplify-react/lib-esm/Auth/common/types';
 import { theme3 as theme } from './themes';
 import { useObserver } from './useObserver';
-import { GateStore } from '../../service';
-import { locale, t } from '../../locale';
+import { GateStore } from '../service';
+import { locale, t } from '../locale';
 import {
   initAmplifyTranslations,
   signUpConfigEn,
   signUpConfigPt,
-} from '../../locale/amplifyTranslations';
+} from '../locale/amplifyTranslations';
 import { Popup } from 'rcomps';
 import { styles } from './styles';
 

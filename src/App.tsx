@@ -6,7 +6,7 @@ import {
   useObserver,
   GateSignUpForm,
   // GateSignUpFormAws,
-} from './components/gate';
+} from './components';
 import { Dashboard, Home, NotFound } from './pages';
 import { GateStore } from './service';
 import { locale, t } from './locale';

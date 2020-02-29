@@ -8,9 +8,9 @@ import { VSpaceLarge } from './VSpaceLarge';
 import { VSpaceSmall } from './VSpaceSmall';
 import { styles, colors, params } from './styles';
 import { useObserver } from './useObserver';
-import { t } from '../../locale';
-import { GateStore, ISignUpValues } from '../../service';
-import { signUpValues2errors } from '../../helpers';
+import { t } from '../locale';
+import { GateStore, ISignUpValues } from '../service';
+import { signUpValues2errors } from '../helpers';
 
 const s = styles.signUpForm;
 

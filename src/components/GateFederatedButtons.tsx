@@ -3,8 +3,8 @@ import React from 'react';
 import { IconFacebookCircle, IconGoogle } from '@cpmech/react-icons';
 import { Pair } from 'rcomps';
 import { styles } from './styles';
-import { GateStore } from '../../service';
-import { t } from '../../locale';
+import { GateStore } from '../service';
+import { t } from '../locale';
 
 const s = styles.federatedButtons;
 
