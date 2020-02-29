@@ -222,30 +222,23 @@ export class GateStore {
 
     console.log('payload = ', payload);
 
-    // set codeFlow
-    // if (data.payload.event === 'codeFlow') {
-    // this.codeFlow = true;
-    // return;
-    // }
-
     // detect event
     switch (capsule.payload.event) {
       case 'codeFlow':
-        console.log('codeFloe');
+        this.flags.codeFlow = true;
         break;
 
       case 'configured':
-        await this.setCurrentUser(true); // ignore error, because we may not have an authenticated user
-        if (!this.flags.codeFlow) {
-          // await sleep(5000);
-          this.flags.ready = true;
+        if (this.flags.codeFlow) {
+          return; // ignore this event and let signIn two switch the flag
         }
+        await this.setCurrentUser(true); // ignore error, because we may not have an authenticated user
         return this.end();
 
       case 'signIn':
         await this.setCurrentUser();
         if (this.flags.codeFlow) {
-          console.log('yes, its codeflow');
+          this.flags.codeFlow = false;
         }
         return this.end();
 
@@ -254,8 +247,7 @@ export class GateStore {
         return this.end();
 
       case 'signOut':
-        this.clearData();
-        return this.end();
+        return this.end(); // no need to clear here because configure will do it
 
       case 'signUp_failure':
         this.clearData();

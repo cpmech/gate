@@ -317,7 +317,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
         )}
       </form>
 
-      {processing && <Popup title={t('loading')} isLoading={true} />}
+      {processing && <Popup title={t('loading')} fontSizeTitle="1em" isLoading={true} />}
       {error && (
         <Popup
           title={t('error')}
