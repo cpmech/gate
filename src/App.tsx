@@ -5,14 +5,13 @@ import { IconHouseThreeD } from '@cpmech/react-icons';
 import { GateStore } from 'service';
 import {
   useObserver,
-  GateTopMenu,
-  PageLoading,
   GateSignUpForm,
   // GateSignUpFormAws,
 } from 'components';
 import { Dashboard, Home, NotFound } from './pages';
 import { locale, t } from 'locale';
 import { typography } from './typoStyle';
+import { TopMenu, Button, Popup } from 'rcomps';
 
 locale.setLocale('pt');
 
@@ -29,10 +28,20 @@ const gate = new GateStore(
 );
 
 const entries = [
-  <Link key="link-to-dashboard" to="/dashboard">
+  <Link key="0" to="/">
+    <IconHouseThreeD size={50} />
+  </Link>,
+
+  <Link key="1" to="/dashboard">
     <span>DASHBOARD</span>
   </Link>,
+
+  <div key="2">
+    <Button onClick={async () => await gate.signOut()}>{t('signOut')}</Button>
+  </div>,
 ];
+
+const renderTopMenu = () => <TopMenu entries={entries} />;
 
 export const App: React.FC = () => {
   const { ready, hasAccess } = useObserver(gate, '@cpmech/gate/App');
@@ -42,14 +51,15 @@ export const App: React.FC = () => {
       <Helmet>
         <style>{typography.toString()}</style>
       </Helmet>
-      {!ready && <PageLoading message={t('initializing')} />}
+      {/* {!ready && <PageLoading message={t('initializing')} />} */}
+      {!ready && <Popup title={t('initializing')} fontSizeTitle="1em" isLoading={true} />}
       {!hasAccess && <GateSignUpForm gate={gate} />}
       {/* {!hasAccess && <GateSignUpFormAws gate={gate} />} */}
       {ready && hasAccess && (
         <React.Fragment>
-          <GateTopMenu gate={gate} />
+          {renderTopMenu()}
           <Router>
-            <Home path="/" gate={gate} />
+            <Home path="/" />
             <Dashboard path="/dashboard" />
             <NotFound default />
           </Router>
@@ -58,12 +68,3 @@ export const App: React.FC = () => {
     </React.Fragment>
   );
 };
-
-/* <MainMenu
-        gate={gate}
-        NarrowLogoIcon={IconHouseThreeD}
-        WideLogoIcon={IconHouseThreeD}
-        wideLogoWidth={60}
-        narrowMiddleEntries={entries}
-        wideMiddleEntries={entries}
-      /> */

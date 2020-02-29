@@ -1,13 +1,10 @@
 import React from 'react';
 /** @jsx jsx */ import { jsx, css } from '@emotion/core';
 import { RouteComponentProps } from '@reach/router';
-import { GateStore } from 'service';
 
-interface IHomeProps extends RouteComponentProps {
-  gate: GateStore;
-}
+interface IHomeProps extends RouteComponentProps {}
 
-export const Home: React.FC<IHomeProps> = ({ gate }) => {
+export const Home: React.FC<IHomeProps> = () => {
   return (
     <div
       css={css`
