@@ -2,13 +2,13 @@ import React from 'react';
 import { Router, Link } from '@reach/router';
 import { Helmet } from 'react-helmet';
 import { IconHouseThreeD } from '@cpmech/react-icons';
-import { GateStore } from './service';
 import {
   useObserver,
   GateSignUpForm,
   // GateSignUpFormAws,
-} from './components';
+} from './components/gate';
 import { Dashboard, Home, NotFound } from './pages';
+import { GateStore } from './service';
 import { locale, t } from './locale';
 import { typography } from './typoStyle';
 import { TopMenu, Button, Popup } from 'rcomps';
