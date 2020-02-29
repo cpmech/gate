@@ -14,7 +14,7 @@ import { setTimeout } from 'timers';
 import { t } from 'locale';
 
 const NOTIFY_DELAY = 50; // to allow calling begin/end immediately and force re-rendering
-const RESEND_DELAY = 10000; // to let the user find the email or to prevent sending many codes
+const RESEND_DELAY = 5000; // to let the user find the email or to prevent sending many codes
 
 // GateStore holds all state
 export class GateStore {
@@ -86,10 +86,13 @@ export class GateStore {
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  notify = (input?: { error?: string; needToConfirm?: boolean; processing?: boolean }) => {
-    this.flags.error = input?.error || '';
-    this.flags.needToConfirm = input?.needToConfirm || false;
-    this.flags.processing = input?.processing || false;
+  notify = (input?: Partial<IGateFlags>) => {
+    this.flags.error = input?.error || this.flags.error;
+    this.flags.needToConfirm = input?.needToConfirm || this.flags.needToConfirm;
+    this.flags.needNewPassword = input?.needNewPassword || this.flags.needNewPassword;
+    this.flags.codeFlow = input?.codeFlow || this.flags.codeFlow;
+    this.flags.ready = input?.ready || this.flags.ready;
+    this.flags.processing = input?.processing || this.flags.processing;
     this.onChange();
   };
 
@@ -163,8 +166,8 @@ export class GateStore {
   forgotPassword = async (email: string) => {
     this.begin();
     try {
-      const res = await Auth.forgotPassword(email);
-      console.log('... res = ', res);
+      await Auth.forgotPassword(email);
+      await sleep(RESEND_DELAY);
     } catch (error) {
       console.error('[resetPassword]', error);
     }
@@ -268,6 +271,19 @@ export class GateStore {
           default:
             console.error('signIn_failure: unknown error =', data.message);
             return this.end(t('UnknownSignInException'));
+        }
+
+      case 'forgotPassword':
+        this.flags.needNewPassword = true;
+        return this.end();
+
+      case 'forgotPassword_failure':
+        switch (data.code) {
+          case 'LimitExceededException':
+            return this.end(t('LimitExceededException'));
+          default:
+            console.error('forgotPassword_failure: unknown error =', data.message);
+            return this.end(t('UnknownForgotPasswordException'));
         }
 
       case 'cognitoHostedUI':

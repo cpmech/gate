@@ -21,7 +21,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   gate,
   buttonBackgroundColor = '#5d5c61',
 }) => {
-  const { error, needToConfirm, processing, email } = useObserver(
+  const { error, needToConfirm, needNewPassword, processing, email } = useObserver(
     gate,
     '@cpmech/gate/components/GateSignUpForm',
   );
@@ -88,28 +88,37 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
       <GateFederatedButtons gate={gate} />
 
       <form css={s.container}>
+        {/* ----------------------- show header ------------------------ */}
         <div css={s.centered}>
           <span css={s.header}>
-            {needToConfirm ? t('confirmSignUp') : isSignIn ? t('signIn') : t('createAccount')}
+            {needToConfirm
+              ? t('confirmSignUp')
+              : needNewPassword
+              ? t('resetPassword')
+              : isSignIn
+              ? t('signIn')
+              : t('createAccount')}
           </span>
         </div>
 
         <VSpace />
 
+        {/* ----------------------- input email ------------------------ */}
         <InputTypeA
-          label={needToConfirm ? '' : 'Email'}
+          label={needToConfirm || needNewPassword ? '' : 'Email'}
           value={values.email}
           onChange={e => setValue('email', e.target.value)}
           hlColor={colors.blue}
           error={values.errors?.email}
-          readOnly={needToConfirm}
-          bgColor={needToConfirm ? '#e1e4ea' : undefined}
+          readOnly={needToConfirm || needNewPassword}
+          bgColor={needToConfirm || needNewPassword ? '#e1e4ea' : undefined}
         />
         <FormErrorField error={values.errors?.email} />
 
         <VSpace />
 
-        {needToConfirm ? (
+        {/* ----------------------- input code ------------------------- */}
+        {(needToConfirm || needNewPassword) && (
           <React.Fragment>
             <InputTypeA
               label={t('confirmationCode')}
@@ -119,11 +128,25 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
               error={values.errors?.code}
             />
             <FormErrorField error={values.errors?.code} />
+            <VSpace />
+            {needNewPassword && (
+              <React.Fragment>
+                <div css={s.smallFootnote}>
+                  <span>{t('lostCode')}&nbsp;</span>
+                  <Link onClick={() => gate.resendCode(values.email)}>{t('resendCode')}</Link>
+                </div>
+                <VSpace />
+                <VSpace />
+              </React.Fragment>
+            )}
           </React.Fragment>
-        ) : (
+        )}
+
+        {/* --------------------- input password ----------------------- */}
+        {!needToConfirm && (
           <React.Fragment>
             <InputTypeA
-              label={t('password')}
+              label={needNewPassword ? t('newPassword') : t('password')}
               value={values.password}
               password={!showPassword}
               suffix={passwordIcon}
@@ -132,42 +155,38 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
               error={values.errors?.password}
             />
             <FormErrorField error={values.errors?.password} />
+            <VSpace />
           </React.Fragment>
         )}
 
-        <VSpace />
-
-        {isSignIn && !needToConfirm && (
+        {/* ----------------- footnote: reset password ----------------- */}
+        {isSignIn && !(needToConfirm || needNewPassword) && (
           <React.Fragment>
             <div css={s.smallFootnote}>
-              <span>{t('forgotPassword')}</span>
-              <Link css={s.link} onClick={() => gate.forgotPassword(values.email)}>
-                {t('resetPassword')}
-              </Link>
+              <span>{t('forgotPassword')}&nbsp;</span>
+              <Link onClick={() => gate.forgotPassword(values.email)}>{t('resetPassword')}</Link>
             </div>
             <VSpace />
           </React.Fragment>
         )}
 
+        {/* ----------------- footnote: resend code -------------------- */}
         {needToConfirm && (
           <React.Fragment>
             <div css={s.smallFootnote}>
-              <span>{t('lostCode')}</span>
-              <Link css={s.link} onClick={() => gate.resendCode(values.email)}>
-                {t('resendCode')}
-              </Link>
+              <span>{t('lostCode')}&nbsp;</span>
+              <Link onClick={() => gate.resendCode(values.email)}>{t('resendCode')}</Link>
             </div>
             <VSpace />
           </React.Fragment>
         )}
 
-        {!needToConfirm && (
+        {/* ----------------- footnote: want to confirm ---------------- */}
+        {!(needToConfirm || needNewPassword) && (
           <React.Fragment>
             <div css={s.smallFootnote}>
-              <span>{t('wantToConfirm')}</span>
-              <Link css={s.link} onClick={() => gate.notify({ needToConfirm: true })}>
-                {t('gotoConfirm')}
-              </Link>
+              <span>{t('wantToConfirm')}&nbsp;</span>
+              <Link onClick={() => gate.notify({ needToConfirm: true })}>{t('gotoConfirm')}</Link>
             </div>
             <VSpace />
           </React.Fragment>
@@ -175,37 +194,53 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
 
         <VSpace />
 
+        {/* ----------------------- submit button ---------------------- */}
         <div css={s.row}>
-          {needToConfirm ? (
+          {/* ....... footnote: go back ....... */}
+          {needToConfirm && (
             <div css={s.footnote}>
-              <Link css={s.link} onClick={() => gate.notify({ needToConfirm: false })}>
-                {t('back')}
-              </Link>
+              <Link onClick={() => gate.notify({ needToConfirm: false })}>{t('back')}</Link>
             </div>
-          ) : (
+          )}
+
+          {/* ....... footnote: go back ....... */}
+          {needNewPassword && (
             <div css={s.footnote}>
-              <span>{isSignIn ? t('noAccount') : t('haveAnAccount')}</span>
-              <Link css={s.link} onClick={() => setIsSignIn(!isSignIn)}>
+              <Link onClick={() => gate.notify({ needNewPassword: false })}>{t('back')}</Link>
+            </div>
+          )}
+
+          {/* ....... footnote: signIn or signUp ....... */}
+          {!(needToConfirm || needNewPassword) && (
+            <div css={s.footnote}>
+              <span>{isSignIn ? t('noAccount') : t('haveAnAccount')}&nbsp;</span>
+              <Link onClick={() => setIsSignIn(!isSignIn)}>
                 {isSignIn ? t('signUp') : t('gotoSignIn')}
               </Link>
             </div>
           )}
 
-          <Button
-            onClick={async () => await submit()}
-            borderRadius={300}
-            color="#ffffff"
-            fontWeight="bold"
-            width="250px"
-            height={params.buttonHeight}
-            backgroundColor={buttonBackgroundColor}
-          >
-            {needToConfirm
-              ? t('confirm').toUpperCase()
-              : isSignIn
-              ? t('enter').toUpperCase()
-              : t('signUp').toUpperCase()}
-          </Button>
+          {/* ....... submit ....... */}
+          <div css={s.submitButton}>
+            <Button
+              onClick={async () => await submit()}
+              borderRadius={300}
+              color="#ffffff"
+              fontWeight="bold"
+              fontSize={14}
+              width="100%"
+              height={params.buttonHeight}
+              backgroundColor={buttonBackgroundColor}
+            >
+              {needToConfirm
+                ? t('confirm').toUpperCase()
+                : needNewPassword
+                ? t('submit').toUpperCase()
+                : isSignIn
+                ? t('enter').toUpperCase()
+                : t('signUp').toUpperCase()}
+            </Button>
+          </div>
         </div>
       </form>
 

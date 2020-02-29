@@ -6,6 +6,7 @@ export const useObserver = (gate: GateStore, observerName: string) => {
     // flags
     error: '',
     needToConfirm: false,
+    needNewPassword: true,
     ready: false,
     processing: false,
     // user
@@ -19,6 +20,7 @@ export const useObserver = (gate: GateStore, observerName: string) => {
         // flags
         error: gate.flags.error,
         needToConfirm: gate.flags.needToConfirm,
+        needNewPassword: gate.flags.needNewPassword,
         ready: gate.flags.ready,
         processing: gate.flags.processing,
         // user

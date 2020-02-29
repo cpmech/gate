@@ -21,10 +21,10 @@ export const pt = {
   confirmSignUp: 'Confirmar cadastro',
   confirmationCode: 'Código de confirmação',
   enterCode: 'Entre o código',
-  lostCode: 'Perdeu o código? ',
+  lostCode: 'Perdeu o código?',
   resendCode: 'Enviar código novamente',
-  wantToConfirm: 'Deseja entrar código? ',
-  gotoConfirm: 'Confirmar código',
+  wantToConfirm: 'Recebeu um email?',
+  gotoConfirm: 'Entrar código',
 
   // FederatedSignIn
   or: 'ou',
@@ -52,11 +52,11 @@ export const pt = {
   gotoSignIn: 'Ir para o login',
   signIn: 'Fazer o login',
   password: 'Senha',
-  forgotPassword: 'Esqueceu sua senha? ',
-  noAccount: 'Novo usuário? ',
+  forgotPassword: 'Esqueceu sua senha?',
+  noAccount: 'Novo usuário?',
 
   // SignUp
-  haveAnAccount: 'Já tem conta? ',
+  haveAnAccount: 'Já tem conta?',
   signUp: 'Criar conta',
 
   // VerifyContact
@@ -89,6 +89,10 @@ export const pt = {
   NotAuthorizedException: 'A senha está possivelmente errada',
   UserNotFoundException: 'O usuário não existe',
   UnknownSignInException: 'Algum erro aconteceu ao tentar entrar com essas credenciais',
+
+  // forgotPassword_failure
+  LimitExceededException: 'Por favor espere um pouco para redefinir a senha',
+  UnknownForgotPasswordException: 'Algum erro aconteceu ao tentar redefiniar a senha',
 
   // Errors
   'Username cannot be empty': 'O nome de usuário não pode estar vazio',

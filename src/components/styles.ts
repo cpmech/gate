@@ -147,40 +147,41 @@ export const styles = {
       flex-direction: row;
       align-items: center;
       justify-content: center;
-      width: 100%;
+      /* width: 100%; */
     `,
 
     row: css`
       display: flex;
       flex-direction: row;
+      justify-content: space-between;
       align-items: center;
       width: 100%;
     `,
 
     header: css`
-      font-size: 1.15em;
+      font-size: 1.05em;
       color: #484848;
     `,
 
     smallFootnote: css`
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
       width: 100%;
-      font-size: 0.8em;
+      font-size: 0.65em;
       color: #484848;
     `,
 
     footnote: css`
       display: flex;
       flex-direction: column;
-      width: 100%;
-      font-size: 0.98em;
+      font-size: 0.8em;
       color: #484848;
     `,
 
-    link: css`
-      color: ${colors.blue};
-      :hover {
-        text-decoration: underline;
-      }
+    submitButton: css`
+      width: 180px;
     `,
   },
 };

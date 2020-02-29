@@ -1,10 +1,12 @@
 import React from 'react';
 import { Router, Link } from '@reach/router';
+import { Helmet } from 'react-helmet';
 import { IconHouseThreeD } from '@cpmech/react-icons';
 import { GateStore } from 'service';
 import { useObserver, GateTopMenu, PageLoading, GateSignUpForm } from 'components';
 import { Dashboard, Home, NotFound } from './pages';
 import { locale, t } from 'locale';
+import { typography } from './typoStyle';
 
 locale.setLocale('pt');
 
@@ -29,30 +31,32 @@ const entries = [
 export const App: React.FC = () => {
   const { ready, hasAccess } = useObserver(gate, '@cpmech/gate/App');
 
-  if (!ready) {
-    return <PageLoading message={t('initializing')} />;
-  }
-
-  if (!hasAccess) {
-    return <GateSignUpForm gate={gate} />;
-  }
-
   return (
     <React.Fragment>
-      <GateTopMenu gate={gate} />
-      {/* <MainMenu
+      <Helmet>
+        <style>{typography.toString()}</style>
+      </Helmet>
+      {!ready && <PageLoading message={t('initializing')} />}
+      {!hasAccess && <GateSignUpForm gate={gate} />}
+      {ready && hasAccess && (
+        <React.Fragment>
+          <GateTopMenu gate={gate} />
+          <Router>
+            <Home path="/" gate={gate} />
+            <Dashboard path="/dashboard" />
+            <NotFound default />
+          </Router>
+        </React.Fragment>
+      )}
+    </React.Fragment>
+  );
+};
+
+/* <MainMenu
         gate={gate}
         NarrowLogoIcon={IconHouseThreeD}
         WideLogoIcon={IconHouseThreeD}
         wideLogoWidth={60}
         narrowMiddleEntries={entries}
         wideMiddleEntries={entries}
-      /> */}
-      <Router>
-        <Home path="/" gate={gate} />
-        <Dashboard path="/dashboard" />
-        <NotFound default />
-      </Router>
-    </React.Fragment>
-  );
-};
+      /> */
