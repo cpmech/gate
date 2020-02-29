@@ -24,7 +24,7 @@ export interface IGateObservers {
 export interface IGateFlags {
   error: string; // some error happened
   needToConfirm: boolean; // need to confirm account with code
-  needNewPassword: boolean; // happens when forgotPassword is selected
+  resetPasswordStep2: boolean; // happens when forgotPassword is selected
   codeFlow: boolean; // oAuth is processing
   ready: boolean; // amplify has been configured or some error has been caught
   processing: boolean; // something is happening
@@ -47,7 +47,7 @@ export interface IGateUser {
 export const newBlankFlags = (): IGateFlags => ({
   error: '',
   needToConfirm: false,
-  needNewPassword: false,
+  resetPasswordStep2: false,
   codeFlow: false,
   ready: false,
   processing: false,

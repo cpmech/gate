@@ -144,10 +144,9 @@ export const styles = {
 
     centered: css`
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      /* width: 100%; */
     `,
 
     row: css`
@@ -160,6 +159,11 @@ export const styles = {
 
     header: css`
       font-size: 1.05em;
+      color: #484848;
+    `,
+
+    subheader: css`
+      font-size: 0.85em;
       color: #484848;
     `,
 

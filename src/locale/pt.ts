@@ -32,6 +32,8 @@ export const pt = {
   // ForgotPassword
   newPassword: 'Nova senha',
   resetPassword: 'Redefinir senha',
+  resetPassword1: 'Passo 1: obter código',
+  resetPassword2: 'Passo 2: alterar senha',
   submit: 'Enviar',
   sendCode: 'Enviar código',
 

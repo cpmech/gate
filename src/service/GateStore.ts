@@ -1,7 +1,7 @@
 import Amplify, { Auth, Hub } from 'aws-amplify';
 import { HubCapsule } from '@aws-amplify/core/lib/Hub';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth/lib/types';
-import { copySimple, sleep } from '@cpmech/basic';
+import { copySimple, sleep, maybeCopySimple } from '@cpmech/basic';
 import {
   IAmplifyConfig,
   IGateObservers,
@@ -87,12 +87,9 @@ export class GateStore {
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   notify = (input?: Partial<IGateFlags>) => {
-    this.flags.error = input?.error || this.flags.error;
-    this.flags.needToConfirm = input?.needToConfirm || this.flags.needToConfirm;
-    this.flags.needNewPassword = input?.needNewPassword || this.flags.needNewPassword;
-    this.flags.codeFlow = input?.codeFlow || this.flags.codeFlow;
-    this.flags.ready = input?.ready || this.flags.ready;
-    this.flags.processing = input?.processing || this.flags.processing;
+    if (input) {
+      maybeCopySimple(this.flags, input);
+    }
     this.onChange();
   };
 
@@ -134,6 +131,9 @@ export class GateStore {
   };
 
   resendCode = async (email: string) => {
+    if (!email) {
+      return;
+    }
     this.begin();
     try {
       await Auth.resendSignUp(email);
@@ -163,11 +163,22 @@ export class GateStore {
     }
   };
 
-  forgotPassword = async (email: string) => {
+  forgotPasswordStep1 = async (email: string) => {
     this.begin();
     try {
       await Auth.forgotPassword(email);
-      await sleep(RESEND_DELAY);
+      // await sleep(RESEND_DELAY);
+      // this.flags.resetPasswordStep2 = true;
+      // this.end();
+    } catch (error) {
+      console.error('[resetPassword]', error);
+    }
+  };
+
+  forgotPasswordStep2 = async (email: string, password: string, code: string) => {
+    this.begin();
+    try {
+      await Auth.forgotPasswordSubmit(email, code, password);
     } catch (error) {
       console.error('[resetPassword]', error);
     }
@@ -274,8 +285,12 @@ export class GateStore {
         }
 
       case 'forgotPassword':
-        this.flags.needNewPassword = true;
+        this.flags.resetPasswordStep2 = true;
         return this.end();
+
+      case 'forgotPasswordSubmit':
+        // it seems that there is nothing to do now, because signIn is called
+        return;
 
       case 'forgotPassword_failure':
         switch (data.code) {
@@ -294,9 +309,6 @@ export class GateStore {
         break;
       case 'parsingUrl_failure':
         console.log('parsingUrl_failure');
-        break;
-      case 'signOut':
-        console.log('signOut');
         break;
       case 'customGreetingSignOut':
         console.log('customGreetingSignOut');

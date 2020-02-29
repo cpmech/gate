@@ -9,6 +9,6 @@ export const signUpValues2errors = (values: ISignUpValues, ignoreCode: boolean) 
     password: isPasswordValid(values.password) ? '' : t('errorPassword'),
     code: ignoreCode ? '' : values.code ? '' : t('errorCode'),
   };
-  const hasError = errors.email || errors.password;
+  const hasError = errors.email || errors.password || errors.code;
   return hasError ? errors : undefined;
 };
