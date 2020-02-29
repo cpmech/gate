@@ -146,6 +146,9 @@ export class GateStore {
       if (error.code === 'LimitExceededException') {
         return this.end(t('errorResendLimitExceeded'));
       }
+      if (error.code === 'UserNotFoundException') {
+        return this.end(t('UserNotFoundException'));
+      }
       console.error('[resendCode]', error);
       return this.end(t('errorResend'));
     }

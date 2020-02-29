@@ -44,8 +44,8 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
     setValues({ ...values, errors: undefined });
   };
 
-  const validate = (): boolean => {
-    const ignoreCode = !(needToConfirm || resetPasswordStep2);
+  const validate = (doIgnoreCode = false): boolean => {
+    const ignoreCode = doIgnoreCode || !(needToConfirm || resetPasswordStep2);
     const errors = signUpValues2errors(values, ignoreCode);
     if (errors) {
       setValues({ ...values, errors }); // update state so we can flag errors
@@ -125,13 +125,11 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
           <React.Fragment>
             <VSpace />
             <InputTypeA
-              label={!!values.email && needToConfirm ? '' : 'Email'}
+              label={'Email'}
               value={values.email}
               onChange={e => setValue('email', e.target.value)}
               hlColor={colors.blue}
               error={values.errors?.email}
-              readOnly={!!values.email && needToConfirm}
-              bgColor={!!values.email && needToConfirm ? '#e1e4ea' : undefined}
             />
             <FormErrorField error={values.errors?.email} />
           </React.Fragment>
@@ -208,7 +206,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
               <span>{t('lostCode')}&nbsp;</span>
               <Link
                 onClick={async () => {
-                  validate();
+                  validate(true);
                   await gate.resendCode(values.email);
                 }}
               >
