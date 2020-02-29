@@ -16,15 +16,15 @@
     "type-check": "tsc",
     "lint": "eslint --ignore-path .eslintignore . --ext ts --ext tsx",
     "lint:fix": "yarn lint --fix",
-    "postinstall": "rm -rf ./src/rcomps && cp -r ./node_modules/@cpmech/rcomps ./src",
+    "postinstall": "bash ./scripts/npm_postinstall.bash",
     "build:lib": "rm -rf dist && rollup --config rollup.config.js",
     "build:comps": "rsync -av src/components/* dist/components --exclude __stories__ --exclude __tests__",
     "build": "yarn build:lib && yarn build:comps",
     "dist": "yarn build && yarn publish --access=public"
   },
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/esm/index.d.ts",
+  "main": "dist/cjs/lib.js",
+  "module": "dist/esm/lib.js",
+  "types": "dist/esm/lib.d.ts",
   "files": [
     "dist"
   ],
