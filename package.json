@@ -1,7 +1,7 @@
 {
   "name": "@cpmech/gate",
   "version": "3.0.0",
-  "license": "MIT",
+  "private": true,
   "author": {
     "name": "Dorival Pedroso",
     "email": "dorival.pedroso@gmail.com",
@@ -17,19 +17,9 @@
     "lint": "eslint --ignore-path .eslintignore . --ext ts --ext tsx",
     "lint:fix": "yarn lint --fix",
     "postinstall": "[ -f ./scripts/gate_npm_postinstall.bash ] && bash ./scripts/gate_npm_postinstall.bash || true",
-    "build": "rsync -av src/lib/* dist --exclude __stories__ --exclude __tests__",
-    "dist": "yarn build && yarn publish --access=public"
+    "build": "rm -rf dist && mkdir dist && rsync -av src/lib/* dist --exclude __stories__ --exclude __tests__",
+    "dist": "yarn build && cp package.rlib.json dist/package.json && cd dist/ && yarn publish --access=public || true && cd .. && rm -rf dist/"
   },
-  "files": [
-    "dist"
-  ],
-  "description": "My components for AWS Cognito projects",
-  "keywords": [
-    "React",
-    "Components",
-    "Cognito",
-    "Amplify"
-  ],
   "dependencies": {
     "@cpmech/basic": "^4.8.0",
     "@cpmech/rcomps": "^3.3.0",

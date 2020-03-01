@@ -1,0 +1,22 @@
+{
+  "name": "@cpmech/gate",
+  "version": "3.3.0",
+  "license": "MIT",
+  "author": {
+    "name": "Dorival Pedroso",
+    "email": "dorival.pedroso@gmail.com",
+    "url": "https://github.com/cpmech"
+  },
+  "scripts": {
+    "fix:ver1": "jq '.version = $newVal' --arg newVal `jq -r '.version' package.json` ../package.json > tmp.$$.json && mv -f tmp.$$.json ../package.json",
+    "fix:ver2": "jq '.version = $newVal' --arg newVal `jq -r '.version' package.json` ../package.rlib.json > tmp.$$.json && mv -f tmp.$$.json ../package.rlib.json",
+    "git:add": "git add ../package.json ../package.rlib.json",
+    "git:tag": "git tag v`jq -r '.version' package.json`",
+    "git:all": "yarn git:add && git commit -m 'Publish' && yarn git:tag && git push && git push --tags",
+    "message": "echo && echo 'IGNORE THE NEXT ERROR MESSAGE (cannot prevent npm from running git)' && echo",
+    "postpublish": "yarn fix:ver1 && yarn fix:ver2 && yarn git:all && yarn message"
+  },
+  "repository": "cpmech/gate",
+  "description": "My components for AWS Cognito projects",
+  "keywords": ["React", "Components", "Cognito", "Amplify"]
+}
