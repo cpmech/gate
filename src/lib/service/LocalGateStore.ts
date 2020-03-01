@@ -79,14 +79,13 @@ export class LocalGateStore {
       return;
     }
     this.begin();
-    const exists = this.storage.getItem(`${this.storagePrefix}#${email}#username`);
+    const exists = this.storage.getItem(`${this.storagePrefix}#username`);
     if (exists) {
       return this.end(t('UsernameExistsException'));
     }
-    this.storage.setItem(`${this.storagePrefix}#${email}#username`, email);
-    this.storage.setItem(`${this.storagePrefix}#${email}#password`, password);
-    const exists2 = this.storage.getItem(`${this.storagePrefix}#${email}#username`);
-    const secret = this.storage.getItem(`${this.storagePrefix}#${email}#password`);
+    this.storage.setItem(`${this.storagePrefix}#username`, email);
+    this.storage.setItem(`${this.storagePrefix}#password`, password);
+    this.storage.setItem(`${this.storagePrefix}#signedIn`, 'TRUE');
     this.user.email = email;
     this.user.username = email;
     this.user.hasAccess = true;
@@ -98,12 +97,13 @@ export class LocalGateStore {
       return;
     }
     this.begin();
-    const exists = this.storage.getItem(`${this.storagePrefix}#${email}#username`);
+    const exists = this.storage.getItem(`${this.storagePrefix}#username`);
     if (!exists) {
       return this.end(t('UserNotFoundException'));
     }
-    const secret = this.storage.getItem(`${this.storagePrefix}#${email}#password`);
+    const secret = this.storage.getItem(`${this.storagePrefix}#password`);
     if (secret && secret === password) {
+      this.storage.setItem(`${this.storagePrefix}#signedIn`, 'TRUE');
       this.user.email = email;
       this.user.username = email;
       this.user.hasAccess = true;
@@ -115,10 +115,7 @@ export class LocalGateStore {
 
   signOut = async () => {
     this.begin();
-    if (this.user.email) {
-      this.storage.removeItem(`${this.storagePrefix}#${this.user.email}#username`);
-      this.storage.removeItem(`${this.storagePrefix}#${this.user.email}#password`);
-    }
+    this.storage.removeItem(`${this.storagePrefix}#signedIn`);
     this.clearData();
     this.end();
   };
@@ -139,9 +136,10 @@ export class LocalGateStore {
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   private configure = () => {
-    const username =
-      this.storage.getItem(`${this.storagePrefix}#${this.user.email}#username`) || '';
-    if (username) {
+    const signedIn = this.storage.getItem(`${this.storagePrefix}#signedIn`);
+    const username = this.storage.getItem(`${this.storagePrefix}#username`);
+    if (signedIn && username) {
+      this.user.email = username;
       this.user.username = username;
       this.user.hasAccess = true;
     }
