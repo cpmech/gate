@@ -15,11 +15,13 @@ const s = styles.signUpForm;
 interface ILocalGateSignUpFormProps {
   gate: LocalGateStore;
   buttonBgColor?: string;
+  ignoreErrors?: boolean;
 }
 
 export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
   gate,
   buttonBgColor = '#5d5c61',
+  ignoreErrors,
 }) => {
   const { error, processing, email } = useGateObserver(gate, '@cpmech/gate/LocalGateSignUpForm');
   const [isSignIn, setIsSignIn] = useState(false);
@@ -52,20 +54,27 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
       return;
     }
 
-    // signIn
-    if (isSignIn) {
+    // validate
+    if (!ignoreErrors) {
       if (!validate({ code: true })) {
         return;
       }
-      await gate.signIn(values.email, values.password);
+    }
+
+    // fix password
+    let pwd = values.password;
+    if (ignoreErrors && values.password === '') {
+      pwd = '123';
+    }
+
+    // signIn
+    if (isSignIn) {
+      await gate.signIn(values.email, pwd);
       return;
     }
 
     // signUp
-    if (!validate({ code: true })) {
-      return;
-    }
-    await gate.signUp(values.email, values.password);
+    await gate.signUp(values.email, pwd);
   };
 
   const setValue = <K extends keyof ISignUpValues>(key: K, value: string) => {
