@@ -273,7 +273,8 @@ export class GateStore {
         return this.end();
 
       case 'signOut':
-        return this.end(); // no need to clear here because configure will do it
+        this.clearData();
+        return this.end();
 
       case 'signUp_failure':
         this.clearData();
