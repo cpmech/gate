@@ -30,13 +30,6 @@ export interface IGateFlags {
   processing: boolean; // something is happening
 }
 
-// export interface IGateMaybeFlags {
-//   error?: string;
-//   needToConfirm?: boolean;
-//   needNewPassword?: boolean;
-//   processing?: boolean;
-// }
-
 export interface IGateUser {
   email: string;
   username: string;
