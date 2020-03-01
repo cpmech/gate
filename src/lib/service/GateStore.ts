@@ -107,7 +107,7 @@ export class GateStore {
     }
   };
 
-  confirmSignUp = async (email: string, password: string, code: string) => {
+  confirmSignUpAndSignIn = async (email: string, password: string, code: string) => {
     if (!email || !password || !code) {
       return;
     }
@@ -119,6 +119,28 @@ export class GateStore {
         // do not call this.end() because the listener will deal with it
       } else {
         console.error('[confirmSignUp]', res);
+      }
+    } catch (error) {
+      if (error.message === 'User cannot be confirmed. Current status is CONFIRMED') {
+        return this.end(t('errorAlreadyConfirmed'));
+      }
+      console.error('[confirmSignUp]', error);
+      return this.end(t('errorConfirm'));
+    }
+  };
+
+  confirmSignUpOnly = async (email: string, code: string) => {
+    if (!email || !code) {
+      return;
+    }
+    this.begin();
+    try {
+      const res = await Auth.confirmSignUp(email, code);
+      if (res === 'SUCCESS') {
+        // this.end()
+      } else {
+        console.error('[confirmSignUp]', res);
+        // return this.end(t('errorConfirm'));
       }
     } catch (error) {
       if (error.message === 'User cannot be confirmed. Current status is CONFIRMED') {
@@ -289,8 +311,8 @@ export class GateStore {
         return this.end();
 
       case 'forgotPasswordSubmit':
-        // it seems that there is nothing to do now, because signIn is called
-        return;
+        this.clearData();
+        return this.end();
 
       case 'forgotPassword_failure':
         switch (data.code) {
@@ -301,21 +323,16 @@ export class GateStore {
             return this.end(t('UnknownForgotPasswordException'));
         }
 
-      case 'cognitoHostedUI':
-        console.log('cognitoHostedUI');
-        break;
-      case 'cognitoHostedUI_failure':
-        console.log('cognitoHostedUI_failure');
-        break;
-      case 'parsingUrl_failure':
-        console.log('parsingUrl_failure');
-        break;
-      case 'customGreetingSignOut':
-        console.log('customGreetingSignOut');
-        break;
-      case 'parsingCallbackUrl':
-        console.log('parsingCallbackUrl');
-        break;
+      case 'forgotPasswordSubmit_failure':
+        switch (data.code) {
+          case 'CodeMismatchException':
+            return this.end(t('CodeMismatchException'));
+          case 'LimitExceededException':
+            return this.end(t('LimitExceededException'));
+          default:
+            console.error('forgotPasswordSubmit_failure: unknown error =', data.message);
+            return this.end(t('UnknownForgotPasswordException'));
+        }
     }
   };
 
