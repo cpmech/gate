@@ -11,9 +11,7 @@ import {
   newBlankUser,
 } from './types';
 import { t } from '../locale';
-
-const NOTIFY_DELAY = 50; // to allow calling begin/end immediately and force re-rendering
-const RESEND_DELAY = 5000; // to let the user find the email or to prevent sending many codes
+import { delays } from './delays';
 
 // GateStore holds all state
 export class GateStore {
@@ -46,26 +44,30 @@ export class GateStore {
     this.flags.error = withError;
     this.flags.ready = true; // always true upon calling "this.end", because amplify has been configured already
     this.flags.processing = false;
-    setTimeout(() => this.onChange(), NOTIFY_DELAY);
+    setTimeout(() => this.onChange(), delays.onChange);
   };
 
   // constructor initializes Amplify and sets the groups that may give access to the user
   constructor(amplifyConfig: IAmplifyConfig, private mustBeInGroups?: string[]) {
     Hub.listen('auth', this.listener); // must be the first (to catch the configure event)
-    Amplify.configure({
-      Auth: {
-        region: amplifyConfig.awsRegion,
-        userPoolId: amplifyConfig.userPoolId,
-        userPoolWebClientId: amplifyConfig.userPoolWebClientId,
-        oauth: {
-          domain: amplifyConfig.oauthDomain,
-          redirectSignIn: amplifyConfig.redirectSignIn,
-          redirectSignOut: amplifyConfig.redirectSignOut,
-          responseType: 'code',
-          scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
+    setTimeout(() => {
+      Amplify.configure({
+        Auth: {
+          region: amplifyConfig.awsRegion,
+          userPoolId: amplifyConfig.userPoolId,
+          userPoolWebClientId: amplifyConfig.userPoolWebClientId,
+          oauth: {
+            domain: amplifyConfig.oauthDomain,
+            redirectSignIn: amplifyConfig.redirectSignIn,
+            redirectSignOut: amplifyConfig.redirectSignOut,
+            responseType: 'code',
+            scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
+          },
         },
-      },
-    });
+      });
+      console.log('... amplified ...');
+    }, delays.constructor);
+    console.log('... constructed ...');
   }
 
   // subscribe adds someone to be notified about state updates
@@ -136,7 +138,7 @@ export class GateStore {
     this.begin();
     try {
       await Auth.resendSignUp(email);
-      await sleep(RESEND_DELAY);
+      await sleep(delays.resendCode);
       return this.end();
     } catch (error) {
       if (error.message === 'User is already confirmed.') {
@@ -154,6 +156,9 @@ export class GateStore {
   };
 
   signIn = async (email: string, password: string) => {
+    if (!email || !password) {
+      return;
+    }
     this.begin();
     try {
       await Auth.signIn(email, password);
@@ -166,6 +171,9 @@ export class GateStore {
   };
 
   forgotPasswordStep1 = async (email: string) => {
+    if (!email) {
+      return;
+    }
     this.begin();
     try {
       await Auth.forgotPassword(email);
@@ -175,6 +183,9 @@ export class GateStore {
   };
 
   forgotPasswordStep2 = async (email: string, password: string, code: string) => {
+    if (!email || !password || !code) {
+      return;
+    }
     this.begin();
     try {
       await Auth.forgotPasswordSubmit(email, code, password);
