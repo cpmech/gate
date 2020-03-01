@@ -7,10 +7,9 @@ import {
   useObserver,
   GateSignUpForm,
   // GateSignUpFormAws,
-} from './components';
+} from './lib/components';
 import { Dashboard, Home, NotFound } from './pages';
-import { GateStore } from './service';
-import { locale, t } from './locale';
+import { GateStore, locale, t } from 'lib';
 import { typography } from './typoStyle';
 
 locale.setLocale('pt');

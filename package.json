@@ -17,9 +17,7 @@
     "lint": "eslint --ignore-path .eslintignore . --ext ts --ext tsx",
     "lint:fix": "yarn lint --fix",
     "postinstall": "[ -f ./scripts/gate_npm_postinstall.bash ] && bash ./scripts/gate_npm_postinstall.bash || true",
-    "build:lib": "rm -rf dist && rollup --config rollup.config.js",
-    "build:comps": "rsync -av src/components/* dist/components --exclude __stories__ --exclude __tests__",
-    "build": "yarn build:lib && yarn build:comps",
+    "build": "rsync -av src/lib/* dist --exclude __stories__ --exclude __tests__",
     "dist": "yarn build && yarn publish --access=public"
   },
   "main": "dist/cjs/lib.js",

@@ -1,6 +1,6 @@
 import Typography from 'typography';
 import fairyGateTheme from 'typography-theme-fairy-gates';
-import { colors } from './components/styles';
+import { colors } from './lib/components/styles';
 
 const linkColor = colors.blue;
 
