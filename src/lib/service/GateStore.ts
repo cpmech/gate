@@ -65,9 +65,7 @@ export class GateStore {
           },
         },
       });
-      console.log('... amplified ...');
     }, delays.constructor);
-    console.log('... constructed ...');
   }
 
   // subscribe adds someone to be notified about state updates
