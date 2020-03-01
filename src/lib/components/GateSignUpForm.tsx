@@ -16,16 +16,16 @@ const s = styles.signUpForm;
 
 interface IGateSignUpFormProps {
   gate: GateStore;
-  buttonBackgroundColor?: string;
+  buttonBgColor?: string;
 }
 
 export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   gate,
-  buttonBackgroundColor = '#5d5c61',
+  buttonBgColor = '#5d5c61',
 }) => {
   const { error, needToConfirm, resetPasswordStep2, processing, email } = useGateObserver(
     gate,
-    '@cpmech/gate/components/GateSignUpForm',
+    '@cpmech/gate/GateSignUpForm',
   );
   const [isSignIn, setIsSignIn] = useState(false);
   const [resetPasswordStep1, setResetPasswordStep1] = useState(false);
@@ -282,7 +282,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
             fontSize={14}
             width="175px"
             height={params.buttonHeight}
-            backgroundColor={buttonBackgroundColor}
+            backgroundColor={buttonBgColor}
           >
             {needToConfirm
               ? t('confirm').toUpperCase()
