@@ -47,7 +47,6 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
 
   const validate = (ignore?: { [key in keyof Partial<ISignUpErrors>]: boolean }): boolean => {
     const res = signUpValues2errors(values, ignore);
-    console.log('res = ', res);
     setVerrors(res.errors);
     return !res.hasError;
   };

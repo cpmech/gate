@@ -243,12 +243,10 @@ export class GateStore {
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   private listener = async (capsule: HubCapsule) => {
-    console.log('########## event =', capsule.payload.event, '### codeFlow =', this.flags.codeFlow);
-
     const { payload } = capsule;
     const { data } = payload;
 
-    console.log('payload = ', payload);
+    console.log('#### payload = ', payload);
 
     // detect event
     switch (capsule.payload.event) {
