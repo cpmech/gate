@@ -7,7 +7,7 @@ import { VSpaceLarge } from './VSpaceLarge';
 import { styles, colors, params } from './styles';
 import { useGateObserver } from './useGateObserver';
 import { t } from '../locale';
-import { LocalGateStore, ISignUpValues } from '../service';
+import { LocalGateStore, ISignUpValues, ISignUpErrors } from '../service';
 import { signUpValues2errors } from '../helpers';
 
 const s = styles.signUpForm;
@@ -25,23 +25,18 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
   const [isSignIn, setIsSignIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [touchedButtons, setTouchedButtons] = useState(false);
-  const [values, setValues] = useState<ISignUpValues>({
-    email,
-    password: '',
-    code: '',
-  });
+  const [values, setValues] = useState<ISignUpValues>({ email, password: '', code: '' });
+  const [vErrors, setVerrors] = useState<ISignUpErrors>({ email: '', password: '', code: '' });
 
   const clearErrors = () => {
     setTouchedButtons(false);
-    setValues({ ...values, errors: undefined });
+    setVerrors({ email: '', password: '', code: '' });
   };
 
-  const validate = (): boolean => {
-    const errors = signUpValues2errors(values, true);
-    if (errors) {
-      setValues({ ...values, errors }); // update state so we can flag errors
-    }
-    return errors === undefined; // allGood
+  const validate = (ignore?: { [key in keyof ISignUpErrors]: boolean }): boolean => {
+    const res = signUpValues2errors(values, ignore);
+    setVerrors(res.errors);
+    return res.hasError;
   };
 
   const submit = async () => {
@@ -58,11 +53,10 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
 
   const setValue = <K extends keyof ISignUpValues>(key: K, value: string) => {
     const newValues = { ...values, [key]: value.trim() };
+    setValues(newValues);
     if (touchedButtons) {
-      const errors = signUpValues2errors(newValues, true);
-      setValues({ ...newValues, errors });
-    } else {
-      setValues(newValues);
+      const res = signUpValues2errors(newValues);
+      setVerrors({ ...vErrors, [key]: (res as any)[key] });
     }
   };
 
@@ -88,9 +82,9 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
             value={values.email}
             onChange={e => setValue('email', e.target.value)}
             hlColor={colors.blue}
-            error={values.errors?.email}
+            error={!!vErrors.email}
           />
-          <FormErrorField error={values.errors?.email} />
+          <FormErrorField error={vErrors.email} />
         </React.Fragment>
 
         {/* --------------------- input password ----------------------- */}
@@ -103,9 +97,9 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
             suffix={passwordIcon}
             onChange={e => setValue('password', e.target.value)}
             hlColor={colors.blue}
-            error={values.errors?.password}
+            error={!!vErrors.password}
           />
-          <FormErrorField error={values.errors?.password} />
+          <FormErrorField error={vErrors.password} />
         </React.Fragment>
 
         {/* ----------------------- submit button ---------------------- */}
@@ -144,13 +138,14 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
         </div>
       </form>
 
-      {processing && <Popup title={t('loading')} fontSizeTitle="1em" isLoading={true} />}
+      {processing && <Popup title={t('loading')} fontSizeTitle="0.8em" isLoading={true} />}
       {error && (
         <Popup
           title={t('error')}
           onClose={() => gate.notify({ error: '' })}
           isError={true}
           message={error}
+          fontSizeTitle="0.8em"
         />
       )}
     </div>

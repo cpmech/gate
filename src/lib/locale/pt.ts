@@ -94,6 +94,7 @@ export const pt = {
   UnknownSignInException: 'Algum erro aconteceu ao tentar entrar com essas credenciais',
 
   // forgotPassword_failure
+  CodeMismatchException: 'Código de verificação inválido, tente novamente',
   LimitExceededException: 'Por favor espere um pouco para redefinir a senha',
   UnknownForgotPasswordException: 'Algum erro aconteceu ao tentar redefiniar a senha',
 };

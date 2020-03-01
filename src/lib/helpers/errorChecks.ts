@@ -1,14 +1,24 @@
+import { objKeys } from '@cpmech/util';
 import { isPasswordValid } from './isPasswordValid';
 import { t } from '../locale';
 import { isEmailValid } from './isEmailValid';
-import { ISignUpValues } from '../service';
+import { ISignUpValues, ISignUpErrors } from '../service';
 
-export const signUpValues2errors = (values: ISignUpValues, ignoreCode: boolean) => {
-  const errors = {
+export const signUpValues2errors = (
+  values: ISignUpValues,
+  ignore?: { [key in keyof Partial<ISignUpErrors>]: boolean },
+) => {
+  const errors: ISignUpErrors = {
     email: isEmailValid(values.email) ? '' : t('errorEmail'),
     password: isPasswordValid(values.password) ? '' : t('errorPassword'),
-    code: ignoreCode ? '' : values.code ? '' : t('errorCode'),
+    code: values.code ? '' : t('errorCode'),
   };
-  const hasError = errors.email || errors.password || errors.code;
-  return hasError ? errors : undefined;
+  if (ignore) {
+    objKeys(ignore).forEach(key => (errors[key] = ''));
+  }
+  const hasError = !!errors.email || !!errors.password || !!errors.code;
+  return {
+    errors,
+    hasError,
+  };
 };

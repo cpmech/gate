@@ -81,6 +81,10 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
         return;
       }
       await gate.confirmSignUpOnly(values.email, values.code);
+      setValues({ email: '', password: '', code: '' });
+      clearErrors();
+      setWantToConfirm(false);
+      setIsSignIn(true);
       return;
     }
 

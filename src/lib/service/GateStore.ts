@@ -136,11 +136,12 @@ export class GateStore {
     this.begin();
     try {
       const res = await Auth.confirmSignUp(email, code);
+      this.clearData();
       if (res === 'SUCCESS') {
-        // this.end()
+        return this.end();
       } else {
         console.error('[confirmSignUp]', res);
-        // return this.end(t('errorConfirm'));
+        return this.end(t('errorConfirm'));
       }
     } catch (error) {
       if (error.message === 'User cannot be confirmed. Current status is CONFIRMED') {

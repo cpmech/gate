@@ -1,11 +1,10 @@
-import { Iany } from '@cpmech/basic';
-
 export interface ISignUpValues {
   email: string;
   password: string;
   code: string;
-  errors?: Iany;
 }
+
+export type ISignUpErrors = ISignUpValues;
 
 export interface IAmplifyConfig {
   userPoolId: string;

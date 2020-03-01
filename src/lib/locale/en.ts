@@ -94,6 +94,7 @@ export const en = {
   UnknownSignInException: 'An error occurred while trying to enter these credentials',
 
   // forgotPassword_failure
+  CodeMismatchException: 'Invalid verification code provided, please try again',
   LimitExceededException: 'Please wait a while to reset the password',
   UnknownForgotPasswordException: 'An error occurred while trying to reset the password',
 };

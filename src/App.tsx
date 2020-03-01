@@ -6,25 +6,35 @@ import { TopMenu, Button, Popup } from 'rcomps';
 import {
   useGateObserver,
   GateSignUpForm,
+  LocalGateSignUpForm,
   // GateSignUpFormAws,
 } from './lib/components';
 import { Dashboard, Home, NotFound } from './pages';
-import { GateStore, locale, t } from 'lib';
+import { GateStore, locale, t, LocalGateStore } from 'lib';
 import { typography } from './typoStyle';
 
 locale.setLocale('pt');
 
-const gate = new GateStore(
-  {
-    userPoolId: 'us-east-1_dCZGZU74z',
-    userPoolWebClientId: '5cdculovevq2kqdhj5forn2288',
-    oauthDomain: 'azcdk.auth.us-east-1.amazoncognito.com',
-    redirectSignIn: 'https://localhost:3000/',
-    redirectSignOut: 'https://localhost:3000/',
-    awsRegion: 'us-east-1',
-  },
-  // ['testers'],
-);
+const isLocal = false;
+
+const gate = isLocal
+  ? new LocalGateStore(
+      '@cpmech/gate',
+      window.localStorage.setItem,
+      window.localStorage.getItem,
+      window.localStorage.removeItem,
+    )
+  : new GateStore(
+      {
+        userPoolId: 'us-east-1_dCZGZU74z',
+        userPoolWebClientId: '5cdculovevq2kqdhj5forn2288',
+        oauthDomain: 'azcdk.auth.us-east-1.amazoncognito.com',
+        redirectSignIn: 'https://localhost:3000/',
+        redirectSignOut: 'https://localhost:3000/',
+        awsRegion: 'us-east-1',
+      },
+      // ['testers'],
+    );
 
 const entries = [
   <Link key="0" to="/">
@@ -45,14 +55,21 @@ const renderTopMenu = () => <TopMenu entries={entries} />;
 export const App: React.FC = () => {
   const { ready, hasAccess } = useGateObserver(gate, '@cpmech/gate/App');
 
+  const renderSignUpForm = () => {
+    if (isLocal) {
+      return <LocalGateSignUpForm gate={gate as LocalGateStore} />;
+    }
+    return <GateSignUpForm gate={gate as GateStore} />;
+  };
+
   return (
     <React.Fragment>
       <Helmet>
         <style>{typography.toString()}</style>
       </Helmet>
       {/* {!ready && <PageLoading message={t('initializing')} />} */}
-      {!ready && <Popup title={t('initializing')} fontSizeTitle="1em" isLoading={true} />}
-      {!hasAccess && <GateSignUpForm gate={gate} />}
+      {!ready && <Popup title={t('initializing')} fontSizeTitle="0.8em" isLoading={true} />}
+      {!hasAccess && renderSignUpForm()}
       {/* {!hasAccess && <GateSignUpFormAws gate={gate} />} */}
       {ready && hasAccess && (
         <React.Fragment>
