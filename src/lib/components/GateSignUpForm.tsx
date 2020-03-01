@@ -9,7 +9,7 @@ import { VSpaceSmall } from './VSpaceSmall';
 import { styles, colors, params } from './styles';
 import { useGateObserver } from './useGateObserver';
 import { t } from '../locale';
-import { GateStore, ISignUpValues } from '../service';
+import { GateStore, ISignUpValues, ISignUpErrors } from '../service';
 import { signUpValues2errors } from '../helpers';
 
 const s = styles.signUpForm;
@@ -27,63 +27,98 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
     gate,
     '@cpmech/gate/GateSignUpForm',
   );
+
   const [isSignIn, setIsSignIn] = useState(false);
+  const [wantToConfirm, setWantToConfirm] = useState(false);
   const [resetPasswordStep1, setResetPasswordStep1] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [touchedButtons, setTouchedButtons] = useState(false);
-  const [values, setValues] = useState<ISignUpValues>({
-    email,
-    password: '',
-    code: '',
-  });
+  const [values, setValues] = useState<ISignUpValues>({ email, password: '', code: '' });
+  const [vErrors, setVerrors] = useState<ISignUpErrors>({ email: '', password: '', code: '' });
+
+  const isConfirm = wantToConfirm || needToConfirm;
+  const isResetPassword = resetPasswordStep1 || resetPasswordStep2;
+  const atNextPage = isConfirm || isResetPassword;
 
   const clearErrors = () => {
     setTouchedButtons(false);
-    setValues({ ...values, errors: undefined });
+    setVerrors({ email: '', password: '', code: '' });
   };
 
-  const validate = (doIgnoreCode = false): boolean => {
-    const ignoreCode = doIgnoreCode || !(needToConfirm || resetPasswordStep2);
-    const errors = signUpValues2errors(values, ignoreCode);
-    if (errors) {
-      setValues({ ...values, errors }); // update state so we can flag errors
-    }
-    return errors === undefined; // allGood
+  const validate = (ignore?: { [key in keyof Partial<ISignUpErrors>]: boolean }): boolean => {
+    const res = signUpValues2errors(values, ignore);
+    console.log('res = ', res);
+    setVerrors(res.errors);
+    return !res.hasError;
   };
 
   const submit = async () => {
     setTouchedButtons(true);
-    if (!validate()) {
+
+    // resetPasswordStep2
+    if (resetPasswordStep2) {
+      if (!validate()) {
+        return;
+      }
+      await gate.forgotPasswordStep2(values.email, values.password, values.code);
       return;
     }
-    if (resetPasswordStep2) {
-      await gate.forgotPasswordStep2(values.email, values.password, values.code);
-    }
+
+    // resetPasswordStep1
     if (resetPasswordStep1) {
+      if (!validate({ password: true, code: true })) {
+        return;
+      }
       setValues({ ...values, password: '' });
       setResetPasswordStep1(false);
       await gate.forgotPasswordStep1(values.email);
       return;
     }
-    if (needToConfirm) {
-      await gate.confirmSignUp(values.email, values.password, values.code);
+
+    // wantToConfirm
+    if (wantToConfirm) {
+      if (!validate({ password: true })) {
+        return;
+      }
+      await gate.confirmSignUpOnly(values.email, values.code);
       return;
     }
+
+    // needToConfirm
+    if (needToConfirm) {
+      if (!validate()) {
+        return;
+      }
+      await gate.confirmSignUpAndSignIn(values.email, values.password, values.code);
+      return;
+    }
+
+    // signIn
     if (isSignIn) {
+      if (!validate({ code: true })) {
+        return;
+      }
       await gate.signIn(values.email, values.password);
+      return;
+    }
+
+    // signUp
+    if (!validate({ code: true })) {
       return;
     }
     await gate.signUp(values.email, values.password);
   };
 
+  const resendCodeInResetPwdView = async () => await gate.forgotPasswordStep1(values.email);
+
+  const resendCodeInConfirmView = async () => await gate.resendCode(values.email);
+
   const setValue = <K extends keyof ISignUpValues>(key: K, value: string) => {
     const newValues = { ...values, [key]: value.trim() };
+    setValues(newValues);
     if (touchedButtons) {
-      const ignoreCode = !(needToConfirm || resetPasswordStep2);
-      const errors = signUpValues2errors(newValues, ignoreCode);
-      setValues({ ...newValues, errors });
-    } else {
-      setValues(newValues);
+      const res = signUpValues2errors(newValues);
+      setVerrors({ ...vErrors, [key]: (res as any)[key] });
     }
   };
 
@@ -108,9 +143,9 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
         {/* ----------------------- show header ------------------------ */}
         <div css={s.centered}>
           <span css={s.header}>
-            {needToConfirm
+            {isConfirm
               ? t('confirmSignUp')
-              : resetPasswordStep1 || resetPasswordStep2
+              : isResetPassword
               ? renderResetPasswordHeader()
               : isSignIn
               ? t('signIn')
@@ -127,14 +162,14 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
               value={values.email}
               onChange={e => setValue('email', e.target.value)}
               hlColor={colors.blue}
-              error={values.errors?.email}
+              error={!!vErrors.email}
             />
-            <FormErrorField error={values.errors?.email} />
+            <FormErrorField error={vErrors.email} />
           </React.Fragment>
         )}
 
         {/* ----------------------- input code ------------------------- */}
-        {(needToConfirm || resetPasswordStep2) && (
+        {(isConfirm || resetPasswordStep2) && (
           <React.Fragment>
             <VSpace />
             <InputTypeA
@@ -142,9 +177,9 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
               value={values.code}
               onChange={e => setValue('code', e.target.value)}
               hlColor={colors.blue}
-              error={values.errors?.code}
+              error={!!vErrors.code}
             />
-            <FormErrorField error={values.errors?.code} />
+            <FormErrorField error={vErrors.code} />
           </React.Fragment>
         )}
 
@@ -154,15 +189,13 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
             <VSpaceSmall />
             <div css={s.smallFootnote}>
               <span>{t('lostCode')}&nbsp;</span>
-              <Link onClick={async () => await gate.forgotPasswordStep1(values.email)}>
-                {t('resendCode')}
-              </Link>
+              <Link onClick={async () => await resendCodeInResetPwdView()}>{t('resendCode')}</Link>
             </div>
           </React.Fragment>
         )}
 
         {/* --------------------- input password ----------------------- */}
-        {!(needToConfirm || resetPasswordStep1) && (
+        {!(isConfirm || resetPasswordStep1) && (
           <React.Fragment>
             <VSpace />
             <InputTypeA
@@ -172,14 +205,14 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
               suffix={passwordIcon}
               onChange={e => setValue('password', e.target.value)}
               hlColor={colors.blue}
-              error={values.errors?.password}
+              error={!!vErrors.password}
             />
-            <FormErrorField error={values.errors?.password} />
+            <FormErrorField error={vErrors.password} />
           </React.Fragment>
         )}
 
         {/* ----------------- footnote: reset password ----------------- */}
-        {isSignIn && !(needToConfirm || resetPasswordStep1 || resetPasswordStep2) && (
+        {isSignIn && !atNextPage && (
           <React.Fragment>
             <VSpace />
             <div css={s.smallFootnote}>
@@ -196,20 +229,13 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
           </React.Fragment>
         )}
 
-        {/* ------- footnote: resend code -- (needToConfirm) ----------- */}
-        {needToConfirm && (
+        {/* ----------------- footnote: resend code -------------------- */}
+        {isConfirm && (
           <React.Fragment>
             <VSpace />
             <div css={s.smallFootnote}>
               <span>{t('lostCode')}&nbsp;</span>
-              <Link
-                onClick={async () => {
-                  validate(true);
-                  await gate.resendCode(values.email);
-                }}
-              >
-                {t('resendCode')}
-              </Link>
+              <Link onClick={async () => await resendCodeInConfirmView()}>{t('resendCode')}</Link>
             </div>
           </React.Fragment>
         )}
@@ -220,32 +246,17 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
         <VSpaceLarge />
         <div css={s.row}>
           {/* ....... footnote: go back ....... */}
-          {needToConfirm && (
+          {atNextPage && (
             <React.Fragment>
               <VSpace />
               <div css={s.footnote}>
                 <Link
                   onClick={() => {
                     clearErrors();
-                    gate.notify({ needToConfirm: false });
-                  }}
-                >
-                  {t('back')}
-                </Link>
-              </div>
-            </React.Fragment>
-          )}
-
-          {/* ....... footnote: go back ....... */}
-          {(resetPasswordStep1 || resetPasswordStep2) && (
-            <React.Fragment>
-              <VSpace />
-              <div css={s.footnote}>
-                <Link
-                  onClick={() => {
-                    clearErrors();
-                    setResetPasswordStep1(false);
-                    gate.notify({ resetPasswordStep2: false });
+                    wantToConfirm && setWantToConfirm(false);
+                    needToConfirm && gate.notify({ needToConfirm: false });
+                    resetPasswordStep1 && setResetPasswordStep1(false);
+                    resetPasswordStep2 && gate.notify({ resetPasswordStep2: false });
                   }}
                 >
                   {t('back')}
@@ -255,7 +266,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
           )}
 
           {/* ....... footnote: signIn or signUp ....... */}
-          {!(needToConfirm || resetPasswordStep1 || resetPasswordStep2) && (
+          {!atNextPage && (
             <React.Fragment>
               <VSpace />
               <div css={s.footnote}>
@@ -284,7 +295,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
             height={params.buttonHeight}
             backgroundColor={buttonBgColor}
           >
-            {needToConfirm
+            {isConfirm
               ? t('confirm').toUpperCase()
               : resetPasswordStep1
               ? t('sendCode').toUpperCase()
@@ -297,7 +308,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
         </div>
 
         {/* ----------------- footnote: want to confirm ---------------- */}
-        {!(needToConfirm || resetPasswordStep1 || resetPasswordStep2) && (
+        {!atNextPage && (
           <React.Fragment>
             <VSpaceLarge />
             <div css={s.smallFootnote}>
@@ -305,7 +316,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
               <Link
                 onClick={() => {
                   clearErrors();
-                  gate.notify({ needToConfirm: true });
+                  setWantToConfirm(true);
                 }}
               >
                 {t('gotoConfirm')}
@@ -315,13 +326,14 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
         )}
       </form>
 
-      {processing && <Popup title={t('loading')} fontSizeTitle="1em" isLoading={true} />}
+      {processing && <Popup title={t('loading')} fontSizeTitle="0.8em" isLoading={true} />}
       {error && (
         <Popup
           title={t('error')}
           onClose={() => gate.notify({ error: '' })}
           isError={true}
           message={error}
+          fontSizeTitle="0.8em"
         />
       )}
     </div>
