@@ -24,7 +24,7 @@ export const GateSignUpFormAws: React.FC<IGateSignUpFormAwsProps> = ({
   gate,
   buttonBackgroundColor,
 }) => {
-  const { error, processing } = useGateObserver(gate, '@cpmech/gate/components/GateSignUpFormAws');
+  const { error, processing } = useGateObserver(gate, '@cpmech/gate/GateSignUpFormAws');
 
   I18n.setLanguage(locale.getLocale());
 
