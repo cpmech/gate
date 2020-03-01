@@ -15,15 +15,10 @@ import { typography } from './typoStyle';
 
 locale.setLocale('pt');
 
-const isLocal = false;
+const isLocal = true;
 
 const gate = isLocal
-  ? new LocalGateStore(
-      '@cpmech/gate',
-      window.localStorage.setItem,
-      window.localStorage.getItem,
-      window.localStorage.removeItem,
-    )
+  ? new LocalGateStore('@cpmech/gate', window.localStorage)
   : new GateStore(
       {
         userPoolId: 'us-east-1_dCZGZU74z',

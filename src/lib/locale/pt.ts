@@ -8,6 +8,10 @@ export const pt = {
   noAccess: 'Não foi possível completar a requisição',
   signOut: 'Sair',
 
+  // local testing
+  clearLocalStorage: 'Limpar armazenamento local',
+  clear: 'Limpar',
+
   // AuthPiece
   username: 'Nome de usuário',
 

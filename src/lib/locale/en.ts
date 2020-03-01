@@ -8,6 +8,10 @@ export const en = {
   noAccess: 'Cannot complete request',
   signOut: 'Sign Out',
 
+  // local testing
+  clearLocalStorage: 'Clear local storage',
+  clear: 'Clear',
+
   // AuthPiece
   username: 'Username',
 

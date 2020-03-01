@@ -1,5 +1,12 @@
 import { copySimple, maybeCopySimple } from '@cpmech/basic';
-import { IGateObservers, IGateFlags, IGateUser, newBlankFlags, newBlankUser } from './types';
+import {
+  IGateObservers,
+  IGateFlags,
+  IGateUser,
+  newBlankFlags,
+  newBlankUser,
+  IStorage,
+} from './types';
 import { delays } from './delays';
 import { t } from '../locale';
 
@@ -37,12 +44,7 @@ export class LocalGateStore {
     setTimeout(() => this.onChange(), delays.onChange);
   };
 
-  constructor(
-    private storagePrefix: string,
-    private storageSetItem: (key: string, value: string) => void,
-    private storageGetItem: (key: string) => string | null,
-    private storageRemoveItem: (key: string) => void,
-  ) {
+  constructor(private storagePrefix: string, private storage: IStorage) {
     setTimeout(() => {
       this.configure();
     }, delays.constructor);
@@ -77,12 +79,14 @@ export class LocalGateStore {
       return;
     }
     this.begin();
-    const exists = this.storageGetItem(`${this.storagePrefix}#${email}#username`);
+    const exists = this.storage.getItem(`${this.storagePrefix}#${email}#username`);
     if (exists) {
       return this.end(t('UsernameExistsException'));
     }
-    this.storageSetItem(`${this.storagePrefix}#${email}#username`, email);
-    this.storageSetItem(`${this.storagePrefix}#${email}#password`, password);
+    this.storage.setItem(`${this.storagePrefix}#${email}#username`, email);
+    this.storage.setItem(`${this.storagePrefix}#${email}#password`, password);
+    const exists2 = this.storage.getItem(`${this.storagePrefix}#${email}#username`);
+    const secret = this.storage.getItem(`${this.storagePrefix}#${email}#password`);
     this.user.email = email;
     this.user.username = email;
     this.user.hasAccess = true;
@@ -94,7 +98,11 @@ export class LocalGateStore {
       return;
     }
     this.begin();
-    const secret = this.storageGetItem(`${this.storagePrefix}#${email}#password`);
+    const exists = this.storage.getItem(`${this.storagePrefix}#${email}#username`);
+    if (!exists) {
+      return this.end(t('UserNotFoundException'));
+    }
+    const secret = this.storage.getItem(`${this.storagePrefix}#${email}#password`);
     if (secret && secret === password) {
       this.user.email = email;
       this.user.username = email;
@@ -108,9 +116,16 @@ export class LocalGateStore {
   signOut = async () => {
     this.begin();
     if (this.user.email) {
-      this.storageRemoveItem(`${this.storagePrefix}#${this.user.email}#username`);
-      this.storageRemoveItem(`${this.storagePrefix}#${this.user.email}#password`);
+      this.storage.removeItem(`${this.storagePrefix}#${this.user.email}#username`);
+      this.storage.removeItem(`${this.storagePrefix}#${this.user.email}#password`);
     }
+    this.clearData();
+    this.end();
+  };
+
+  clearStorage = async () => {
+    this.begin();
+    this.storage.clear();
     this.clearData();
     this.end();
   };
@@ -124,7 +139,8 @@ export class LocalGateStore {
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   private configure = () => {
-    const username = this.storageGetItem(`${this.storagePrefix}_username`) || '';
+    const username =
+      this.storage.getItem(`${this.storagePrefix}#${this.user.email}#username`) || '';
     if (username) {
       this.user.username = username;
       this.user.hasAccess = true;
