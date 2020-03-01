@@ -5,7 +5,7 @@ import { Authenticator, Greetings } from 'aws-amplify-react';
 import { UsernameAttributes } from 'aws-amplify-react/lib-esm/Auth/common/types';
 import { Popup } from 'rcomps';
 import { theme3 as theme } from './themes';
-import { useObserver } from './useObserver';
+import { useGateObserver } from './useGateObserver';
 import { GateStore } from '../service';
 import { locale, t } from '../locale';
 import { initAmplifyTranslations, signUpConfigEn, signUpConfigPt } from './amplifyTranslations';
@@ -24,7 +24,7 @@ export const GateSignUpFormAws: React.FC<IGateSignUpFormAwsProps> = ({
   gate,
   buttonBackgroundColor,
 }) => {
-  const { error, processing } = useObserver(gate, '@cpmech/gate/components/GateSignUpFormAws');
+  const { error, processing } = useGateObserver(gate, '@cpmech/gate/components/GateSignUpFormAws');
 
   I18n.setLanguage(locale.getLocale());
 

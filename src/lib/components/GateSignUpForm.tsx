@@ -7,7 +7,7 @@ import { VSpace } from './VSpace';
 import { VSpaceLarge } from './VSpaceLarge';
 import { VSpaceSmall } from './VSpaceSmall';
 import { styles, colors, params } from './styles';
-import { useObserver } from './useObserver';
+import { useGateObserver } from './useGateObserver';
 import { t } from '../locale';
 import { GateStore, ISignUpValues } from '../service';
 import { signUpValues2errors } from '../helpers';
@@ -23,7 +23,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   gate,
   buttonBackgroundColor = '#5d5c61',
 }) => {
-  const { error, needToConfirm, resetPasswordStep2, processing, email } = useObserver(
+  const { error, needToConfirm, resetPasswordStep2, processing, email } = useGateObserver(
     gate,
     '@cpmech/gate/components/GateSignUpForm',
   );

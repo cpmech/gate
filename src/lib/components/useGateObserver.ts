@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { GateStore } from '../service';
 
-export const useObserver = (gate: GateStore, observerName: string) => {
+export const useGateObserver = (gate: GateStore, observerName: string) => {
   const [state, setState] = useState({
     // flags
     error: '',
@@ -10,8 +10,10 @@ export const useObserver = (gate: GateStore, observerName: string) => {
     ready: false,
     processing: false,
     // user
-    email: '',
     hasAccess: false,
+    email: '',
+    username: '',
+    idToken: '',
   });
 
   useEffect(() => {
@@ -26,6 +28,8 @@ export const useObserver = (gate: GateStore, observerName: string) => {
         // user
         hasAccess: gate.user.hasAccess,
         email: gate.user.email,
+        username: gate.user.username,
+        idToken: gate.user.idToken,
       });
     }, observerName);
   }, [gate, observerName]);

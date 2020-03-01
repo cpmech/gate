@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import { IconHouseThreeD } from '@cpmech/react-icons';
 import { TopMenu, Button, Popup } from 'rcomps';
 import {
-  useObserver,
+  useGateObserver,
   GateSignUpForm,
   // GateSignUpFormAws,
 } from './lib/components';
@@ -42,10 +42,8 @@ const entries = [
 
 const renderTopMenu = () => <TopMenu entries={entries} />;
 
-console.log('here');
-
 export const App: React.FC = () => {
-  const { ready, hasAccess } = useObserver(gate, '@cpmech/gate/App');
+  const { ready, hasAccess } = useGateObserver(gate, '@cpmech/gate/App');
 
   return (
     <React.Fragment>
