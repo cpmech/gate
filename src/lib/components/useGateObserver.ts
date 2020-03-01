@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { GateStore } from '../service';
+import { GateStore, LocalGateStore } from '../service';
 
-export const useGateObserver = (gate: GateStore, observerName: string) => {
+export const useGateObserver = (gate: GateStore | LocalGateStore, observerName: string) => {
   const [state, setState] = useState({
     // flags
     error: '',
