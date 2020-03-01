@@ -114,7 +114,12 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
 
   const resendCodeInResetPwdView = async () => await gate.forgotPasswordStep1(values.email);
 
-  const resendCodeInConfirmView = async () => await gate.resendCode(values.email);
+  const resendCodeInConfirmView = async () => {
+    setTouchedButtons(true);
+    if (validate({ password: true, code: true })) {
+      await gate.resendCode(values.email);
+    }
+  };
 
   const setValue = <K extends keyof ISignUpValues>(key: K, value: string) => {
     const newValues = { ...values, [key]: value.trim() };

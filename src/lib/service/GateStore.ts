@@ -316,6 +316,8 @@ export class GateStore {
 
       case 'forgotPassword_failure':
         switch (data.code) {
+          case 'UserNotFoundException':
+            return this.end(t('UserNotFoundException'));
           case 'LimitExceededException':
             return this.end(t('LimitExceededException'));
           default:
