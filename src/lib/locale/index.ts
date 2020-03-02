@@ -7,6 +7,6 @@ const res = {
   pt,
 };
 
-export const locale = new Locales(res, 'en', 'us');
+export const gateLocale = new Locales(res, 'en', 'us');
 
-export const t = locale.translate;
+export const t = gateLocale.translate;

@@ -3,6 +3,7 @@ import { Router, Link } from '@reach/router';
 import { Helmet } from 'react-helmet';
 import { IconHouseThreeD } from '@cpmech/react-icons';
 import { TopMenu, Button, Popup } from 'rcomps';
+import { GateStore, gateLocale, t, LocalGateStore } from 'lib';
 import {
   useGateObserver,
   GateSignUpForm,
@@ -10,10 +11,9 @@ import {
   // GateSignUpFormAws,
 } from './lib/components';
 import { Dashboard, Home, NotFound } from './pages';
-import { GateStore, locale, t, LocalGateStore } from 'lib';
 import { typography } from './typoStyle';
 
-locale.setLocale('pt');
+gateLocale.setLocale('pt');
 
 const isLocal = true;
 

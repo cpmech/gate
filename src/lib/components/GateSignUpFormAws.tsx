@@ -4,12 +4,12 @@ import { I18n } from 'aws-amplify';
 import { Authenticator, Greetings } from 'aws-amplify-react';
 import { UsernameAttributes } from 'aws-amplify-react/lib-esm/Auth/common/types';
 import { Popup } from 'rcomps';
-import { theme3 as theme } from './themes';
+import { theme3 as theme } from './gateThemes';
 import { useGateObserver } from './useGateObserver';
 import { GateStore } from '../service';
-import { locale, t } from '../locale';
+import { gateLocale, t } from '../locale';
 import { initAmplifyTranslations, signUpConfigEn, signUpConfigPt } from './amplifyTranslations';
-import { styles } from './styles';
+import { styles } from './gateStyles';
 
 const s = styles.signUpForm;
 
@@ -26,7 +26,7 @@ export const GateSignUpFormAws: React.FC<IGateSignUpFormAwsProps> = ({
 }) => {
   const { error, processing } = useGateObserver(gate, '@cpmech/gate/GateSignUpFormAws');
 
-  I18n.setLanguage(locale.getLocale());
+  I18n.setLanguage(gateLocale.getLocale());
 
   if (buttonBackgroundColor) {
     theme.button.backgroundColor = buttonBackgroundColor;
@@ -44,7 +44,7 @@ export const GateSignUpFormAws: React.FC<IGateSignUpFormAwsProps> = ({
         <Authenticator
           hide={[Greetings]}
           theme={theme}
-          signUpConfig={locale.getLocale() === 'pt' ? signUpConfigPt : signUpConfigEn}
+          signUpConfig={gateLocale.getLocale() === 'pt' ? signUpConfigPt : signUpConfigEn}
           usernameAttributes={UsernameAttributes.EMAIL}
         />
       </div>

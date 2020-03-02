@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import { IconEye, IconEyeNo } from '@cpmech/react-icons';
 import { InputTypeA, Link, Button, FormErrorField, Popup } from 'rcomps';
 import { GateFederatedButtons } from './GateFederatedButtons';
-import { VSpace } from './VSpace';
-import { VSpaceLarge } from './VSpaceLarge';
-import { VSpaceSmall } from './VSpaceSmall';
-import { styles, colors, params } from './styles';
+import { GateVSpace } from './GateVSpace';
+import { GateVSpaceLarge } from './GateVSpaceLarge';
+import { GateVSpaceSmall } from './GateVSpaceSmall';
+import { styles, colors, params } from './gateStyles';
 import { useGateObserver } from './useGateObserver';
 import { t } from '../locale';
 import { GateStore, ISignUpValues, ISignUpErrors } from '../service';
@@ -164,7 +164,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
         {/* ----------------------- input email ------------------------ */}
         {!resetPasswordStep2 && (
           <React.Fragment>
-            <VSpace />
+            <GateVSpace />
             <InputTypeA
               label={'Email'}
               value={values.email}
@@ -179,7 +179,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
         {/* ----------------------- input code ------------------------- */}
         {(isConfirm || resetPasswordStep2) && (
           <React.Fragment>
-            <VSpace />
+            <GateVSpace />
             <InputTypeA
               label={t('confirmationCode')}
               value={values.code}
@@ -194,7 +194,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
         {/* ----- footnote: resend code -- (resetPasswordStep2) -------- */}
         {resetPasswordStep2 && (
           <React.Fragment>
-            <VSpaceSmall />
+            <GateVSpaceSmall />
             <div css={s.smallFootnote}>
               <span>{t('lostCode')}&nbsp;</span>
               <Link onClick={async () => await resendCodeInResetPwdView()}>{t('resendCode')}</Link>
@@ -205,7 +205,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
         {/* --------------------- input password ----------------------- */}
         {!(isConfirm || resetPasswordStep1) && (
           <React.Fragment>
-            <VSpace />
+            <GateVSpace />
             <InputTypeA
               label={resetPasswordStep2 ? t('newPassword') : t('password')}
               value={values.password}
@@ -222,7 +222,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
         {/* ----------------- footnote: reset password ----------------- */}
         {isSignIn && !atNextPage && (
           <React.Fragment>
-            <VSpace />
+            <GateVSpace />
             <div css={s.smallFootnote}>
               <span>{t('forgotPassword')}&nbsp;</span>
               <Link
@@ -240,7 +240,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
         {/* ----------------- footnote: resend code -------------------- */}
         {isConfirm && (
           <React.Fragment>
-            <VSpace />
+            <GateVSpace />
             <div css={s.smallFootnote}>
               <span>{t('lostCode')}&nbsp;</span>
               <Link onClick={async () => await resendCodeInConfirmView()}>{t('resendCode')}</Link>
@@ -248,15 +248,15 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
           </React.Fragment>
         )}
 
-        {resetPasswordStep1 && <VSpaceLarge />}
+        {resetPasswordStep1 && <GateVSpaceLarge />}
 
         {/* ----------------------- submit button ---------------------- */}
-        <VSpaceLarge />
+        <GateVSpaceLarge />
         <div css={s.row}>
           {/* ....... footnote: go back ....... */}
           {atNextPage && (
             <React.Fragment>
-              <VSpace />
+              <GateVSpace />
               <div css={s.footnote}>
                 <Link
                   onClick={() => {
@@ -276,7 +276,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
           {/* ....... footnote: signIn or signUp ....... */}
           {!atNextPage && (
             <React.Fragment>
-              <VSpace />
+              <GateVSpace />
               <div css={s.footnote}>
                 <span>{isSignIn ? t('noAccount') : t('haveAnAccount')}&nbsp;</span>
                 <Link
@@ -292,7 +292,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
           )}
 
           {/* ....... submit ....... */}
-          <VSpace />
+          <GateVSpace />
           <Button
             onClick={async () => await submit()}
             borderRadius={300}
@@ -318,7 +318,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
         {/* ----------------- footnote: want to confirm ---------------- */}
         {!atNextPage && (
           <React.Fragment>
-            <VSpaceLarge />
+            <GateVSpaceLarge />
             <div css={s.smallFootnote}>
               <span>{t('wantToConfirm')}&nbsp;</span>
               <Link

@@ -1,6 +1,6 @@
 import React from 'react';
-import { params } from './styles';
+import { params } from './gateStyles';
 
-export const VSpaceLarge: React.FC = () => {
+export const GateVSpaceLarge: React.FC = () => {
   return <div style={{ height: params.vspace.large }} />;
 };

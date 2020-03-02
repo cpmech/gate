@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 /** @jsx jsx */ import { jsx } from '@emotion/core';
 import { IconEye, IconEyeNo } from '@cpmech/react-icons';
 import { InputTypeA, Link, Button, FormErrorField, Popup } from 'rcomps';
-import { VSpace } from './VSpace';
-import { VSpaceLarge } from './VSpaceLarge';
-import { styles, colors, params } from './styles';
+import { GateVSpace } from './GateVSpace';
+import { GateVSpaceLarge } from './GateVSpaceLarge';
+import { styles, colors, params } from './gateStyles';
 import { useGateObserver } from './useGateObserver';
 import { t } from '../locale';
 import { LocalGateStore, ISignUpValues, ISignUpErrors } from '../service';
@@ -105,7 +105,7 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
         {/* ----------------------- input email ------------------------ */}
         {!isClearStorage && (
           <React.Fragment>
-            <VSpace />
+            <GateVSpace />
             <InputTypeA
               label={'Email'}
               value={values.email}
@@ -120,7 +120,7 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
         {/* --------------------- input password ----------------------- */}
         {!isClearStorage && (
           <React.Fragment>
-            <VSpace />
+            <GateVSpace />
             <InputTypeA
               label={t('password')}
               value={values.password}
@@ -135,12 +135,12 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
         )}
 
         {/* ----------------------- submit button ---------------------- */}
-        <VSpaceLarge />
+        <GateVSpaceLarge />
         <div css={s.row}>
           {/* ....... footnote: go back ....... */}
           {isClearStorage && (
             <React.Fragment>
-              <VSpace />
+              <GateVSpace />
               <div css={s.footnote}>
                 <Link
                   onClick={() => {
@@ -157,7 +157,7 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
           {/* ....... footnote: signIn or signUp ....... */}
           {!isClearStorage && (
             <React.Fragment>
-              <VSpace />
+              <GateVSpace />
               <div css={s.footnote}>
                 <span>{isSignIn ? t('noAccount') : t('haveAnAccount')}&nbsp;</span>
                 <Link
@@ -173,7 +173,7 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
           )}
 
           {/* ....... submit ....... */}
-          <VSpace />
+          <GateVSpace />
           <Button
             onClick={async () => await submit()}
             borderRadius={300}
@@ -195,7 +195,7 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
         {/* ----------------- footnote: remove account ----------------- */}
         {!isClearStorage && (
           <React.Fragment>
-            <VSpaceLarge />
+            <GateVSpaceLarge />
             <div css={s.smallFootnote}>
               <Link
                 onClick={() => {
