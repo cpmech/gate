@@ -54,7 +54,9 @@ export const App: React.FC = () => {
     if (isLocal) {
       return <LocalGateSignUpForm gate={gate as LocalGateStore} />;
     }
-    return <GateSignUpForm gate={gate as GateStore} />;
+    return (
+      <GateSignUpForm gate={gate as GateStore} colorSpinner="#ea8a2e" colorTitleLoading="#ea8a2e" />
+    );
   };
 
   return (
@@ -63,7 +65,15 @@ export const App: React.FC = () => {
         <style>{typography.toString()}</style>
       </Helmet>
       {/* {!ready && <PageLoading message={t('initializing')} />} */}
-      {!ready && <Popup title={t('initializing')} fontSizeTitle="0.8em" isLoading={true} />}
+      {!ready && (
+        <Popup
+          title={t('initializing')}
+          fontSizeTitle="0.8em"
+          isLoading={true}
+          colorSpinner="#ea8a2e"
+          colorTitleLoading="#ea8a2e"
+        />
+      )}
       {!hasAccess && renderSignUpForm()}
       {/* {!hasAccess && <GateSignUpFormAws gate={gate} />} */}
       {ready && hasAccess && (

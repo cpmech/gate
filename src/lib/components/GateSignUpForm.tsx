@@ -17,11 +17,15 @@ const s = styles.signUpForm;
 interface IGateSignUpFormProps {
   gate: GateStore;
   buttonBgColor?: string;
+  colorTitleLoading?: string;
+  colorSpinner?: string;
 }
 
 export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   gate,
   buttonBgColor = '#5d5c61',
+  colorTitleLoading = '#236cd2',
+  colorSpinner = '#236cd2',
 }) => {
   const { error, needToConfirm, resetPasswordStep2, processing, email } = useGateObserver(
     gate,
@@ -334,7 +338,16 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
         )}
       </form>
 
-      {processing && <Popup title={t('loading')} fontSizeTitle="0.8em" isLoading={true} />}
+      {processing && (
+        <Popup
+          title={t('loading')}
+          fontSizeTitle="0.8em"
+          isLoading={true}
+          colorTitleLoading={colorTitleLoading}
+          colorSpinner={colorSpinner}
+        />
+      )}
+
       {error && (
         <Popup
           title={t('error')}
