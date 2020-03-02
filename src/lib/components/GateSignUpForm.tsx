@@ -19,6 +19,7 @@ interface IGateSignUpFormProps {
   buttonBgColor?: string;
   colorTitleLoading?: string;
   colorSpinner?: string;
+  hlColor?: string;
 }
 
 export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
@@ -26,6 +27,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   buttonBgColor = '#5d5c61',
   colorTitleLoading = '#236cd2',
   colorSpinner = '#236cd2',
+  hlColor = colors.blue,
 }) => {
   const { error, needToConfirm, resetPasswordStep2, processing, email } = useGateObserver(
     gate,
@@ -173,7 +175,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
               label={'Email'}
               value={values.email}
               onChange={e => setValue('email', e.target.value)}
-              hlColor={colors.blue}
+              hlColor={hlColor}
               error={!!vErrors.email}
             />
             <FormErrorField error={vErrors.email} />
@@ -188,7 +190,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
               label={t('confirmationCode')}
               value={values.code}
               onChange={e => setValue('code', e.target.value)}
-              hlColor={colors.blue}
+              hlColor={hlColor}
               error={!!vErrors.code}
             />
             <FormErrorField error={vErrors.code} />
@@ -216,7 +218,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
               password={!showPassword}
               suffix={passwordIcon}
               onChange={e => setValue('password', e.target.value)}
-              hlColor={colors.blue}
+              hlColor={hlColor}
               error={!!vErrors.password}
             />
             <FormErrorField error={vErrors.password} />
