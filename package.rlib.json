@@ -1,6 +1,6 @@
 {
   "name": "@cpmech/gate",
-  "version": "2.0.0",
+  "version": "3.6.0",
   "license": "MIT",
   "author": {
     "name": "Dorival Pedroso",
@@ -16,7 +16,7 @@
     "message": "echo && echo 'IGNORE THE NEXT ERROR MESSAGE (cannot prevent npm from running git)' && echo",
     "postpublish": "yarn fix:ver1 && yarn fix:ver2 && yarn git:all && yarn message"
   },
-  "repository": "cpmech/rcomps",
+  "repository": "cpmech/gate",
   "description": "My components for AWS Cognito projects",
   "keywords": [
     "React",
