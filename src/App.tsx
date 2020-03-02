@@ -15,7 +15,7 @@ import { typography } from './typoStyle';
 
 gateLocale.setLocale('pt');
 
-const isLocal = true;
+const isLocal = false;
 
 const gate = isLocal
   ? new LocalGateStore('@cpmech/gate', window.localStorage)
