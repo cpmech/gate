@@ -7,8 +7,7 @@ import { GateVSpaceLarge } from './GateVSpaceLarge';
 import { styles, colors, params } from './gateStyles';
 import { useGateObserver } from './useGateObserver';
 import { t } from '../locale';
-import { LocalGateStore, ISignUpValues, ISignUpErrors } from '../service';
-import { signUpValues2errors } from '../helpers';
+import { LocalGateStore, ISignUpValues, ISignUpErrors, signUpValues2errors } from '../service';
 
 const s = styles.signUpForm;
 
