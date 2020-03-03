@@ -110,7 +110,7 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
               value={values.email}
               onChange={e => setValue('email', e.target.value)}
               hlColor={colors.blue}
-              error={!!vErrors.email}
+              error={vErrors.email}
             />
             <FormErrorField error={vErrors.email} />
           </React.Fragment>
@@ -127,7 +127,7 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
               suffix={passwordIcon}
               onChange={e => setValue('password', e.target.value)}
               hlColor={colors.blue}
-              error={!!vErrors.password}
+              error={vErrors.password}
             />
             <FormErrorField error={vErrors.password} />
           </React.Fragment>

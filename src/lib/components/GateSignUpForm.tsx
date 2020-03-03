@@ -175,7 +175,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
               value={values.email}
               onChange={e => setValue('email', e.target.value)}
               hlColor={hlColor}
-              error={!!vErrors.email}
+              error={vErrors.email}
             />
             <FormErrorField error={vErrors.email} />
           </React.Fragment>
@@ -190,7 +190,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
               value={values.code}
               onChange={e => setValue('code', e.target.value)}
               hlColor={hlColor}
-              error={!!vErrors.code}
+              error={vErrors.code}
             />
             <FormErrorField error={vErrors.code} />
           </React.Fragment>
@@ -218,7 +218,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
               suffix={passwordIcon}
               onChange={e => setValue('password', e.target.value)}
               hlColor={hlColor}
-              error={!!vErrors.password}
+              error={vErrors.password}
             />
             <FormErrorField error={vErrors.password} />
           </React.Fragment>
