@@ -28,7 +28,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   colorSpinner = '#236cd2',
   hlColor = colors.blue,
 }) => {
-  const { error, needToConfirm, resetPasswordStep2, processing, email } = useGateObserver(
+  const { error, needToConfirm, resetPasswordStep2, processing } = useGateObserver(
     gate,
     '@cpmech/gate/GateSignUpForm',
   );
@@ -38,7 +38,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   const [resetPasswordStep1, setResetPasswordStep1] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [touchedButtons, setTouchedButtons] = useState(false);
-  const [values, setValues] = useState<ISignUpValues>({ email, password: '', code: '' });
+  const [values, setValues] = useState<ISignUpValues>({ email: '', password: '', code: '' });
   const [vErrors, setVerrors] = useState<ISignUpErrors>({ email: '', password: '', code: '' });
 
   const isConfirm = wantToConfirm || needToConfirm;
