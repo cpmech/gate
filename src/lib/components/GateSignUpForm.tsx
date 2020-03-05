@@ -173,7 +173,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
           <React.Fragment>
             <GateVSpace />
             <InputTypeA
-              label={'Email'}
+              label="Email"
               value={values.email}
               onChange={e => setValue('email', e.target.value)}
               hlColor={hlColor}
