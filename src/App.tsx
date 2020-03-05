@@ -15,7 +15,7 @@ import { typography } from './typoStyle';
 
 gateLocale.setLocale('pt');
 
-const isLocal = true;
+const isLocal = false;
 
 const storage: IStorage = {
   getItem: async (key: string) => window.localStorage.getItem(key),

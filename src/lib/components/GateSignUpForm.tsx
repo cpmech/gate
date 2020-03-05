@@ -137,16 +137,9 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
     }
   };
 
-  const passwordIcon = (
+  const renderPasswordIcon = (
     <div style={{ cursor: 'pointer' }} onClick={() => setShowPassword(!showPassword)}>
       {showPassword ? <IconEye size={18} /> : <IconEyeNo size={18} />}
-    </div>
-  );
-
-  const renderResetPasswordHeader = () => (
-    <div css={s.centered}>
-      <div>{t('resetPassword')}</div>
-      <div css={s.subheader}>{resetPasswordStep1 ? t('resetPassword1') : t('resetPassword2')}</div>
     </div>
   );
 
@@ -155,18 +148,24 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
       <GateFederatedButtons gate={gate} />
 
       <form css={s.container}>
-        {/* ----------------------- show header ------------------------ */}
-        <div css={s.centered}>
-          <span css={s.header}>
-            {isConfirm
-              ? t('confirmSignUp')
-              : isResetPassword
-              ? renderResetPasswordHeader()
-              : isSignIn
-              ? t('signIn')
-              : t('createAccount')}
-          </span>
-        </div>
+        {/* ----------------- header -- reset password ---------------- */}
+        {isResetPassword && (
+          <div css={s.centered}>
+            <div css={s.header}>{t('resetPassword')}</div>
+            <div css={s.subheader}>
+              {resetPasswordStep1 ? t('resetPassword1') : t('resetPassword2')}
+            </div>
+          </div>
+        )}
+
+        {/* --------------------- header -- normal -------------------- */}
+        {!isResetPassword && (
+          <div css={s.centered}>
+            <span css={s.header}>
+              {isConfirm ? t('confirmSignUp') : isSignIn ? t('signIn') : t('createAccount')}
+            </span>
+          </div>
+        )}
 
         {/* ----------------------- input email ------------------------ */}
         {!resetPasswordStep2 && (
@@ -217,7 +216,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
               label={resetPasswordStep2 ? t('newPassword') : t('password')}
               value={values.password}
               password={!showPassword}
-              suffix={passwordIcon}
+              suffix={renderPasswordIcon}
               onChange={e => setValue('password', e.target.value)}
               hlColor={hlColor}
               error={vErrors.password}
