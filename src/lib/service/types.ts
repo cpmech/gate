@@ -43,10 +43,9 @@ export interface IDelays {
 }
 
 export interface IStorage {
-  getItem(key: string): string | null;
-  setItem(key: string, value: string): void;
-  removeItem(key: string): void;
-  clear(): void;
+  getItem(key: string): Promise<string | null>;
+  setItem(key: string, value: string): Promise<void>;
+  removeItem(key: string): Promise<void>;
 }
 
 export const newBlankFlags = (): IGateFlags => ({

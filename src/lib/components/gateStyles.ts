@@ -73,8 +73,6 @@ export const styles = {
       font-size: 16px;
       color: white;
       background-color: #4267b2;
-      border-radius: 5px;
-      color: white;
       height: ${params.buttonHeight}px;
       text-align: center;
       width: 100%;
@@ -90,8 +88,6 @@ export const styles = {
       font-size: 16px;
       color: white;
       background-color: #aaaaaa;
-      border-radius: 5px;
-      color: white;
       height: ${params.buttonHeight}px;
       text-align: center;
       width: 100%;

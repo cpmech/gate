@@ -3,7 +3,7 @@ import { Router, Link } from '@reach/router';
 import { Helmet } from 'react-helmet';
 import { IconHouseThreeD } from '@cpmech/react-icons';
 import { TopMenu, Button, Popup } from 'rcomps';
-import { GateStore, gateLocale, t, LocalGateStore } from 'lib';
+import { GateStore, gateLocale, t, LocalGateStore, IStorage } from 'lib';
 import {
   useGateObserver,
   GateSignUpForm,
@@ -15,10 +15,16 @@ import { typography } from './typoStyle';
 
 gateLocale.setLocale('pt');
 
-const isLocal = false;
+const isLocal = true;
+
+const storage: IStorage = {
+  getItem: async (key: string) => window.localStorage.getItem(key),
+  setItem: async (key: string, value: string) => window.localStorage.setItem(key, value),
+  removeItem: async (key: string) => window.localStorage.removeItem(key),
+};
 
 const gate = isLocal
-  ? new LocalGateStore('@cpmech/gate', window.localStorage)
+  ? new LocalGateStore('@cpmech/gate', storage)
   : new GateStore(
       {
         userPoolId: 'us-east-1_dCZGZU74z',
