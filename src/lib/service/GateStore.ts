@@ -182,6 +182,7 @@ export class GateStore {
       if (error.name === 'AuthError') {
         return this.end(t('UnknownSignUpException'));
       }
+      console.error(error);
     }
   };
 
@@ -241,7 +242,7 @@ export class GateStore {
     const { data } = payload;
 
     // detect event
-    switch (capsule.payload.event) {
+    switch (payload.event) {
       case 'codeFlow':
         this.flags.codeFlow = true;
         break;
