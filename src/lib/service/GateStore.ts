@@ -117,14 +117,11 @@ export class GateStore {
       if (res === 'SUCCESS') {
         await Auth.signIn(email, password);
         // do not call this.end() because the listener will deal with it
-      } else {
-        console.error('[confirmSignUp]', res);
       }
     } catch (error) {
       if (error.message === 'User cannot be confirmed. Current status is CONFIRMED') {
         return this.end(t('errorAlreadyConfirmed'));
       }
-      console.error('[confirmSignUp]', error);
       return this.end(t('errorConfirm'));
     }
   };
@@ -140,14 +137,12 @@ export class GateStore {
       if (res === 'SUCCESS') {
         return this.end();
       } else {
-        console.error('[confirmSignUp]', res);
         return this.end(t('errorConfirm'));
       }
     } catch (error) {
       if (error.message === 'User cannot be confirmed. Current status is CONFIRMED') {
         return this.end(t('errorAlreadyConfirmed'));
       }
-      console.error('[confirmSignUp]', error);
       return this.end(t('errorConfirm'));
     }
   };
@@ -171,7 +166,6 @@ export class GateStore {
       if (error.code === 'UserNotFoundException') {
         return this.end(t('UserNotFoundException'));
       }
-      console.error('[resendCode]', error);
       return this.end(t('errorResend'));
     }
   };
@@ -199,7 +193,7 @@ export class GateStore {
     try {
       await Auth.forgotPassword(email);
     } catch (error) {
-      console.error('[resetPassword]', error);
+      // do not call this.end() because the listener will deal with it
     }
   };
 
@@ -211,7 +205,7 @@ export class GateStore {
     try {
       await Auth.forgotPasswordSubmit(email, code, password);
     } catch (error) {
-      console.error('[resetPassword]', error);
+      // do not call this.end() because the listener will deal with it
     }
   };
 
@@ -245,8 +239,6 @@ export class GateStore {
   private listener = async (capsule: HubCapsule) => {
     const { payload } = capsule;
     const { data } = payload;
-
-    // console.log('#### payload = ', payload);
 
     // detect event
     switch (capsule.payload.event) {
@@ -286,7 +278,6 @@ export class GateStore {
           case 'InvalidParameterException':
             return this.end(t('InvalidParameterException'));
           default:
-            console.error('signUp_failure: unknown error =', data.message);
             return this.end(t('UnknownSignUpException'));
         }
 
@@ -302,7 +293,6 @@ export class GateStore {
           case 'UserNotFoundException':
             return this.end(t('UserNotFoundException'));
           default:
-            console.error('signIn_failure: unknown error =', data.message);
             return this.end(t('UnknownSignInException'));
         }
 
@@ -321,7 +311,6 @@ export class GateStore {
           case 'LimitExceededException':
             return this.end(t('LimitExceededException'));
           default:
-            console.error('forgotPassword_failure: unknown error =', data.message);
             return this.end(t('UnknownForgotPasswordException'));
         }
 
@@ -332,7 +321,6 @@ export class GateStore {
           case 'LimitExceededException':
             return this.end(t('LimitExceededException'));
           default:
-            console.error('forgotPasswordSubmit_failure: unknown error =', data.message);
             return this.end(t('UnknownForgotPasswordException'));
         }
     }
@@ -373,7 +361,6 @@ export class GateStore {
     if (!ignoreError) {
       // user is signedIn but doesn't have access => sign him/her out
       if (amplifyUser.username && !hasAccess) {
-        console.error('[noGroup] unauthorized user');
         this.flags.error = t('errorNoGroup');
         try {
           await Auth.signOut(); // listener should receive event and call this.end()
