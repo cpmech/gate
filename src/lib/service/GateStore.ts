@@ -182,7 +182,6 @@ export class GateStore {
       if (error.name === 'AuthError') {
         return this.end(t('UnknownSignUpException'));
       }
-      console.error(error);
     }
   };
 
