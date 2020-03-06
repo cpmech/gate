@@ -7,6 +7,7 @@ export const pt = {
   google: 'Continuar com Google',
   noAccess: 'Não foi possível completar a requisição',
   signOut: 'Sair',
+  success: 'Sucesso',
 
   // local testing
   clearLocalStorage: 'Limpar armazenamento local',
@@ -29,6 +30,7 @@ export const pt = {
   resendCode: 'Enviar código novamente',
   wantToConfirm: 'Recebeu um email?',
   gotoConfirm: 'Entrar código',
+  doneResendCode: 'O código de confirmação foi enviado para seu email',
 
   // FederatedSignIn
   or: 'ou',
@@ -40,6 +42,7 @@ export const pt = {
   resetPassword2: 'Passo 2: alterar senha',
   submit: 'Enviar',
   sendCode: 'Enviar código',
+  doneResetPassword: 'A sua senha foi alterada com sucesso. Por favor proceder com o login.',
 
   // Greetings
   hello: 'Olá',

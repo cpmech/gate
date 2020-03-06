@@ -30,10 +30,14 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   colorSpinner = '#236cd2',
   hlColor = colors.blue,
 }) => {
-  const { error, needToConfirm, resetPasswordStep2, processing } = useGateObserver(
-    gate,
-    '@cpmech/gate/GateSignUpForm',
-  );
+  const {
+    error,
+    needToConfirm,
+    resetPasswordStep2,
+    processing,
+    doneResendCode,
+    doneResetPassword,
+  } = useGateObserver(gate, '@cpmech/gate/GateSignUpForm');
 
   const [isSignIn, setIsSignIn] = useState(false);
   const [wantToConfirm, setWantToConfirm] = useState(false);
@@ -356,6 +360,24 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
           onClose={() => gate.notify({ error: '' })}
           isError={true}
           message={error}
+          fontSizeTitle="0.8em"
+        />
+      )}
+
+      {doneResendCode && (
+        <Popup
+          title={t('success')}
+          onClose={() => gate.notify({ doneResendCode: false })}
+          message={t('doneResendCode')}
+          fontSizeTitle="0.8em"
+        />
+      )}
+
+      {doneResetPassword && (
+        <Popup
+          title={t('success')}
+          onClose={() => gate.notify({ doneResetPassword: false })}
+          message={t('doneResetPassword')}
           fontSizeTitle="0.8em"
         />
       )}

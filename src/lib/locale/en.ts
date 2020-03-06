@@ -7,6 +7,7 @@ export const en = {
   google: 'Continue with Google',
   noAccess: 'Cannot complete request',
   signOut: 'Sign Out',
+  success: 'Success',
 
   // local testing
   clearLocalStorage: 'Clear local storage',
@@ -29,6 +30,7 @@ export const en = {
   resendCode: 'Resend Code',
   wantToConfirm: 'Got an email?',
   gotoConfirm: 'Enter code',
+  doneResendCode: 'The confirmation code was sent to your email',
 
   // FederatedSignIn
   or: 'or',
@@ -40,6 +42,7 @@ export const en = {
   resetPassword2: 'Step 2: change password',
   submit: 'Submit',
   sendCode: 'Send Code',
+  doneResetPassword: 'Your password has been successfully changed. Please proceed with the login.',
 
   // Greetings
   hello: 'Hello',

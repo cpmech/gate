@@ -153,8 +153,10 @@ export class GateStore {
     }
     this.begin();
     try {
+      this.flags.doneResendCode = false;
       await Auth.resendSignUp(email);
       await sleep(delays.resendCode);
+      this.flags.doneResendCode = true;
       return this.end();
     } catch (error) {
       if (error.message === 'User is already confirmed.') {
@@ -203,6 +205,7 @@ export class GateStore {
     }
     this.begin();
     try {
+      this.flags.doneResetPassword = false;
       await Auth.forgotPasswordSubmit(email, code, password);
     } catch (error) {
       // do not call this.end() because the listener will deal with it
@@ -239,6 +242,8 @@ export class GateStore {
   private listener = async (capsule: HubCapsule) => {
     const { payload } = capsule;
     const { data } = payload;
+
+    console.log('###', payload);
 
     // detect event
     switch (payload.event) {
@@ -302,6 +307,7 @@ export class GateStore {
 
       case 'forgotPasswordSubmit':
         this.clearData();
+        this.flags.doneResetPassword = true;
         return this.end();
 
       case 'forgotPassword_failure':
