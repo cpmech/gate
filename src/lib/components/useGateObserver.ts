@@ -1,41 +1,20 @@
 import { useState, useEffect } from 'react';
-import { GateStore, LocalGateStore } from '../service';
+import { GateStore, LocalGateStore, newBlankFlags, newBlankUser } from '../service';
 
 export const useGateObserver = (gate: GateStore | LocalGateStore, observerName: string) => {
-  const [state, setState] = useState({
-    // flags
-    error: '',
-    needToConfirm: false,
-    resetPasswordStep2: false,
-    ready: false,
-    processing: false,
-    doneSendCode: false,
-    doneResetPassword: false,
-    // user
-    hasAccess: false,
-    email: '',
-    username: '',
-    idToken: '',
-  });
+  const [state, setState] = useState({ ...newBlankFlags(), ...newBlankUser() });
 
   useEffect(() => {
+    // must set the state right here and right now because the Gate
+    // may have been already configured and we missed the notification
+    setState({ ...gate.flags, ...gate.user });
+
+    // now we can listen to further notifications, if any
     return gate.subscribe(() => {
-      setState({
-        // flags
-        error: gate.flags.error,
-        needToConfirm: gate.flags.needToConfirm,
-        resetPasswordStep2: gate.flags.resetPasswordStep2,
-        ready: gate.flags.ready,
-        processing: gate.flags.processing,
-        doneSendCode: gate.flags.doneSendCode,
-        doneResetPassword: gate.flags.doneResetPassword,
-        // user
-        hasAccess: gate.user.hasAccess,
-        email: gate.user.email,
-        username: gate.user.username,
-        idToken: gate.user.idToken,
-      });
+      setState({ ...gate.flags, ...gate.user });
     }, observerName);
+
+    //
   }, [gate, observerName]);
 
   return state;
