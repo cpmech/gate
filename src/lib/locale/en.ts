@@ -30,7 +30,7 @@ export const en = {
   resendCode: 'Resend Code',
   wantToConfirm: 'Got an email?',
   gotoConfirm: 'Enter code',
-  doneResendCode: 'The confirmation code was sent to your email',
+  doneSendCode: 'A confirmation code has been sent to your email',
 
   // FederatedSignIn
   or: 'or',

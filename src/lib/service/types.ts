@@ -27,7 +27,7 @@ export interface IGateFlags {
   codeFlow: boolean; // oAuth is processing
   ready: boolean; // amplify has been configured or some error has been caught
   processing: boolean; // something is happening
-  doneResendCode: boolean; // success in the end of resendCode
+  doneSendCode: boolean; // signUp process initiated with sending a code
   doneResetPassword: boolean; // cussess in the end of forgotPasswordStep2
 }
 
@@ -57,7 +57,7 @@ export const newBlankFlags = (): IGateFlags => ({
   codeFlow: false,
   ready: false,
   processing: false,
-  doneResendCode: false,
+  doneSendCode: false,
   doneResetPassword: false,
 });
 

@@ -98,6 +98,7 @@ export class GateStore {
     }
     this.begin();
     try {
+      this.flags.doneSendCode = false;
       await Auth.signUp({ username: email, password });
     } catch (error) {
       // only capturing AuthError here because the listener will capture others
@@ -153,10 +154,10 @@ export class GateStore {
     }
     this.begin();
     try {
-      this.flags.doneResendCode = false;
+      this.flags.doneSendCode = false;
       await Auth.resendSignUp(email);
       await sleep(delays.resendCode);
-      this.flags.doneResendCode = true;
+      this.flags.doneSendCode = true;
       return this.end();
     } catch (error) {
       if (error.message === 'User is already confirmed.') {
@@ -243,7 +244,7 @@ export class GateStore {
     const { payload } = capsule;
     const { data } = payload;
 
-    console.log('###', payload);
+    // console.log('###', payload);
 
     // detect event
     switch (payload.event) {
@@ -267,6 +268,7 @@ export class GateStore {
 
       case 'signUp':
         this.flags.needToConfirm = true;
+        this.flags.doneSendCode = true;
         return this.end();
 
       case 'signOut':

@@ -35,7 +35,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
     needToConfirm,
     resetPasswordStep2,
     processing,
-    doneResendCode,
+    doneSendCode,
     doneResetPassword,
   } = useGateObserver(gate, '@cpmech/gate/GateSignUpForm');
 
@@ -364,11 +364,11 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
         />
       )}
 
-      {doneResendCode && (
+      {doneSendCode && (
         <Popup
           title={t('success')}
-          onClose={() => gate.notify({ doneResendCode: false })}
-          message={t('doneResendCode')}
+          onClose={() => gate.notify({ doneSendCode: false })}
+          message={t('doneSendCode')}
           fontSizeTitle="0.8em"
         />
       )}
