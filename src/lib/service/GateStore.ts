@@ -194,6 +194,7 @@ export class GateStore {
     }
     this.begin();
     try {
+      this.flags.doneSendCode = false;
       await Auth.forgotPassword(email);
     } catch (error) {
       // do not call this.end() because the listener will deal with it
@@ -305,6 +306,7 @@ export class GateStore {
 
       case 'forgotPassword':
         this.flags.resetPasswordStep2 = true;
+        this.flags.doneSendCode = true;
         return this.end();
 
       case 'forgotPasswordSubmit':
