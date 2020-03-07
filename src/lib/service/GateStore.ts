@@ -247,7 +247,7 @@ export class GateStore {
     const { payload } = capsule;
     const { data } = payload;
 
-    console.log('###', payload);
+    // console.log('###', payload);
 
     // detect event
     switch (payload.event) {
