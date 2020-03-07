@@ -217,13 +217,13 @@ export class GateStore {
   facebookSignIn = async () => {
     this.begin();
     await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Facebook });
-    this.end();
+    setTimeout(() => this.end(), delays.fedKeepLoading);
   };
 
   googleSignIn = async () => {
     this.begin();
     await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google });
-    this.end();
+    setTimeout(() => this.end(), delays.fedKeepLoading);
   };
 
   signOut = async () => {
