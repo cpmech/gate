@@ -217,11 +217,13 @@ export class GateStore {
   facebookSignIn = async () => {
     this.begin();
     await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Facebook });
+    this.end();
   };
 
   googleSignIn = async () => {
     this.begin();
     await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google });
+    this.end();
   };
 
   signOut = async () => {
@@ -245,7 +247,7 @@ export class GateStore {
     const { payload } = capsule;
     const { data } = payload;
 
-    // console.log('###', payload);
+    console.log('###', payload);
 
     // detect event
     switch (payload.event) {
