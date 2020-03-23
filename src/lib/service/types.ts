@@ -12,8 +12,8 @@ export interface IAmplifyConfig {
   oauthDomain: string;
   redirectSignIn: string;
   redirectSignOut: string;
-  awsRegion: string;
   urlOpener?: (url: string, redirectUrl: string) => Promise<any>;
+  awsRegion: string;
 }
 
 // IObservers defines the object to hold all observers by name
