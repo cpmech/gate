@@ -30,7 +30,7 @@ export class GateStore {
 
   // onChange notifies all observers that the state has been changed
   private onChange = () =>
-    Object.keys(this.observers).forEach(name => this.observers[name] && this.observers[name]());
+    Object.keys(this.observers).forEach((name) => this.observers[name] && this.observers[name]());
 
   // begin processing
   private begin = () => {
@@ -62,6 +62,7 @@ export class GateStore {
             redirectSignOut: amplifyConfig.redirectSignOut,
             responseType: 'code',
             scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
+            urlOpener: amplifyConfig.urlOpener,
           },
         },
       });
@@ -363,7 +364,7 @@ export class GateStore {
     if (this.mustBeInGroups) {
       if (payload && payload['cognito:groups']) {
         const groups = payload['cognito:groups'] as string[];
-        hasAccess = this.mustBeInGroups.some(g => groups.includes(g));
+        hasAccess = this.mustBeInGroups.some((g) => groups.includes(g));
       }
     } else {
       hasAccess = true;
