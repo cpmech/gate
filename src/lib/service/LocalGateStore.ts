@@ -27,7 +27,7 @@ export class LocalGateStore {
 
   // onChange notifies all observers that the state has been changed
   private onChange = () =>
-    Object.keys(this.observers).forEach(name => this.observers[name] && this.observers[name]());
+    Object.keys(this.observers).forEach((name) => this.observers[name] && this.observers[name]());
 
   // begin processing
   private begin = () => {

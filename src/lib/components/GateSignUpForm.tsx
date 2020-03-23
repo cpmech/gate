@@ -178,7 +178,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
             <InputTypeA
               label="Email"
               value={values.email}
-              onChange={e => setValue('email', e.target.value)}
+              onChange={(e) => setValue('email', e.target.value)}
               hlColor={hlColor}
               error={vErrors.email}
             />
@@ -193,7 +193,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
             <InputTypeA
               label={t('confirmationCode')}
               value={values.code}
-              onChange={e => setValue('code', e.target.value)}
+              onChange={(e) => setValue('code', e.target.value)}
               hlColor={hlColor}
               error={vErrors.code}
             />
@@ -221,7 +221,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
               value={values.password}
               password={!showPassword}
               suffix={renderPasswordIcon}
-              onChange={e => setValue('password', e.target.value)}
+              onChange={(e) => setValue('password', e.target.value)}
               hlColor={hlColor}
               error={vErrors.password}
             />

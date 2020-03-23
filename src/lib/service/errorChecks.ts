@@ -12,7 +12,7 @@ export const signUpValues2errors = (
     code: values.code ? '' : t('errorCode'),
   };
   if (ignore) {
-    objKeys(ignore).forEach(key => (errors[key] = ''));
+    objKeys(ignore).forEach((key) => (errors[key] = ''));
   }
   const hasError = !!errors.email || !!errors.password || !!errors.code;
   return {
