@@ -2,8 +2,8 @@ import React from 'react';
 import { Router, Link } from '@reach/router';
 import { Helmet } from 'react-helmet';
 import { IconHouseThreeD } from '@cpmech/react-icons';
-import { TopMenu, Button, Popup } from 'rcomps';
-import { GateStore, gateLocale, t, LocalGateStore, IStorage } from 'lib';
+import { TopMenu, Button, Popup } from './rcomps';
+import { GateStore, gateLocale, t, LocalGateStore, IStorage } from './lib';
 import {
   useGateObserver,
   GateSignUpForm,

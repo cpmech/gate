@@ -1,5 +1,5 @@
 import { objKeys, isEmailValid, isPasswordValid } from '@cpmech/util';
-import { ISignUpValues, ISignUpErrors } from '../service';
+import { ISignUpValues, ISignUpErrors } from '.';
 import { t } from '../locale';
 
 export const signUpValues2errors = (

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 /** @jsx jsx */ import { jsx } from '@emotion/core';
 import { IconEye, IconEyeNo } from '@cpmech/react-icons';
-import { InputTypeA, Link, Button, FormErrorField, Popup } from 'rcomps';
+import { InputTypeA, Link, Button, FormErrorField, Popup } from '../../rcomps';
 import { GateVSpace } from './GateVSpace';
 import { GateVSpaceLarge } from './GateVSpaceLarge';
 import { styles, colors, params } from './gateStyles';

@@ -13,8 +13,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react",
-    "baseUrl": "src"
+    "jsx": "react"
   },
   "include": ["src"],
   "exclude": ["**/__integ__", "**/__tests__", "**/*.test.ts", "**/*.spec.ts", "**/*.integ.ts"]

@@ -3,7 +3,7 @@ import React from 'react';
 import { I18n } from 'aws-amplify';
 import { Authenticator, Greetings } from 'aws-amplify-react';
 import { UsernameAttributes } from 'aws-amplify-react/lib-esm/Auth/common/types';
-import { Popup } from 'rcomps';
+import { Popup } from '../../rcomps';
 import { theme3 as theme } from './gateThemes';
 import { useGateObserver } from './useGateObserver';
 import { GateStore } from '../service';

@@ -1,7 +1,7 @@
 import React from 'react';
 /** @jsx jsx */ import { jsx } from '@emotion/core';
 import { IconFacebookCircle, IconGoogle } from '@cpmech/react-icons';
-import { Pair } from 'rcomps';
+import { Pair } from '../../rcomps';
 import { styles } from './gateStyles';
 import { GateStore } from '../service';
 import { t } from '../locale';
