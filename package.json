@@ -19,7 +19,8 @@
     "postinstall": "[ -f ./scripts/gate_npm_postinstall.bash ] && bash ./scripts/gate_npm_postinstall.bash || true",
     "build": "rm -rf dist && mkdir dist && rsync -av src/lib/* dist --exclude __stories__ --exclude __tests__",
     "dist": "yarn build && cp package.rlib.json dist/package.json && cd dist/ && yarn publish --access=public || true && cd .. && rm -rf dist/",
-    "cp:to:app": "yarn build && rsync -av dist/* ../epop-v2/epop-app/src/gate/"
+    "cp:to:app": "yarn build && rsync -av dist/* ../epop-v2/epop-app/src/gate/",
+    "cp:to:mob": "yarn build && rsync -av dist/* ../epop-v2/epop-mobile/src/gate/"
   },
   "dependencies": {
     "@cpmech/basic": "^4.12.0",
