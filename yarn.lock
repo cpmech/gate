@@ -2201,27 +2201,27 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@cpmech/basic@^4.12.0":
-  version "4.12.0"
-  resolved "https://registry.yarnpkg.com/@cpmech/basic/-/basic-4.12.0.tgz#878285e8bc80259e6a3d7964a66948ceae02390b"
-  integrity sha512-YBeFFr03Vsk/iu4iU9LaiJy2VKgOpRD8kEzFhn623kOI3IH6iCfgSp5g/lk9EzeYYb5oILF3VELrhdPePgkrcQ==
+"@cpmech/basic@^4.13.0":
+  version "4.13.0"
+  resolved "https://registry.yarnpkg.com/@cpmech/basic/-/basic-4.13.0.tgz#4c65bfebefb87e2ba37ceef072fb8ef23858cbe1"
+  integrity sha512-ZbaEdA0V4y1dLVSFEbPaoL1tZFKvnHLihBkdCuI5z3PSBn7YwTKr5vy+lS5b9J18Kz5iTNNtMnm7e1xd6gE/yw==
 
-"@cpmech/rcomps@^3.13.0":
-  version "3.13.0"
-  resolved "https://registry.yarnpkg.com/@cpmech/rcomps/-/rcomps-3.13.0.tgz#fc9d8dcda7bb46803af62a01480c26d83369b1a8"
-  integrity sha512-jsOhP1O/HMzaRrptxZbKG0bhKPFu8u7lejosviqYTdrSPMw21PihPpe5qA9TajBwlwEY4MEOd6mXfjGp8PxHuw==
+"@cpmech/rcomps@^3.14.0":
+  version "3.14.0"
+  resolved "https://registry.yarnpkg.com/@cpmech/rcomps/-/rcomps-3.14.0.tgz#6da819075d1b9b0e09b80f3f6fbbff22188c3545"
+  integrity sha512-xr9CyQkRgvDcWG0rfidLGh+2Q4rJx3Z4oXbA7Q1z4ZBWFohzNWKt7P3bOQir3/nkBBMdwZ0y/TKqyUzU4koMWQ==
 
 "@cpmech/react-icons@^2.17.0":
   version "2.17.0"
   resolved "https://registry.yarnpkg.com/@cpmech/react-icons/-/react-icons-2.17.0.tgz#4782ce35eed45172ab43e97451c6fc3c9b47d8bd"
   integrity sha512-WqUXYvLY3+72xvF3KlUXWr9OHzKy6QA/Zdoo8ki/qLUL9cpgI0gmIL0q1mBzrDrRigpAQb3AykHancm/e+6TYw==
 
-"@cpmech/util@^1.14.0":
-  version "1.14.0"
-  resolved "https://registry.yarnpkg.com/@cpmech/util/-/util-1.14.0.tgz#486291bae992475db40bd584b72ae5fd59fbe888"
-  integrity sha512-o1bXUpMTVwXdesTQKJyv7jWMxhHIAFdi+5yO/Es++GI/9JfmyoYrC3DniSDL4/5/0r3PqUD8eca8FYuzOB4mhQ==
+"@cpmech/util@^1.15.0":
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/@cpmech/util/-/util-1.15.0.tgz#57ab655369fe104ac27789b40b82069da1429060"
+  integrity sha512-V5/DzOoJvdmuu3HWXui9AlgcXfjwXk+IqKlSBPh63/1070O8ojhT3KdMEvda8YsQfZPsxySaykujOm8hA7Zndw==
   dependencies:
-    "@cpmech/basic" "^4.12.0"
+    "@cpmech/basic" "^4.13.0"
 
 "@csstools/convert-colors@^1.4.0":
   version "1.4.0"
