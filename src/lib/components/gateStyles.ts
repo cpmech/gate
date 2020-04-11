@@ -73,10 +73,6 @@ export const styles = {
       width: ${params.inputWidth}px;
     `,
 
-    logo: css`
-      margin-bottom: 30px;
-    `,
-
     rowCen: css`
       display: flex;
       flex-direction: row;

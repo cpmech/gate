@@ -95,6 +95,13 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
 
   return (
     <div css={s.root}>
+      {logo && (
+        <div>
+          <GateVSpaceLarge />
+          {logo}
+        </div>
+      )}
+
       <form css={s.container}>
         {/* ----------------------- show header ------------------------ */}
         <div css={s.centered}>

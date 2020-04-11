@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 /** @jsx jsx */ import { jsx } from '@emotion/core';
 import { IconFacebookCircle, IconGoogle } from '@cpmech/react-icons';
 import { Pair } from '../../rcomps';
+import { GateVSpaceLarge } from './GateVSpaceLarge';
 import { styles } from './gateStyles';
 import { GateStore } from '../service';
 import { t } from '../locale';
@@ -15,7 +16,12 @@ interface IGateFederatedButtonsProps {
 
 export const GateFederatedButtons: React.FC<IGateFederatedButtonsProps> = ({ gate, logo }) => (
   <div css={logo ? s.rootWithLogo : s.root}>
-    {logo && <div css={s.logo}>{logo}</div>}
+    {logo && (
+      <div>
+        {logo}
+        <GateVSpaceLarge />
+      </div>
+    )}
 
     <button css={s.facebook} onClick={async () => await gate.facebookSignIn()}>
       <Pair
