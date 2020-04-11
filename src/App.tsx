@@ -12,6 +12,7 @@ import {
 } from './lib/components';
 import { Dashboard, Home, NotFound } from './pages';
 import { typography } from './typoStyle';
+import { Logo } from './Logo';
 
 gateLocale.setLocale('pt');
 
@@ -58,10 +59,15 @@ export const App: React.FC = () => {
 
   const renderSignUpForm = () => {
     if (isLocal) {
-      return <LocalGateSignUpForm gate={gate as LocalGateStore} />;
+      return <LocalGateSignUpForm gate={gate as LocalGateStore} logo={<Logo />} />;
     }
     return (
-      <GateSignUpForm gate={gate as GateStore} colorSpinner="#ea8a2e" colorTitleLoading="#ea8a2e" />
+      <GateSignUpForm
+        gate={gate as GateStore}
+        colorSpinner="#ea8a2e"
+        colorTitleLoading="#ea8a2e"
+        logo={<Logo />}
+      />
     );
   };
 

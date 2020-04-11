@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ReactNode } from 'react';
 /** @jsx jsx */ import { jsx } from '@emotion/core';
 import { IconEye, IconEyeNo } from '@cpmech/react-icons';
 import { InputTypeA, Link, Button, FormErrorField, Popup } from '../../rcomps';
@@ -20,6 +20,7 @@ interface IGateSignUpFormProps {
   colorTitleLoading?: string;
   colorSpinner?: string;
   hlColor?: string;
+  logo?: ReactNode;
 }
 
 export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
@@ -29,6 +30,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   colorTitleLoading = '#236cd2',
   colorSpinner = '#236cd2',
   hlColor = colors.blue,
+  logo,
 }) => {
   const {
     error,
@@ -149,7 +151,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
 
   return (
     <div css={s.root}>
-      <GateFederatedButtons gate={gate} />
+      <GateFederatedButtons gate={gate} logo={logo} />
 
       <form css={s.container}>
         {/* ----------------- header -- reset password ---------------- */}

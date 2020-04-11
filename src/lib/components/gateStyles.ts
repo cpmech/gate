@@ -42,6 +42,17 @@ export const params = {
 
 export const styles = {
   federatedButtons: {
+    rootWithLogo: css`
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding-left: ${params.hpadding.normal}px;
+      padding-right: ${params.hpadding.normal}px;
+      margin-top: 30px;
+      width: ${params.inputWidth}px;
+    `,
+
     root: css`
       display: flex;
       flex-direction: column;
@@ -62,6 +73,10 @@ export const styles = {
       width: ${params.inputWidth}px;
     `,
 
+    logo: css`
+      margin-bottom: 30px;
+    `,
+
     rowCen: css`
       display: flex;
       flex-direction: row;
@@ -70,7 +85,8 @@ export const styles = {
     `,
 
     facebook: css`
-      font-size: 16px;
+      font-size: 14px;
+      font-weight: bold;
       color: white;
       background-color: #4267b2;
       height: ${params.buttonHeight}px;
@@ -85,7 +101,8 @@ export const styles = {
     `,
 
     google: css`
-      font-size: 16px;
+      font-size: 14px;
+      font-weight: bold;
       color: white;
       background-color: #aaaaaa;
       height: ${params.buttonHeight}px;

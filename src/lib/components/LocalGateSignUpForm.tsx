@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ReactNode } from 'react';
 /** @jsx jsx */ import { jsx } from '@emotion/core';
 import { IconEye, IconEyeNo } from '@cpmech/react-icons';
 import { InputTypeA, Link, Button, FormErrorField, Popup } from '../../rcomps';
@@ -15,12 +15,14 @@ interface ILocalGateSignUpFormProps {
   gate: LocalGateStore;
   buttonBgColor?: string;
   ignoreErrors?: boolean;
+  logo?: ReactNode;
 }
 
 export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
   gate,
   buttonBgColor = '#5d5c61',
   ignoreErrors,
+  logo,
 }) => {
   const { error, processing, email } = useGateObserver(gate, '@cpmech/gate/LocalGateSignUpForm');
   const [isSignIn, setIsSignIn] = useState(false);
