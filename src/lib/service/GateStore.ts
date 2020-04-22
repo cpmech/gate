@@ -224,7 +224,7 @@ export class GateStore {
         this.flags.waitFacebook = false;
         this.end();
       } else {
-        this.flags.waitFacebook;
+        this.flags.waitFacebook = false;
       }
     }, timeoutMS || delays.fedKeepLoading);
   };
