@@ -220,8 +220,12 @@ export class GateStore {
     this.begin();
     await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Facebook });
     setTimeout(() => {
-      this.flags.waitFacebook = false;
-      this.end();
+      if (this.flags.processing && this.flags.waitFacebook) {
+        this.flags.waitFacebook = false;
+        this.end();
+      } else {
+        this.flags.waitFacebook;
+      }
     }, timeoutMS || delays.fedKeepLoading);
   };
 
@@ -230,8 +234,12 @@ export class GateStore {
     this.begin();
     await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google });
     setTimeout(() => {
-      this.flags.waitGoogle = false;
-      this.end();
+      if (this.flags.processing && this.flags.waitGoogle) {
+        this.flags.waitGoogle = false;
+        this.end();
+      } else {
+        this.flags.waitGoogle = false;
+      }
     }, timeoutMS || delays.fedKeepLoading);
   };
 
@@ -270,6 +278,15 @@ export class GateStore {
         }
         await this.setCurrentUser(true); // ignore error, because we may not have an authenticated user
         return this.end();
+
+      case 'cognitoHostedUI':
+        if (this.flags.processing && (this.flags.waitFacebook || this.flags.waitGoogle)) {
+          this.flags.waitFacebook = false;
+          this.flags.waitGoogle = false;
+          return this.end();
+        } else {
+          return;
+        }
 
       case 'signIn':
         await this.setCurrentUser();
