@@ -5,7 +5,7 @@ import { InputTypeA, Link, Button, FormErrorField, Popup } from '../../rcomps';
 import { GateVSpace } from './GateVSpace';
 import { GateVSpaceLarge } from './GateVSpaceLarge';
 import { styles, colors, params } from './gateStyles';
-import { useGateObserver } from './useGateObserver';
+import { withUseGateObserver } from './withUseGateObserver';
 import { t } from '../locale';
 import { LocalGateStore, ISignUpValues, ISignUpErrors, signUpValues2errors } from '../service';
 
@@ -24,7 +24,8 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
   ignoreErrors,
   logo,
 }) => {
-  const { error, processing, email } = useGateObserver(gate, '@cpmech/gate/LocalGateSignUpForm');
+  const useObserver = withUseGateObserver(gate);
+  const { error, processing, email } = useObserver('@cpmech/gate/LocalGateSignUpForm');
   const [isSignIn, setIsSignIn] = useState(false);
   const [isClearStorage, setIsClearStorage] = useState(false);
   const [showPassword, setShowPassword] = useState(false);

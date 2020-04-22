@@ -215,16 +215,24 @@ export class GateStore {
     }
   };
 
-  facebookSignIn = async () => {
+  facebookSignIn = async (timeoutMS?: number) => {
+    this.flags.waitFacebook = true;
     this.begin();
     await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Facebook });
-    setTimeout(() => this.end(), delays.fedKeepLoading);
+    setTimeout(() => {
+      this.flags.waitFacebook = false;
+      this.end();
+    }, timeoutMS || delays.fedKeepLoading);
   };
 
-  googleSignIn = async () => {
+  googleSignIn = async (timeoutMS?: number) => {
+    this.flags.waitGoogle = true;
     this.begin();
     await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google });
-    setTimeout(() => this.end(), delays.fedKeepLoading);
+    setTimeout(() => {
+      this.flags.waitGoogle = false;
+      this.end();
+    }, timeoutMS || delays.fedKeepLoading);
   };
 
   signOut = async () => {

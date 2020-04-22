@@ -7,7 +7,7 @@ import { GateVSpace } from './GateVSpace';
 import { GateVSpaceLarge } from './GateVSpaceLarge';
 import { GateVSpaceSmall } from './GateVSpaceSmall';
 import { styles, colors, params } from './gateStyles';
-import { useGateObserver } from './useGateObserver';
+import { withUseGateObserver } from './withUseGateObserver';
 import { t } from '../locale';
 import { GateStore, ISignUpValues, ISignUpErrors, signUpValues2errors } from '../service';
 
@@ -32,6 +32,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   hlColor = colors.blue,
   logo,
 }) => {
+  const useObserver = withUseGateObserver(gate);
   const {
     error,
     needToConfirm,
@@ -39,7 +40,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
     processing,
     doneSendCode,
     doneResetPassword,
-  } = useGateObserver(gate, '@cpmech/gate/GateSignUpForm');
+  } = useObserver('@cpmech/gate/GateSignUpForm');
 
   const [isSignIn, setIsSignIn] = useState(false);
   const [wantToConfirm, setWantToConfirm] = useState(false);

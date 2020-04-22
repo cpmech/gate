@@ -29,7 +29,9 @@ export interface IGateFlags {
   ready: boolean; // amplify has been configured or some error has been caught
   processing: boolean; // something is happening
   doneSendCode: boolean; // signUp process initiated with sending a code
-  doneResetPassword: boolean; // cussess in the end of forgotPasswordStep2
+  doneResetPassword: boolean; // end of forgotPasswordStep2
+  waitFacebook: boolean; // waiting for Facebook login
+  waitGoogle: boolean; // waiting for Google login
 }
 
 export interface IGateUser {
@@ -61,6 +63,8 @@ export const newBlankFlags = (): IGateFlags => ({
   processing: false,
   doneSendCode: false,
   doneResetPassword: false,
+  waitFacebook: false,
+  waitGoogle: false,
 });
 
 export const newBlankUser = (): IGateUser => ({

@@ -5,7 +5,7 @@ import { IconHouseThreeD } from '@cpmech/react-icons';
 import { TopMenu, Button, Popup } from './rcomps';
 import { GateStore, gateLocale, t, LocalGateStore, IStorage } from './lib';
 import {
-  useGateObserver,
+  withUseGateObserver,
   GateSignUpForm,
   LocalGateSignUpForm,
   // GateSignUpFormAws,
@@ -55,7 +55,8 @@ const entries = [
 const renderTopMenu = () => <TopMenu entries={entries} />;
 
 export const App: React.FC = () => {
-  const { ready, hasAccess } = useGateObserver(gate, '@cpmech/gate/App');
+  const useObserver = withUseGateObserver(gate);
+  const { ready, hasAccess } = useObserver('@cpmech/gate/App');
 
   const renderSignUpForm = () => {
     if (isLocal) {
