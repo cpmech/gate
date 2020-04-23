@@ -79,6 +79,7 @@ export const en = {
   errorEmail: 'Please, enter a valid email',
   errorPassword:
     'The password must have a minimum of: 8 characters, 1 smallcase, 1 uppercase, 1 number, and 1 symbol',
+  errorPasswordSimple: 'The password must have a minimum of 8 characters',
   errorCode: 'The code must not be blank',
   errorNoAuthUser: 'Internal error: there is no authenticated user',
   errorSomethingHappened: 'Something went wrong',

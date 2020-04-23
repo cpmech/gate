@@ -24,6 +24,7 @@ interface IGateSignUpFormProps {
   logo?: ReactNode;
   mayHideEmailLogin?: boolean;
   initShownEmailLogin?: boolean;
+  simplePassword?: boolean;
 }
 
 export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
@@ -36,6 +37,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   logo,
   mayHideEmailLogin,
   initShownEmailLogin,
+  simplePassword,
 }) => {
   const useObserver = withUseGateObserver(gate);
   const {
@@ -66,7 +68,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   };
 
   const validate = (ignore?: { [key in keyof Partial<ISignUpErrors>]: boolean }): boolean => {
-    const res = signUpValues2errors(values, ignore);
+    const res = signUpValues2errors(values, ignore, simplePassword);
     setVerrors(res.errors);
     return !res.hasError;
   };

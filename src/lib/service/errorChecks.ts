@@ -5,10 +5,17 @@ import { t } from '../locale';
 export const signUpValues2errors = (
   values: ISignUpValues,
   ignore?: { [key in keyof Partial<ISignUpErrors>]: boolean },
+  simplePassword = false,
 ) => {
   const errors: ISignUpErrors = {
     email: isEmailValid(values.email) ? '' : t('errorEmail'),
-    password: isPasswordValid(values.password) ? '' : t('errorPassword'),
+    password: simplePassword
+      ? values.password.length >= 8
+        ? ''
+        : t('errorPasswordSimple')
+      : isPasswordValid(values.password)
+      ? ''
+      : t('errorPassword'),
     code: values.code ? '' : t('errorCode'),
   };
   if (ignore) {
