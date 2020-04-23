@@ -8,6 +8,7 @@ export const en = {
   noAccess: 'Cannot complete request',
   signOut: 'Sign Out',
   success: 'Success',
+  more: 'More',
 
   // local testing
   clearLocalStorage: 'Clear local storage',

@@ -1,7 +1,7 @@
 import React, { useState, ReactNode } from 'react';
 /** @jsx jsx */ import { jsx } from '@emotion/core';
-import { IconEye, IconEyeNo } from '@cpmech/react-icons';
-import { InputTypeA, Link, Button, FormErrorField, Popup } from '../../rcomps';
+import { IconEye, IconEyeNo, IconAngleDown, IconAngleUp } from '@cpmech/react-icons';
+import { InputTypeA, Link, Button, FormErrorField, Popup, sizes } from '../../rcomps';
 import { GateFederatedButtons } from './GateFederatedButtons';
 import { GateVSpace } from './GateVSpace';
 import { GateVSpaceLarge } from './GateVSpaceLarge';
@@ -10,6 +10,7 @@ import { styles, colors, params } from './gateStyles';
 import { withUseGateObserver } from './withUseGateObserver';
 import { t } from '../locale';
 import { GateStore, ISignUpValues, ISignUpErrors, signUpValues2errors } from '../service';
+import { GateOrLine } from './GateOrLine';
 
 const s = styles.signUpForm;
 
@@ -21,6 +22,8 @@ interface IGateSignUpFormProps {
   colorSpinner?: string;
   hlColor?: string;
   logo?: ReactNode;
+  mayHideEmailLogin?: boolean;
+  initShownEmailLogin?: boolean;
 }
 
 export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
@@ -31,6 +34,8 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   colorSpinner = '#236cd2',
   hlColor = colors.blue,
   logo,
+  mayHideEmailLogin,
+  initShownEmailLogin,
 }) => {
   const useObserver = withUseGateObserver(gate);
   const {
@@ -42,6 +47,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
     doneResetPassword,
   } = useObserver('@cpmech/gate/GateSignUpForm');
 
+  const [showEmailLogin, setShowEmailLogin] = useState(initShownEmailLogin);
   const [isSignIn, setIsSignIn] = useState(false);
   const [wantToConfirm, setWantToConfirm] = useState(false);
   const [resetPasswordStep1, setResetPasswordStep1] = useState(false);
@@ -144,9 +150,213 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
     }
   };
 
-  const renderPasswordIcon = (
+  const renderPasswordIcon = () => (
     <div style={{ cursor: 'pointer' }} onClick={() => setShowPassword(!showPassword)}>
       {showPassword ? <IconEye size={18} /> : <IconEyeNo size={18} />}
+    </div>
+  );
+
+  const renderShowHide = () => (
+    <div css={styles.showHide.root} onClick={() => setShowEmailLogin(!showEmailLogin)}>
+      <div css={styles.showHide.text}>{t('more').toUpperCase()}</div>
+      <div css={styles.showHide.icon}>
+        {showEmailLogin ? <IconAngleUp size={18} /> : <IconAngleDown size={18} />}
+      </div>
+    </div>
+  );
+
+  const renderEmailLogin = () => (
+    <div css={s.container}>
+      {/* ----------------- header -- reset password ---------------- */}
+      {isResetPassword && (
+        <div css={s.centered}>
+          <div css={s.header}>{t('resetPassword')}</div>
+          <div css={s.subheader}>
+            {resetPasswordStep1 ? t('resetPassword1') : t('resetPassword2')}
+          </div>
+        </div>
+      )}
+
+      {/* --------------------- header -- normal -------------------- */}
+      {!isResetPassword && (
+        <div css={s.centered}>
+          <span css={s.header}>
+            {isConfirm ? t('confirmSignUp') : isSignIn ? t('signIn') : t('createAccount')}
+          </span>
+        </div>
+      )}
+
+      {/* ----------------------- input email ------------------------ */}
+      {!resetPasswordStep2 && (
+        <React.Fragment>
+          <GateVSpace />
+          <InputTypeA
+            label="Email"
+            value={values.email}
+            onChange={(e) => setValue('email', e.target.value)}
+            hlColor={hlColor}
+            error={vErrors.email}
+          />
+          <FormErrorField error={vErrors.email} />
+        </React.Fragment>
+      )}
+
+      {/* ----------------------- input code ------------------------- */}
+      {(isConfirm || resetPasswordStep2) && (
+        <React.Fragment>
+          <GateVSpace />
+          <InputTypeA
+            label={t('confirmationCode')}
+            value={values.code}
+            onChange={(e) => setValue('code', e.target.value)}
+            hlColor={hlColor}
+            error={vErrors.code}
+          />
+          <FormErrorField error={vErrors.code} />
+        </React.Fragment>
+      )}
+
+      {/* ----- footnote: resend code -- (resetPasswordStep2) -------- */}
+      {resetPasswordStep2 && (
+        <React.Fragment>
+          <GateVSpaceSmall />
+          <div css={s.smallFootnote}>
+            <span>{t('lostCode')}&nbsp;</span>
+            <Link onClick={async () => await resendCodeInResetPwdView()}>{t('resendCode')}</Link>
+          </div>
+        </React.Fragment>
+      )}
+
+      {/* --------------------- input password ----------------------- */}
+      {!(isConfirm || resetPasswordStep1) && (
+        <React.Fragment>
+          <GateVSpace />
+          <InputTypeA
+            label={resetPasswordStep2 ? t('newPassword') : t('password')}
+            value={values.password}
+            password={!showPassword}
+            suffix={renderPasswordIcon()}
+            onChange={(e) => setValue('password', e.target.value)}
+            hlColor={hlColor}
+            error={vErrors.password}
+          />
+          <FormErrorField error={vErrors.password} />
+        </React.Fragment>
+      )}
+
+      {/* ----------------- footnote: reset password ----------------- */}
+      {isSignIn && !atNextPage && (
+        <React.Fragment>
+          <GateVSpace />
+          <div css={s.smallFootnote}>
+            <span>{t('forgotPassword')}&nbsp;</span>
+            <Link
+              onClick={() => {
+                clearErrors();
+                setResetPasswordStep1(true);
+              }}
+            >
+              {t('resetPassword')}
+            </Link>
+          </div>
+        </React.Fragment>
+      )}
+
+      {/* ----------------- footnote: resend code -------------------- */}
+      {isConfirm && (
+        <React.Fragment>
+          <GateVSpace />
+          <div css={s.smallFootnote}>
+            <span>{t('lostCode')}&nbsp;</span>
+            <Link onClick={async () => await resendCodeInConfirmView()}>{t('resendCode')}</Link>
+          </div>
+        </React.Fragment>
+      )}
+
+      {resetPasswordStep1 && <GateVSpaceLarge />}
+
+      {/* ----------------------- submit button ---------------------- */}
+      <GateVSpaceLarge />
+      <div css={s.row}>
+        {/* ....... footnote: go back ....... */}
+        {atNextPage && (
+          <React.Fragment>
+            <GateVSpace />
+            <div css={s.footnote}>
+              <Link
+                onClick={() => {
+                  clearErrors();
+                  wantToConfirm && setWantToConfirm(false);
+                  needToConfirm && gate.notify({ needToConfirm: false });
+                  resetPasswordStep1 && setResetPasswordStep1(false);
+                  resetPasswordStep2 && gate.notify({ resetPasswordStep2: false });
+                }}
+              >
+                {t('back')}
+              </Link>
+            </div>
+          </React.Fragment>
+        )}
+
+        {/* ....... footnote: signIn or signUp ....... */}
+        {!atNextPage && (
+          <React.Fragment>
+            <GateVSpace />
+            <div css={s.footnote}>
+              <span>{isSignIn ? t('noAccount') : t('haveAnAccount')}&nbsp;</span>
+              <Link
+                onClick={() => {
+                  clearErrors();
+                  setIsSignIn(!isSignIn);
+                }}
+              >
+                {isSignIn ? t('signUp') : t('gotoSignIn')}
+              </Link>
+            </div>
+          </React.Fragment>
+        )}
+
+        {/* ....... submit ....... */}
+        <GateVSpace />
+        <Button
+          onClick={async () => await submit()}
+          borderRadius={300}
+          color="#ffffff"
+          fontWeight="bold"
+          fontSize={14}
+          width="175px"
+          height={params.buttonHeight}
+          backgroundColor={buttonBgColor}
+        >
+          {isConfirm
+            ? t('confirm').toUpperCase()
+            : resetPasswordStep1
+            ? t('sendCode').toUpperCase()
+            : resetPasswordStep2
+            ? t('submit').toUpperCase()
+            : isSignIn
+            ? t('enter').toUpperCase()
+            : t('signUp').toUpperCase()}
+        </Button>
+      </div>
+
+      {/* ----------------- footnote: want to confirm ---------------- */}
+      {!atNextPage && (
+        <React.Fragment>
+          <GateVSpaceLarge />
+          <div css={s.smallFootnote}>
+            <span>{t('wantToConfirm')}&nbsp;</span>
+            <Link
+              onClick={() => {
+                clearErrors();
+                setWantToConfirm(true);
+              }}
+            >
+              {t('gotoConfirm')}
+            </Link>
+          </div>
+        </React.Fragment>
+      )}
     </div>
   );
 
@@ -154,198 +364,22 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
     <div css={s.root}>
       <GateFederatedButtons gate={gate} logo={logo} />
 
-      <form css={s.container}>
-        {/* ----------------- header -- reset password ---------------- */}
-        {isResetPassword && (
-          <div css={s.centered}>
-            <div css={s.header}>{t('resetPassword')}</div>
-            <div css={s.subheader}>
-              {resetPasswordStep1 ? t('resetPassword1') : t('resetPassword2')}
-            </div>
-          </div>
-        )}
-
-        {/* --------------------- header -- normal -------------------- */}
-        {!isResetPassword && (
-          <div css={s.centered}>
-            <span css={s.header}>
-              {isConfirm ? t('confirmSignUp') : isSignIn ? t('signIn') : t('createAccount')}
-            </span>
-          </div>
-        )}
-
-        {/* ----------------------- input email ------------------------ */}
-        {!resetPasswordStep2 && (
-          <React.Fragment>
-            <GateVSpace />
-            <InputTypeA
-              label="Email"
-              value={values.email}
-              onChange={(e) => setValue('email', e.target.value)}
-              hlColor={hlColor}
-              error={vErrors.email}
-            />
-            <FormErrorField error={vErrors.email} />
-          </React.Fragment>
-        )}
-
-        {/* ----------------------- input code ------------------------- */}
-        {(isConfirm || resetPasswordStep2) && (
-          <React.Fragment>
-            <GateVSpace />
-            <InputTypeA
-              label={t('confirmationCode')}
-              value={values.code}
-              onChange={(e) => setValue('code', e.target.value)}
-              hlColor={hlColor}
-              error={vErrors.code}
-            />
-            <FormErrorField error={vErrors.code} />
-          </React.Fragment>
-        )}
-
-        {/* ----- footnote: resend code -- (resetPasswordStep2) -------- */}
-        {resetPasswordStep2 && (
-          <React.Fragment>
-            <GateVSpaceSmall />
-            <div css={s.smallFootnote}>
-              <span>{t('lostCode')}&nbsp;</span>
-              <Link onClick={async () => await resendCodeInResetPwdView()}>{t('resendCode')}</Link>
-            </div>
-          </React.Fragment>
-        )}
-
-        {/* --------------------- input password ----------------------- */}
-        {!(isConfirm || resetPasswordStep1) && (
-          <React.Fragment>
-            <GateVSpace />
-            <InputTypeA
-              label={resetPasswordStep2 ? t('newPassword') : t('password')}
-              value={values.password}
-              password={!showPassword}
-              suffix={renderPasswordIcon}
-              onChange={(e) => setValue('password', e.target.value)}
-              hlColor={hlColor}
-              error={vErrors.password}
-            />
-            <FormErrorField error={vErrors.password} />
-          </React.Fragment>
-        )}
-
-        {/* ----------------- footnote: reset password ----------------- */}
-        {isSignIn && !atNextPage && (
-          <React.Fragment>
-            <GateVSpace />
-            <div css={s.smallFootnote}>
-              <span>{t('forgotPassword')}&nbsp;</span>
-              <Link
-                onClick={() => {
-                  clearErrors();
-                  setResetPasswordStep1(true);
-                }}
-              >
-                {t('resetPassword')}
-              </Link>
-            </div>
-          </React.Fragment>
-        )}
-
-        {/* ----------------- footnote: resend code -------------------- */}
-        {isConfirm && (
-          <React.Fragment>
-            <GateVSpace />
-            <div css={s.smallFootnote}>
-              <span>{t('lostCode')}&nbsp;</span>
-              <Link onClick={async () => await resendCodeInConfirmView()}>{t('resendCode')}</Link>
-            </div>
-          </React.Fragment>
-        )}
-
-        {resetPasswordStep1 && <GateVSpaceLarge />}
-
-        {/* ----------------------- submit button ---------------------- */}
-        <GateVSpaceLarge />
-        <div css={s.row}>
-          {/* ....... footnote: go back ....... */}
-          {atNextPage && (
+      {mayHideEmailLogin ? (
+        <React.Fragment>
+          {renderShowHide()}
+          {showEmailLogin && (
             <React.Fragment>
-              <GateVSpace />
-              <div css={s.footnote}>
-                <Link
-                  onClick={() => {
-                    clearErrors();
-                    wantToConfirm && setWantToConfirm(false);
-                    needToConfirm && gate.notify({ needToConfirm: false });
-                    resetPasswordStep1 && setResetPasswordStep1(false);
-                    resetPasswordStep2 && gate.notify({ resetPasswordStep2: false });
-                  }}
-                >
-                  {t('back')}
-                </Link>
-              </div>
+              <GateOrLine />
+              {renderEmailLogin()}
             </React.Fragment>
           )}
-
-          {/* ....... footnote: signIn or signUp ....... */}
-          {!atNextPage && (
-            <React.Fragment>
-              <GateVSpace />
-              <div css={s.footnote}>
-                <span>{isSignIn ? t('noAccount') : t('haveAnAccount')}&nbsp;</span>
-                <Link
-                  onClick={() => {
-                    clearErrors();
-                    setIsSignIn(!isSignIn);
-                  }}
-                >
-                  {isSignIn ? t('signUp') : t('gotoSignIn')}
-                </Link>
-              </div>
-            </React.Fragment>
-          )}
-
-          {/* ....... submit ....... */}
-          <GateVSpace />
-          <Button
-            onClick={async () => await submit()}
-            borderRadius={300}
-            color="#ffffff"
-            fontWeight="bold"
-            fontSize={14}
-            width="175px"
-            height={params.buttonHeight}
-            backgroundColor={buttonBgColor}
-          >
-            {isConfirm
-              ? t('confirm').toUpperCase()
-              : resetPasswordStep1
-              ? t('sendCode').toUpperCase()
-              : resetPasswordStep2
-              ? t('submit').toUpperCase()
-              : isSignIn
-              ? t('enter').toUpperCase()
-              : t('signUp').toUpperCase()}
-          </Button>
-        </div>
-
-        {/* ----------------- footnote: want to confirm ---------------- */}
-        {!atNextPage && (
-          <React.Fragment>
-            <GateVSpaceLarge />
-            <div css={s.smallFootnote}>
-              <span>{t('wantToConfirm')}&nbsp;</span>
-              <Link
-                onClick={() => {
-                  clearErrors();
-                  setWantToConfirm(true);
-                }}
-              >
-                {t('gotoConfirm')}
-              </Link>
-            </div>
-          </React.Fragment>
-        )}
-      </form>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <GateOrLine />
+          {renderEmailLogin()}
+        </React.Fragment>
+      )}
 
       {processing && (
         <Popup

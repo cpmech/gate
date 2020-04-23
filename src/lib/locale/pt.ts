@@ -8,6 +8,7 @@ export const pt = {
   noAccess: 'Não foi possível completar a requisição',
   signOut: 'Sair',
   success: 'Sucesso',
+  more: 'Mais',
 
   // local testing
   clearLocalStorage: 'Limpar armazenamento local',

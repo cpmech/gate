@@ -33,9 +33,5 @@ export const GateFederatedButtons: React.FC<IGateFederatedButtonsProps> = ({ gat
     <button css={s.google} onClick={async () => await gate.googleSignIn()}>
       <Pair left={<IconGoogle />} right={<div css={s.rowCen}>{t('google').toUpperCase()}</div>} />
     </button>
-
-    <div css={s.orLineContainer}>
-      <span css={s.orLine}>{t('or')}</span>
-    </div>
   </div>
 );

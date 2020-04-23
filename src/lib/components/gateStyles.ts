@@ -34,8 +34,6 @@ export const params = {
     large: 40,
     huge: 60,
   },
-  orLineVertSpace: 40,
-  orLineVertSpaceLarge: 80,
   inputWidth: 300,
   buttonHeight: 45,
 };
@@ -112,25 +110,6 @@ export const styles = {
       border-radius: 200px;
       margin-top: 30px;
     `,
-
-    orLineContainer: css`
-      width: 275px;
-      text-align: center;
-      border-bottom: 1px solid #bbb;
-      line-height: 0.1em;
-      color: #828282;
-      margin-top: ${params.orLineVertSpace}px;
-      @media only screen and (min-width: 600px) {
-        margin-top: ${params.orLineVertSpaceLarge}px;
-      }
-    `,
-
-    orLine: css`
-      background: #fff;
-      padding: 0 25px;
-      font-size: 14px;
-      font-weight: 500;
-    `,
   },
 
   signUpForm: {
@@ -144,10 +123,6 @@ export const styles = {
     `,
 
     container: css`
-      margin-top: ${params.orLineVertSpace}px;
-      @media only screen and (min-width: 600px) {
-        margin-top: ${params.orLineVertSpaceLarge}px;
-      }
       width: ${params.inputWidth}px;
     `,
 
@@ -195,6 +170,37 @@ export const styles = {
 
     submitButton: css`
       width: 180px;
+    `,
+  },
+
+  showHide: {
+    root: css`
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      margin-top: 40px;
+      border: 1px solid #a3a3a3;
+      border-radius: 300px;
+      line-height: 0;
+      padding: 6px 12px;
+      cursor: pointer;
+      :hover {
+        border-color: #6c6c6c;
+      }
+    `,
+
+    text: css`
+      margin-right: 5px;
+      font-size: 0.75em;
+      color: #737373;
+      :hover {
+        color: #6c6c6c;
+      }
+    `,
+
+    icon: css`
+      color: #737373;
     `,
   },
 };
