@@ -1,7 +1,7 @@
 import React, { useState, ReactNode } from 'react';
 /** @jsx jsx */ import { jsx } from '@emotion/core';
 import { IconEye, IconEyeNo, IconAngleDown, IconAngleUp } from '@cpmech/react-icons';
-import { InputTypeA, Link, Button, FormErrorField, Popup, sizes } from '../../rcomps';
+import { InputTypeA, Link, Button, FormErrorField, Popup } from '../../rcomps';
 import { GateFederatedButtons } from './GateFederatedButtons';
 import { GateVSpace } from './GateVSpace';
 import { GateVSpaceLarge } from './GateVSpaceLarge';
