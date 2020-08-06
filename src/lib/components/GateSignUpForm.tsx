@@ -17,6 +17,7 @@ const s = styles.signUpForm;
 interface IGateSignUpFormProps {
   gate: GateStore;
   iniEmail?: string;
+  iniPassword?: string;
   buttonBgColor?: string;
   colorTitleLoading?: string;
   colorSpinner?: string;
@@ -25,11 +26,13 @@ interface IGateSignUpFormProps {
   mayHideEmailLogin?: boolean;
   initShownEmailLogin?: boolean;
   simplePassword?: boolean;
+  showSignUpFirst?: boolean;
 }
 
 export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   gate,
   iniEmail = '',
+  iniPassword = '',
   buttonBgColor = '#5d5c61',
   colorTitleLoading = '#236cd2',
   colorSpinner = '#236cd2',
@@ -38,6 +41,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   mayHideEmailLogin,
   initShownEmailLogin,
   simplePassword,
+  showSignUpFirst = false,
 }) => {
   const useObserver = withUseGateObserver(gate);
   const {
@@ -50,12 +54,16 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   } = useObserver('@cpmech/gate/GateSignUpForm');
 
   const [showEmailLogin, setShowEmailLogin] = useState(initShownEmailLogin);
-  const [isSignIn, setIsSignIn] = useState(false);
+  const [isSignIn, setIsSignIn] = useState(!showSignUpFirst);
   const [wantToConfirm, setWantToConfirm] = useState(false);
   const [resetPasswordStep1, setResetPasswordStep1] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [touchedButtons, setTouchedButtons] = useState(false);
-  const [values, setValues] = useState<ISignUpValues>({ email: iniEmail, password: '', code: '' });
+  const [values, setValues] = useState<ISignUpValues>({
+    email: iniEmail,
+    password: iniPassword,
+    code: '',
+  });
   const [vErrors, setVerrors] = useState<ISignUpErrors>({ email: '', password: '', code: '' });
 
   const isConfirm = wantToConfirm || needToConfirm;
@@ -191,7 +199,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
       {/* ----------------------- input email ------------------------ */}
       {!resetPasswordStep2 && (
         <React.Fragment>
-          <GateVSpace />
+          <GateVSpaceSmall />
           <InputTypeA
             label="Email"
             value={values.email}
@@ -232,7 +240,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
       {/* --------------------- input password ----------------------- */}
       {!(isConfirm || resetPasswordStep1) && (
         <React.Fragment>
-          <GateVSpace />
+          <GateVSpaceSmall />
           <InputTypeA
             label={resetPasswordStep2 ? t('newPassword') : t('password')}
             value={values.password}
@@ -249,7 +257,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
       {/* ----------------- footnote: reset password ----------------- */}
       {isSignIn && !atNextPage && (
         <React.Fragment>
-          <GateVSpace />
+          <GateVSpaceSmall />
           <div css={s.smallFootnote}>
             <span>{t('forgotPassword')}&nbsp;</span>
             <Link
@@ -345,7 +353,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
       {/* ----------------- footnote: want to confirm ---------------- */}
       {!atNextPage && (
         <React.Fragment>
-          <GateVSpaceLarge />
+          <GateVSpace />
           <div css={s.smallFootnote}>
             <span>{t('wantToConfirm')}&nbsp;</span>
             <Link

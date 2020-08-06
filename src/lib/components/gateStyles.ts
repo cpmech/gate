@@ -47,7 +47,7 @@ export const styles = {
       align-items: center;
       padding-left: ${params.hpadding.normal}px;
       padding-right: ${params.hpadding.normal}px;
-      margin-top: 30px;
+      margin-top: 18px;
       width: ${params.inputWidth}px;
     `,
 
@@ -108,7 +108,7 @@ export const styles = {
         background-color: #7f7f7f;
       }
       border-radius: 200px;
-      margin-top: 30px;
+      margin-top: 12px;
     `,
   },
 
