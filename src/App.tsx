@@ -68,7 +68,7 @@ export const App: React.FC = () => {
         colorSpinner="#ea8a2e"
         colorTitleLoading="#ea8a2e"
         logo={<Logo />}
-        mayHideEmailLogin={true}
+        mayHideEmailLogin={false}
         initShownEmailLogin={false}
       />
     );

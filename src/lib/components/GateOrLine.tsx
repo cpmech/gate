@@ -7,7 +7,7 @@ interface IProps {
   vertSpaceLarge?: number;
 }
 
-export const GateOrLine: React.FC<IProps> = ({ vertSpace = 40, vertSpaceLarge = 80 }) => {
+export const GateOrLine: React.FC<IProps> = ({ vertSpace = 40, vertSpaceLarge = 40 }) => {
   const styles = {
     root: css`
       width: 275px;
