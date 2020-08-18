@@ -110,6 +110,23 @@ export const styles = {
       border-radius: 200px;
       margin-top: 12px;
     `,
+
+    apple: css`
+      font-size: 14px;
+      font-weight: bold;
+      color: white;
+      background-color: #000;
+      height: ${params.buttonHeight}px;
+      text-align: center;
+      width: 100%;
+      border: 0;
+      cursor: pointer;
+      &:hover {
+        background-color: #2d2d2d;
+      }
+      border-radius: 200px;
+      margin-top: 12px;
+    `,
   },
 
   signUpForm: {

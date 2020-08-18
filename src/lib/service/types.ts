@@ -32,6 +32,7 @@ export interface IGateFlags {
   doneResetPassword: boolean; // end of forgotPasswordStep2
   waitFacebook: boolean; // waiting for Facebook login
   waitGoogle: boolean; // waiting for Google login
+  waitApple: boolean; // waiting for Google login
 }
 
 export interface IGateUser {
@@ -65,6 +66,7 @@ export const newBlankFlags = (): IGateFlags => ({
   doneResetPassword: false,
   waitFacebook: false,
   waitGoogle: false,
+  waitApple: false,
 });
 
 export const newBlankUser = (): IGateUser => ({

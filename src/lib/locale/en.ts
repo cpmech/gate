@@ -5,6 +5,7 @@ export const en = {
   enterPassword: 'Enter your password',
   facebook: 'Continue with Facebook',
   google: 'Continue with Google',
+  apple: 'Continue with Apple',
   noAccess: 'Cannot complete request',
   signOut: 'Sign Out',
   success: 'Success',
