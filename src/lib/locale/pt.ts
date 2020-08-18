@@ -5,6 +5,7 @@ export const pt = {
   enterPassword: 'Entre com sua senha',
   facebook: 'Login via Facebook',
   google: 'Login via Google',
+  apple: 'Login via Apple',
   noAccess: 'Não foi possível completar a requisição',
   signOut: 'Sair',
   success: 'Sucesso',

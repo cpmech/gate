@@ -243,6 +243,20 @@ export class GateStore {
     }, timeoutMS || delays.fedKeepLoading);
   };
 
+  appleSignIn = async (timeoutMS?: number) => {
+    this.flags.waitApple = true;
+    this.begin();
+    await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Apple });
+    setTimeout(() => {
+      if (this.flags.processing && this.flags.waitApple) {
+        this.flags.waitApple = false;
+        this.end();
+      } else {
+        this.flags.waitApple = false;
+      }
+    }, timeoutMS || delays.fedKeepLoading);
+  };
+
   signOut = async () => {
     this.begin();
     try {
