@@ -1,7 +1,13 @@
 {
-  "name": "gate",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@cpmech/gate",
+  "version": "4.1.0",
+  "licence": "MIT",
+  "author": {
+    "name": "Dorival Pedroso",
+    "email": "dorival.pedroso@gmail.com",
+    "url": "https://github.com/cpmech"
+  },
+  "repository": "cpmech/gate",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -10,7 +16,8 @@
     "tsc": "tsc",
     "eslint": "eslint",
     "lint": "eslint --ignore-path .eslintignore . --ext ts --ext tsx --quiet --fix",
-    "postinstall": "bash ./zscripts/npm_postinstall.bash"
+    "postinstall": "bash ./zscripts/npm_postinstall.bash",
+    "dist": "bash ./zscripts/npm_dist.bash"
   },
   "eslintConfig": {
     "extends": [

@@ -1,0 +1,18 @@
+{
+  "name": "@cpmech/gate",
+  "version": "4.1.0",
+  "license": "MIT",
+  "author": {
+    "name": "Dorival Pedroso",
+    "email": "dorival.pedroso@gmail.com",
+    "url": "https://github.com/cpmech"
+  },
+  "repository": "cpmech/gate",
+  "description": "TypeScript Components for AWS Cognito",
+  "keywords": [
+    "React",
+    "Components",
+    "Cognito",
+    "Typescript"
+  ]
+}
