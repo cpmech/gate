@@ -132,6 +132,10 @@ export const styles = {
   },
 
   signUpForm: {
+    link: css`
+      text-decoration: underline;
+    `,
+
     root: css`
       display: flex;
       flex-direction: column;

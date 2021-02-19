@@ -14,6 +14,9 @@ const s = styles.signUpForm;
 
 interface ILocalGateSignUpFormProps {
   gate: LocalGateStore;
+  iniEmail?: string;
+  iniPassword?: string;
+  buttonWidth?: string;
   buttonBgColor?: string;
   ignoreErrors?: boolean;
   logo?: ReactNode;
@@ -21,17 +24,24 @@ interface ILocalGateSignUpFormProps {
 
 export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
   gate,
+  iniEmail = '',
+  iniPassword = '',
+  buttonWidth = '220px',
   buttonBgColor = '#5d5c61',
   ignoreErrors,
   logo,
 }) => {
   const useObserver = withUseGateObserver(gate);
-  const { error, processing, email } = useObserver('@cpmech/gate/LocalGateSignUpForm');
+  const { error, processing } = useObserver('@cpmech/gate/LocalGateSignUpForm');
   const [isSignIn, setIsSignIn] = useState(false);
   const [isClearStorage, setIsClearStorage] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [touchedButtons, setTouchedButtons] = useState(false);
-  const [values, setValues] = useState<ISignUpValues>({ email, password: '', code: '' });
+  const [values, setValues] = useState<ISignUpValues>({
+    email: iniEmail,
+    password: iniPassword,
+    code: '',
+  });
   const [vErrors, setVerrors] = useState<ISignUpErrors>({ email: '', password: '', code: '' });
 
   const clearErrors = () => {
@@ -170,14 +180,16 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
               <GateVSpace />
               <div css={s.footnote}>
                 <span>{isSignIn ? t('noAccount') : t('haveAnAccount')}&nbsp;</span>
-                <RcLinkOrDiv
-                  onClick={() => {
-                    clearErrors();
-                    setIsSignIn(!isSignIn);
-                  }}
-                >
-                  {isSignIn ? t('signUp') : t('gotoSignIn')}
-                </RcLinkOrDiv>
+                <div css={s.link}>
+                  <RcLinkOrDiv
+                    onClick={() => {
+                      clearErrors();
+                      setIsSignIn(!isSignIn);
+                    }}
+                  >
+                    {isSignIn ? t('signUp') : t('gotoSignIn')}
+                  </RcLinkOrDiv>
+                </div>
               </div>
             </Fragment>
           )}
@@ -189,7 +201,7 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
             color="#ffffff"
             fontWeight="bold"
             fontSize="14px"
-            width="175px"
+            width={buttonWidth}
             height={params.buttonHeight}
             borderRadius={params.buttonRadius}
             backgroundColor={buttonBgColor}

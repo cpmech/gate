@@ -3,6 +3,7 @@ import { IconEarth } from '@cpmech/iricons/IconEarth';
 import { css } from '@emotion/react';
 import { GateSignUpForm, GateStore, LocalGateSignUpForm, LocalGateStore } from '../lib';
 import { gate, isLocal } from '../service';
+import { styles } from '../styles';
 
 export const SignInPage: React.FC = () => {
   const signInForm = isLocal ? (
@@ -10,8 +11,8 @@ export const SignInPage: React.FC = () => {
   ) : (
     <GateSignUpForm
       gate={gate as GateStore}
-      colorSpinner="#ea8a2e"
-      colorTitleLoading="#ea8a2e"
+      colorSpinner={styles.colors.grey()}
+      colorTitleLoading={styles.colors.grey()}
       logo={<IconEarth size="100px" />}
       mayHideEmailLogin={false}
       initShownEmailLogin={false}

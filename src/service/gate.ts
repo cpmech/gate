@@ -9,7 +9,7 @@ const storage: IStorage = {
   removeItem: async (key: string) => window.localStorage.removeItem(key),
 };
 
-export const isLocal = false;
+export const isLocal = true;
 
 export const gate = isLocal
   ? new LocalGateStore('@cpmech/gate', storage)

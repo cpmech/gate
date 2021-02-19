@@ -21,6 +21,7 @@ interface IGateSignUpFormProps {
   gate: GateStore;
   iniEmail?: string;
   iniPassword?: string;
+  buttonWidth?: string;
   buttonBgColor?: string;
   colorTitleLoading?: string;
   colorSpinner?: string;
@@ -36,6 +37,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   gate,
   iniEmail = '',
   iniPassword = '',
+  buttonWidth = '220px',
   buttonBgColor = '#5d5c61',
   colorTitleLoading = '#236cd2',
   colorSpinner = '#236cd2',
@@ -321,14 +323,16 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
             <GateVSpace />
             <div css={s.footnote}>
               <span>{isSignIn ? t('noAccount') : t('haveAnAccount')}&nbsp;</span>
-              <RcLinkOrDiv
-                onClick={() => {
-                  clearErrors();
-                  setIsSignIn(!isSignIn);
-                }}
-              >
-                {isSignIn ? t('signUp') : t('gotoSignIn')}
-              </RcLinkOrDiv>
+              <div css={s.link}>
+                <RcLinkOrDiv
+                  onClick={() => {
+                    clearErrors();
+                    setIsSignIn(!isSignIn);
+                  }}
+                >
+                  {isSignIn ? t('signUp') : t('gotoSignIn')}
+                </RcLinkOrDiv>
+              </div>
             </div>
           </Fragment>
         )}
@@ -340,7 +344,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
           color="#ffffff"
           fontWeight="bold"
           fontSize="14px"
-          width="175px"
+          width={buttonWidth}
           height={params.buttonHeight}
           borderRadius={params.buttonRadius}
           backgroundColor={buttonBgColor}
