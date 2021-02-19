@@ -1,0 +1,76 @@
+{
+  "name": "gate",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "jest --verbose",
+    "tw": "jest --watch --verbose",
+    "tsc": "tsc",
+    "eslint": "eslint",
+    "lint": "eslint --ignore-path .eslintignore . --ext ts --ext tsx --quiet --fix",
+    "postinstall": "bash ./zscripts/npm_postinstall.bash"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "peerDependencies": {
+    "@cpmech/basic": "^4.25.0",
+    "@cpmech/iricons": "^0.4.0",
+    "@cpmech/js2ts": "^2.23.0",
+    "@cpmech/rcomps": "^5.1.0",
+    "@cpmech/util": "^1.28.0",
+    "@emotion/react": "^11.1.5",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-responsive": "^8.2.0",
+    "react-scripts": "4.0.2",
+    "web-vitals": "^1.1.0"
+  },
+  "devDependencies": {
+    "@cpmech/basic": "^4.25.0",
+    "@cpmech/iricons": "^0.4.0",
+    "@cpmech/js2ts": "^2.23.0",
+    "@cpmech/rcomps": "^5.1.0",
+    "@cpmech/simple-state": "^2.0.0",
+    "@cpmech/util": "^1.28.0",
+    "@emotion/react": "^11.1.5",
+    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/react": "^11.2.5",
+    "@testing-library/user-event": "^12.7.1",
+    "@types/jest": "^26.0.20",
+    "@types/node": "^14.14.29",
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.1",
+    "@types/react-responsive": "^8.0.2",
+    "async-mutex": "^0.3.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "jest": "26.6.0",
+    "prettier": "^2.2.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-responsive": "^8.2.0",
+    "react-scripts": "4.0.2",
+    "ts-jest": "^26.5.1",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.5",
+    "web-vitals": "^1.1.0"
+  }
+}
