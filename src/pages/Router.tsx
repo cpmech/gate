@@ -35,7 +35,7 @@ export const Router: React.FC = () => {
 
   if (hash === '#signin') {
     if (!gateStatus.ready) {
-      return null;
+      return <LoadingPage />;
     }
     if (gateStatus.hasAccess) {
       return <HomePage />;
@@ -53,7 +53,7 @@ export const Router: React.FC = () => {
   }
 
   // waiting federation login
-  if (gateStatus.waitApple || gateStatus.waitFacebook || gateStatus.waitGoogle) {
+  if (hash === '#_=_' || gateStatus.waitApple || gateStatus.waitFacebook || gateStatus.waitGoogle) {
     return <LoadingPage />;
   }
 
