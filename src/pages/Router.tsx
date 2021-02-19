@@ -2,6 +2,7 @@ import { AboutPage } from './AboutPage';
 import { HomePage } from './HomePage';
 import { LegalPpPage } from './LegalPpPage';
 import { LegalTsPage } from './LegalTsPage';
+import { LoadingPage } from './LoadingPage';
 import { NotFoundPage } from './NotFoundPage';
 import { SignInPage } from './SignInPage';
 import { TopicsPage } from './TopicsPage';
@@ -49,6 +50,11 @@ export const Router: React.FC = () => {
     } else {
       return <SignInPage />;
     }
+  }
+
+  // waiting federation login
+  if (gateStatus.waitApple || gateStatus.waitFacebook || gateStatus.waitGoogle) {
+    return <LoadingPage />;
   }
 
   // not found
