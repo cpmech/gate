@@ -3,14 +3,17 @@ import { css } from '@emotion/react';
 import { useMediaQuery } from 'react-responsive';
 import { RcButton, RcLinkOrDiv, RcMenuEntry, RcMenuHoriz } from '../rcomps';
 import { styles } from '../styles';
-import { store } from '../service';
-import { gate } from '../gate';
+import { gate, store } from '../service';
+import { withUseGateObserver } from '../lib';
+
+const useGateObserver = withUseGateObserver(gate);
 
 export interface HeaderProps {
   withMenuButton?: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({ withMenuButton = true }) => {
+  const gateStatus = useGateObserver('Header');
   const isTiny = useMediaQuery({ maxWidth: 480 });
 
   const menuEntries: RcMenuEntry[] = [];
@@ -41,9 +44,29 @@ export const Header: React.FC<HeaderProps> = ({ withMenuButton = true }) => {
     });
   }
 
-  menuEntries.push({
-    comp: <RcButton onClick={() => gate.signOut()}>SIGN OUT</RcButton>,
-  });
+  if (gateStatus.hasAccess) {
+    menuEntries.push({
+      comp: (
+        <RcButton
+          borderRadius="300px"
+          onClick={() => {
+            gate.signOut();
+            store.navigate();
+          }}
+        >
+          SIGN OUT
+        </RcButton>
+      ),
+    });
+  } else {
+    menuEntries.push({
+      comp: (
+        <RcButton borderRadius="300px" onClick={() => store.navigate('#signin', '#home')}>
+          GO TO SIGN IN
+        </RcButton>
+      ),
+    });
+  }
 
   return (
     <div

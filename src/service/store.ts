@@ -13,6 +13,7 @@ interface IState {
     showSideBar: boolean;
     showFooter: boolean;
     route: string;
+    redirect: string;
   };
   data: IData;
 }
@@ -28,6 +29,7 @@ const newZeroState = (): IState => ({
     showSideBar: true,
     showFooter: true,
     route: '',
+    redirect: '',
   },
   data: { email: '' },
 });
@@ -54,6 +56,9 @@ class Store extends SimpleStore<IState, null> {
     // set ready flag here [important]
     this.ready = true;
 
+    // set route
+    this.state.interface.route = window.location.hash;
+
     // listen for route changes
     window.addEventListener(
       'hashchange',
@@ -76,9 +81,18 @@ class Store extends SimpleStore<IState, null> {
     );
   }
 
-  navigate = (route = '', silent = false) => {
+  navigate = (route = '', redirect = '', silent = false) => {
+    this.state.interface.redirect = redirect;
     this.silentNavigation = silent;
     window.location.hash = route;
+  };
+
+  handleRedirect = () => {
+    if (this.state.interface.redirect) {
+      const route = this.state.interface.redirect;
+      this.state.interface.redirect = '';
+      this.navigate(route);
+    }
   };
 
   toggleFullView = () => {
@@ -143,4 +157,3 @@ class Store extends SimpleStore<IState, null> {
 
 // instantiate store
 export const store = new Store();
-store.doStart('');

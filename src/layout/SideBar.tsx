@@ -23,7 +23,6 @@ export const getEntries = (onMenu: boolean): RcMenuEntry[] => [
   {
     icon: <IconStar size={styles.dims.icon.medium} />,
     label: 'Topics',
-    onClick: () => nav('', onMenu),
     entries: topics.map((topic) => ({
       icon: <IconStarOutline size={styles.dims.icon.small} />,
       label: topic,

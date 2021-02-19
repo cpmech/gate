@@ -1,4 +1,5 @@
-import { GateStore, gateLocale, LocalGateStore, IStorage } from './lib';
+import { GateStore, gateLocale, LocalGateStore, IStorage } from '../lib';
+import { store } from './store';
 
 gateLocale.setLocale('en');
 
@@ -20,3 +21,14 @@ export const gate = isLocal
       redirectSignOut: 'https://dorival.link/',
       awsRegion: 'us-east-1',
     });
+
+// subscribe a function to capture when the user signs-in
+gate.subscribe(() => {
+  if (gate.flags.processing) {
+    return;
+  }
+  if (gate.user.hasAccess && gate.user.username) {
+    store.doStart('');
+    store.handleRedirect();
+  }
+}, 'store.doStart');
