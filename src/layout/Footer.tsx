@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { IconEarth } from '@cpmech/iricons/IconEarth';
 import { IconLogoGithub } from '@cpmech/iricons/IconLogoGithub';
 import { RcLinkOrDiv } from '../rcomps';
 import { store } from '../service';
@@ -23,12 +24,13 @@ export const Footer: React.FC = () => {
       >
         <div
           css={css`
+            color: ${styles.colors.grey()};
             background-color: white;
             border-radius: 300px;
             padding: 10px;
           `}
         >
-          <img src="/figs/octahedral.png" width={120} alt="logo" />
+          <IconEarth size="120px" />
         </div>
       </div>
       <div>&copy; {new Date().getFullYear()} Dorival Pedroso</div>

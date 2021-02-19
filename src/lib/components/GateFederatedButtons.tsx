@@ -14,9 +14,14 @@ const s = styles.federatedButtons;
 interface IGateFederatedButtonsProps {
   gate: GateStore;
   logo?: ReactNode;
+  withApple?: boolean;
 }
 
-export const GateFederatedButtons: React.FC<IGateFederatedButtonsProps> = ({ gate, logo }) => (
+export const GateFederatedButtons: React.FC<IGateFederatedButtonsProps> = ({
+  gate,
+  logo,
+  withApple,
+}) => (
   <div css={logo ? s.rootWithLogo : s.root}>
     {logo && (
       <div>
@@ -39,11 +44,13 @@ export const GateFederatedButtons: React.FC<IGateFederatedButtonsProps> = ({ gat
       />
     </button>
 
-    <button css={s.apple} onClick={async () => await gate.appleSignIn()}>
-      <RcPair
-        left={<IconLogoApple />}
-        right={<div css={s.rowCen}>{t('apple').toUpperCase()}</div>}
-      />
-    </button>
+    {withApple && (
+      <button css={s.apple} onClick={async () => await gate.appleSignIn()}>
+        <RcPair
+          left={<IconLogoApple />}
+          right={<div css={s.rowCen}>{t('apple').toUpperCase()}</div>}
+        />
+      </button>
+    )}
   </div>
 );
