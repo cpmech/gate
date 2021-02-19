@@ -12,7 +12,7 @@ import { withUseGateObserver } from '../lib';
 const useGateObserver = withUseGateObserver(gate);
 
 export const Router: React.FC = () => {
-  const gateStatus = useGateObserver('App');
+  const gateStatus = useGateObserver('Router');
   const { route } = useStoreObserver('Router');
 
   const [hash, first, second] = route.split('-');
