@@ -1,13 +1,13 @@
-import React from 'react';
-/** @jsx jsx */ import { jsx, css } from '@emotion/core';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import { t } from '../locale';
 
 interface IProps {
-  vertSpace?: number;
-  vertSpaceLarge?: number;
+  vertSpace?: string;
+  vertSpaceLarge?: string;
 }
 
-export const GateOrLine: React.FC<IProps> = ({ vertSpace = 40, vertSpaceLarge = 40 }) => {
+export const GateOrLine: React.FC<IProps> = ({ vertSpace = '40px', vertSpaceLarge = '40px' }) => {
   const styles = {
     root: css`
       width: 275px;
@@ -15,11 +15,11 @@ export const GateOrLine: React.FC<IProps> = ({ vertSpace = 40, vertSpaceLarge = 
       border-bottom: 1px solid #bbb;
       line-height: 0.1em;
       color: #828282;
-      margin-top: ${vertSpace}px;
-      margin-bottom: ${vertSpace}px;
+      margin-top: ${vertSpace};
+      margin-bottom: ${vertSpace};
       @media only screen and (min-width: 600px) {
-        margin-top: ${vertSpaceLarge}px;
-        margin-bottom: ${vertSpaceLarge}px;
+        margin-top: ${vertSpaceLarge};
+        margin-bottom: ${vertSpaceLarge};
       }
     `,
 

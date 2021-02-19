@@ -1,7 +1,9 @@
-import React, { ReactNode } from 'react';
-/** @jsx jsx */ import { jsx } from '@emotion/core';
-import { IconFacebookCircle, IconGoogle, IconApple } from '@cpmech/react-icons';
-import { Pair } from '../../rcomps';
+/** @jsxImportSource @emotion/react */
+import { ReactNode } from 'react';
+import { IconLogoApple } from '@cpmech/iricons/IconLogoApple';
+import { IconLogoFacebook } from '@cpmech/iricons/IconLogoFacebook';
+import { IconLogoGoogle } from '@cpmech/iricons/IconLogoGoogle';
+import { RcPair } from '../../rcomps';
 import { GateVSpaceLarge } from './GateVSpaceLarge';
 import { styles } from './gateStyles';
 import { GateStore } from '../service';
@@ -12,9 +14,14 @@ const s = styles.federatedButtons;
 interface IGateFederatedButtonsProps {
   gate: GateStore;
   logo?: ReactNode;
+  withApple?: boolean;
 }
 
-export const GateFederatedButtons: React.FC<IGateFederatedButtonsProps> = ({ gate, logo }) => (
+export const GateFederatedButtons: React.FC<IGateFederatedButtonsProps> = ({
+  gate,
+  logo,
+  withApple,
+}) => (
   <div css={logo ? s.rootWithLogo : s.root}>
     {logo && (
       <div>
@@ -24,18 +31,26 @@ export const GateFederatedButtons: React.FC<IGateFederatedButtonsProps> = ({ gat
     )}
 
     <button css={s.facebook} onClick={async () => await gate.facebookSignIn()}>
-      <Pair
-        left={<IconFacebookCircle />}
+      <RcPair
+        left={<IconLogoFacebook />}
         right={<div css={s.rowCen}>{t('facebook').toUpperCase()}</div>}
       />
     </button>
 
     <button css={s.google} onClick={async () => await gate.googleSignIn()}>
-      <Pair left={<IconGoogle />} right={<div css={s.rowCen}>{t('google').toUpperCase()}</div>} />
+      <RcPair
+        left={<IconLogoGoogle />}
+        right={<div css={s.rowCen}>{t('google').toUpperCase()}</div>}
+      />
     </button>
 
-    <button css={s.apple} onClick={async () => await gate.appleSignIn()}>
-      <Pair left={<IconApple />} right={<div css={s.rowCen}>{t('apple').toUpperCase()}</div>} />
-    </button>
+    {withApple && (
+      <button css={s.apple} onClick={async () => await gate.appleSignIn()}>
+        <RcPair
+          left={<IconLogoApple />}
+          right={<div css={s.rowCen}>{t('apple').toUpperCase()}</div>}
+        />
+      </button>
+    )}
   </div>
 );

@@ -1,106 +1,81 @@
-import React from 'react';
-import { Router, Link } from '@reach/router';
-import { Helmet } from 'react-helmet';
-import { IconHouseThreeD } from '@cpmech/react-icons';
-import { TopMenu, Button, Popup } from './rcomps';
-import { GateStore, gateLocale, t, LocalGateStore, IStorage } from './lib';
-import {
-  withUseGateObserver,
-  GateSignUpForm,
-  LocalGateSignUpForm,
-  // GateSignUpFormAws,
-} from './lib/components';
-import { Dashboard, Home, NotFound } from './pages';
-import { typography } from './typoStyle';
-import { Logo } from './Logo';
+import { Fragment } from 'react';
+import { useMediaQuery } from 'react-responsive';
+import { Footer, Header, SideBar, Warning } from './layout';
+import { RcCenterPage, rcConfig, RcLayout, RcPopup, RcSideNav, RcSpinnerPage } from './rcomps';
+import { Router } from './pages';
+import { styles } from './styles';
+import { store, useStoreObserver } from './service';
+import { withUseGateObserver, t } from './lib';
+import { gate } from './gate';
+import { GateForm } from './GateForm';
 
-gateLocale.setLocale('pt');
+const useGateObserver = withUseGateObserver(gate);
 
-const isLocal = false;
-
-const storage: IStorage = {
-  getItem: async (key: string) => window.localStorage.getItem(key),
-  setItem: async (key: string, value: string) => window.localStorage.setItem(key, value),
-  removeItem: async (key: string) => window.localStorage.removeItem(key),
-};
-
-const gate = isLocal
-  ? new LocalGateStore('@cpmech/gate', storage)
-  : new GateStore(
-      {
-        userPoolId: 'us-east-1_dCZGZU74z',
-        userPoolWebClientId: '5cdculovevq2kqdhj5forn2288',
-        oauthDomain: 'azcdk.auth.us-east-1.amazoncognito.com',
-        redirectSignIn: 'https://localhost:3000/',
-        redirectSignOut: 'https://localhost:3000/',
-        awsRegion: 'us-east-1',
-      },
-      // ['testers'],
-    );
-
-const entries = [
-  <Link key="0" to="/">
-    <IconHouseThreeD size={50} />
-  </Link>,
-
-  <Link key="1" to="/dashboard">
-    <span>DASHBOARD</span>
-  </Link>,
-
-  <div key="2">
-    <Button onClick={async () => await gate.signOut()}>{t('signOut')}</Button>
-  </div>,
-];
-
-const renderTopMenu = () => <TopMenu entries={entries} />;
+rcConfig.media.desktop.maxPageWidth = styles.dims.minMaxPageWidth;
 
 export const App: React.FC = () => {
-  const useObserver = withUseGateObserver(gate);
-  const { ready, hasAccess } = useObserver('@cpmech/gate/App');
+  const gateStatus = useGateObserver('App');
+  const condition = useStoreObserver('App');
+  const isNarrow = useMediaQuery({ maxWidth: rcConfig.media.phone.maxWidth });
 
-  const renderSignUpForm = () => {
-    if (isLocal) {
-      return <LocalGateSignUpForm gate={gate as LocalGateStore} logo={<Logo />} />;
-    }
+  if (!gateStatus.ready) {
     return (
-      <GateSignUpForm
-        gate={gate as GateStore}
+      <RcPopup
+        title={t('initializing')}
+        fontSizeTitle="0.8em"
+        isLoading={true}
         colorSpinner="#ea8a2e"
         colorTitleLoading="#ea8a2e"
-        logo={<Logo />}
-        mayHideEmailLogin={false}
-        initShownEmailLogin={false}
       />
     );
-  };
+  }
+
+  if (!gateStatus.hasAccess) {
+    return <GateForm />;
+  }
+
+  if (!condition.started) {
+    if (condition.error) {
+      return <RcCenterPage message={condition.error} />;
+    }
+    return <RcSpinnerPage />;
+  }
+
+  const warning = condition.showWarning && <Warning />;
+
+  const header = condition.showHeader && <Header withMenuButton={isNarrow} />;
+
+  const footer = condition.showFooter && <Footer />;
+
+  const sidebar = !isNarrow && condition.showSideBar && <SideBar onMenu={false} />;
+
+  const leftMenu = (
+    <RcSideNav
+      onClose={() => store.setShowLeftMenu(false)}
+      bgColor={styles.colors.transparent(0.8)}
+      width={styles.dims.leftMenu.width}
+    >
+      <SideBar onMenu={true} />
+    </RcSideNav>
+  );
+
+  const main = <Router />;
+
+  const maxContentWidth = condition.fullView
+    ? styles.dims.maxMaxPageWidth
+    : styles.dims.minMaxPageWidth;
 
   return (
-    <React.Fragment>
-      <Helmet>
-        <style>{typography.toString()}</style>
-      </Helmet>
-      {/* {!ready && <PageLoading message={t('initializing')} />} */}
-      {!ready && (
-        <Popup
-          title={t('initializing')}
-          fontSizeTitle="0.8em"
-          isLoading={true}
-          colorSpinner="#ea8a2e"
-          colorTitleLoading="#ea8a2e"
-        />
-      )}
-      {!hasAccess && renderSignUpForm()}
-      {/* {!hasAccess && <GateSignUpFormAws gate={gate} />} */}
-      {ready && hasAccess && (
-        <React.Fragment>
-          {renderTopMenu()}
-          <Router>
-            <Home path="/" />
-            <Dashboard path="/dashboard" />
-            <NotFound default />
-          </Router>
-        </React.Fragment>
-      )}
-    </React.Fragment>
+    <Fragment>
+      <RcLayout
+        warning={warning}
+        header={header}
+        sidebar={sidebar}
+        main={main}
+        footer={footer}
+        maxContentWidth={`${maxContentWidth}px`}
+      />
+      {isNarrow && condition.showLeftMenu && leftMenu}
+    </Fragment>
   );
 };

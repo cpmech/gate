@@ -1,4 +1,5 @@
-import { css } from '@emotion/core';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 
 export const colors = {
   blue: '#236cd2',
@@ -8,34 +9,35 @@ export const colors = {
 
 export const params = {
   vspace: {
-    tiny: 5,
-    small: 10,
-    normal: 20,
-    medium: 30,
-    large: 50,
-    huge: 80,
+    tiny: '5px',
+    small: '10px',
+    normal: '20px',
+    medium: '30px',
+    large: '50px',
+    huge: '80px',
   },
   hspace: {
-    small: 15,
-    normal: 25,
-    medium: 35,
-    large: 55,
-    huge: 85,
+    small: '15px',
+    normal: '25px',
+    medium: '35px',
+    large: '55px',
+    huge: '85px',
   },
   vpadding: {
-    small: 5,
-    normal: 10,
-    large: 20,
-    huge: 30,
+    small: '5px',
+    normal: '10px',
+    large: '20px',
+    huge: '30px',
   },
   hpadding: {
-    small: 10,
-    normal: 20,
-    large: 40,
-    huge: 60,
+    small: '10px',
+    normal: '20px',
+    large: '40px',
+    huge: '60px',
   },
-  inputWidth: 300,
-  buttonHeight: 45,
+  inputWidth: '300px',
+  buttonHeight: '45px',
+  buttonRadius: '300px',
 };
 
 export const styles = {
@@ -45,10 +47,10 @@ export const styles = {
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding-left: ${params.hpadding.normal}px;
-      padding-right: ${params.hpadding.normal}px;
+      padding-left: ${params.hpadding.normal};
+      padding-right: ${params.hpadding.normal};
       margin-top: 18px;
-      width: ${params.inputWidth}px;
+      width: ${params.inputWidth};
     `,
 
     root: css`
@@ -56,8 +58,8 @@ export const styles = {
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding-left: ${params.hpadding.normal}px;
-      padding-right: ${params.hpadding.normal}px;
+      padding-left: ${params.hpadding.normal};
+      padding-right: ${params.hpadding.normal};
       margin-top: 30px;
       @media only screen and (min-width: 360px) {
         margin-top: 60px;
@@ -68,7 +70,7 @@ export const styles = {
       @media only screen and (min-width: 600px) {
         margin-top: 160px;
       }
-      width: ${params.inputWidth}px;
+      width: ${params.inputWidth};
     `,
 
     rowCen: css`
@@ -83,7 +85,7 @@ export const styles = {
       font-weight: bold;
       color: white;
       background-color: #4267b2;
-      height: ${params.buttonHeight}px;
+      height: ${params.buttonHeight};
       text-align: center;
       width: 100%;
       border: 0;
@@ -99,7 +101,7 @@ export const styles = {
       font-weight: bold;
       color: white;
       background-color: #aaaaaa;
-      height: ${params.buttonHeight}px;
+      height: ${params.buttonHeight};
       text-align: center;
       width: 100%;
       border: 0;
@@ -116,7 +118,7 @@ export const styles = {
       font-weight: bold;
       color: white;
       background-color: #000;
-      height: ${params.buttonHeight}px;
+      height: ${params.buttonHeight};
       text-align: center;
       width: 100%;
       border: 0;
@@ -135,12 +137,12 @@ export const styles = {
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding-left: ${params.hpadding.normal}px;
-      padding-right: ${params.hpadding.normal}px;
+      padding-left: ${params.hpadding.normal};
+      padding-right: ${params.hpadding.normal};
     `,
 
     container: css`
-      width: ${params.inputWidth}px;
+      width: ${params.inputWidth};
     `,
 
     centered: css`
