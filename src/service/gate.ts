@@ -17,8 +17,8 @@ export const gate = isLocal
       userPoolId: 'us-east-1_1HweE3Ykl',
       userPoolWebClientId: '6cseuviljoiasveoevl5qilaqj',
       oauthDomain: 'gate-login-dev.auth.us-east-1.amazoncognito.com',
-      redirectSignIn: 'https://dorival.link/',
-      redirectSignOut: 'https://dorival.link/',
+      redirectSignIn: 'https://dev.dorival.link/',
+      redirectSignOut: 'https://dev.dorival.link/',
       awsRegion: 'us-east-1',
     });
 
