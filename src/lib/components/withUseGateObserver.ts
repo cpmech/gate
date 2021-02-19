@@ -10,9 +10,7 @@ export const withUseGateObserver = (gate: GateStore | LocalGateStore) => (observ
 
     // must set the state right here and right now because the Gate
     // may have been already configured and we missed the notification
-    if (!finished) {
-      setState({ ...gate.flags, ...gate.user });
-    }
+    setState({ ...gate.flags, ...gate.user });
 
     // now we can listen to further notifications, if any
     const unsubscribe = gate.subscribe(() => {
