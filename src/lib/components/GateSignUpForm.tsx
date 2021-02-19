@@ -9,13 +9,13 @@ import { GateFederatedButtons } from './GateFederatedButtons';
 import { GateVSpace } from './GateVSpace';
 import { GateVSpaceLarge } from './GateVSpaceLarge';
 import { GateVSpaceSmall } from './GateVSpaceSmall';
-import { styles, colors, params } from './gateStyles';
+import { gateStyles, gateColors, gateParams } from './gateStyles';
 import { withUseGateObserver } from './withUseGateObserver';
 import { t } from '../locale';
 import { GateStore, ISignUpValues, ISignUpErrors, signUpValues2errors } from '../service';
 import { GateOrLine } from './GateOrLine';
 
-const s = styles.signUpForm;
+const s = gateStyles.signUpForm;
 
 interface IGateSignUpFormProps {
   gate: GateStore;
@@ -41,7 +41,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   buttonBgColor = '#5d5c61',
   colorTitleLoading = '#236cd2',
   colorSpinner = '#236cd2',
-  hlColor = colors.blue,
+  hlColor = gateColors.blue,
   logo,
   mayHideEmailLogin,
   initShownEmailLogin,
@@ -172,9 +172,9 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   );
 
   const renderShowHide = () => (
-    <div css={styles.showHide.root} onClick={() => setShowEmailLogin(!showEmailLogin)}>
-      <div css={styles.showHide.text}>{t('more').toUpperCase()}</div>
-      <div css={styles.showHide.icon}>
+    <div css={gateStyles.showHide.root} onClick={() => setShowEmailLogin(!showEmailLogin)}>
+      <div css={gateStyles.showHide.text}>{t('more').toUpperCase()}</div>
+      <div css={gateStyles.showHide.icon}>
         {showEmailLogin ? <IconChevronUp size="18px" /> : <IconChevronDown size="18px" />}
       </div>
     </div>
@@ -345,8 +345,8 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
           fontWeight="bold"
           fontSize="14px"
           width={buttonWidth}
-          height={params.buttonHeight}
-          borderRadius={params.buttonRadius}
+          height={gateParams.buttonHeight}
+          borderRadius={gateParams.buttonRadius}
           backgroundColor={buttonBgColor}
         >
           {isConfirm

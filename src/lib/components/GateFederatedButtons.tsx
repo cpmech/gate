@@ -5,11 +5,11 @@ import { IconLogoFacebook } from '@cpmech/iricons/IconLogoFacebook';
 import { IconLogoGoogle } from '@cpmech/iricons/IconLogoGoogle';
 import { RcPair } from '../../rcomps';
 import { GateVSpaceLarge } from './GateVSpaceLarge';
-import { styles } from './gateStyles';
+import { gateStyles } from './gateStyles';
 import { GateStore } from '../service';
 import { t } from '../locale';
 
-const s = styles.federatedButtons;
+const s = gateStyles.federatedButtons;
 
 interface IGateFederatedButtonsProps {
   gate: GateStore;

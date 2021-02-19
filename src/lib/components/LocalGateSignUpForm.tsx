@@ -5,12 +5,12 @@ import { IconEyeOff } from '@cpmech/iricons/IconEyeOff';
 import { RcLinkOrDiv, RcButton, RcError, RcPopup, RcInput } from '../../rcomps';
 import { GateVSpace } from './GateVSpace';
 import { GateVSpaceLarge } from './GateVSpaceLarge';
-import { styles, colors, params } from './gateStyles';
+import { gateStyles, gateColors, gateParams } from './gateStyles';
 import { withUseGateObserver } from './withUseGateObserver';
 import { t } from '../locale';
 import { LocalGateStore, ISignUpValues, ISignUpErrors, signUpValues2errors } from '../service';
 
-const s = styles.signUpForm;
+const s = gateStyles.signUpForm;
 
 interface ILocalGateSignUpFormProps {
   gate: LocalGateStore;
@@ -130,7 +130,7 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
               label={'Email'}
               value={values.email}
               onChange={(e) => setValue('email', e.target.value)}
-              hlColor={colors.blue}
+              hlColor={gateColors.blue}
               error={vErrors.email}
             />
             <RcError error={vErrors.email} />
@@ -147,7 +147,7 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
               password={!showPassword}
               suffix={passwordIcon}
               onChange={(e) => setValue('password', e.target.value)}
-              hlColor={colors.blue}
+              hlColor={gateColors.blue}
               error={vErrors.password}
             />
             <RcError error={vErrors.password} />
@@ -202,8 +202,8 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
             fontWeight="bold"
             fontSize="14px"
             width={buttonWidth}
-            height={params.buttonHeight}
-            borderRadius={params.buttonRadius}
+            height={gateParams.buttonHeight}
+            borderRadius={gateParams.buttonRadius}
             backgroundColor={buttonBgColor}
           >
             {isClearStorage

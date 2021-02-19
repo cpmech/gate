@@ -1,13 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 
-export const colors = {
+export const gateColors = {
   blue: '#236cd2',
   darkRed: '#c01626',
   darkGrey: '#343434',
 };
 
-export const params = {
+export const gateParams = {
   vspace: {
     tiny: '5px',
     small: '10px',
@@ -40,17 +40,17 @@ export const params = {
   buttonRadius: '300px',
 };
 
-export const styles = {
+export const gateStyles = {
   federatedButtons: {
     rootWithLogo: css`
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding-left: ${params.hpadding.normal};
-      padding-right: ${params.hpadding.normal};
+      padding-left: ${gateParams.hpadding.normal};
+      padding-right: ${gateParams.hpadding.normal};
       margin-top: 18px;
-      width: ${params.inputWidth};
+      width: ${gateParams.inputWidth};
     `,
 
     root: css`
@@ -58,8 +58,8 @@ export const styles = {
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding-left: ${params.hpadding.normal};
-      padding-right: ${params.hpadding.normal};
+      padding-left: ${gateParams.hpadding.normal};
+      padding-right: ${gateParams.hpadding.normal};
       margin-top: 30px;
       @media only screen and (min-width: 360px) {
         margin-top: 60px;
@@ -70,7 +70,7 @@ export const styles = {
       @media only screen and (min-width: 600px) {
         margin-top: 160px;
       }
-      width: ${params.inputWidth};
+      width: ${gateParams.inputWidth};
     `,
 
     rowCen: css`
@@ -85,7 +85,7 @@ export const styles = {
       font-weight: bold;
       color: white;
       background-color: #4267b2;
-      height: ${params.buttonHeight};
+      height: ${gateParams.buttonHeight};
       text-align: center;
       width: 100%;
       border: 0;
@@ -101,7 +101,7 @@ export const styles = {
       font-weight: bold;
       color: white;
       background-color: #aaaaaa;
-      height: ${params.buttonHeight};
+      height: ${gateParams.buttonHeight};
       text-align: center;
       width: 100%;
       border: 0;
@@ -118,7 +118,7 @@ export const styles = {
       font-weight: bold;
       color: white;
       background-color: #000;
-      height: ${params.buttonHeight};
+      height: ${gateParams.buttonHeight};
       text-align: center;
       width: 100%;
       border: 0;
@@ -141,12 +141,12 @@ export const styles = {
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding-left: ${params.hpadding.normal};
-      padding-right: ${params.hpadding.normal};
+      padding-left: ${gateParams.hpadding.normal};
+      padding-right: ${gateParams.hpadding.normal};
     `,
 
     container: css`
-      width: ${params.inputWidth};
+      width: ${gateParams.inputWidth};
     `,
 
     centered: css`

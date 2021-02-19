@@ -1,6 +1,6 @@
 import React from 'react';
-import { params } from './gateStyles';
+import { gateParams } from './gateStyles';
 
 export const GateVSpaceSmall: React.FC = () => {
-  return <div style={{ height: params.vspace.small }} />;
+  return <div style={{ height: gateParams.vspace.small }} />;
 };
