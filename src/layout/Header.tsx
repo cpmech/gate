@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useMediaQuery } from 'react-responsive';
-import { RcLinkOrDiv, RcMenuEntry, RcMenuHoriz } from '../rcomps';
+import { RcButton, RcLinkOrDiv, RcMenuEntry, RcMenuHoriz } from '../rcomps';
 import { styles } from '../styles';
 import { store } from '../service';
+import { gate } from '../gate';
 
 export interface HeaderProps {
   withMenuButton?: boolean;
@@ -41,15 +42,7 @@ export const Header: React.FC<HeaderProps> = ({ withMenuButton = true }) => {
   }
 
   menuEntries.push({
-    comp: (
-      <h2
-        css={css`
-          color: ${styles.colors.white()};
-        `}
-      >
-        Welcome
-      </h2>
-    ),
+    comp: <RcButton onClick={() => gate.signOut()}>SIGN OUT</RcButton>,
   });
 
   return (
