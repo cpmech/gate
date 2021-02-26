@@ -3,7 +3,6 @@ import { IconEarth } from '@cpmech/iricons/IconEarth';
 import { css } from '@emotion/react';
 import { GateSignUpForm, GateStore, LocalGateSignUpForm, LocalGateStore } from '../lib';
 import { gate, isLocal } from '../service';
-import { styles } from '../styles';
 
 export const SignInPage: React.FC = () => {
   const signInForm = isLocal ? (
