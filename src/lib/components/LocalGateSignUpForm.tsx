@@ -183,11 +183,11 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
             onClick={async () => await submit()}
             color={gateParams.button.color}
             backgroundColor={gateParams.button.bgColor}
-            fontWeight={gateParams.button.font.weight}
-            fontSize={gateParams.button.font.size}
-            width={gateParams.button.width}
+            width={gateParams.button.widthSubmit}
             height={gateParams.button.height}
             borderRadius={gateParams.button.radius}
+            fontSize={gateParams.button.fontSize}
+            fontWeight={gateParams.button.fontWeight}
           >
             {isClearStorage
               ? t('clear').toUpperCase()

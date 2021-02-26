@@ -48,7 +48,7 @@ export const Header: React.FC<HeaderProps> = ({ withMenuButton = true }) => {
     menuEntries.push({
       comp: (
         <RcButton
-          borderRadius="300px"
+          borderRadius="8px"
           onClick={() => {
             gate.signOut();
             store.navigate();
@@ -61,7 +61,7 @@ export const Header: React.FC<HeaderProps> = ({ withMenuButton = true }) => {
   } else {
     menuEntries.push({
       comp: (
-        <RcButton borderRadius="300px" onClick={() => store.navigate('#signin', '#home')}>
+        <RcButton borderRadius="8px" onClick={() => store.navigate('#signin', '#home')}>
           GO TO SIGN IN
         </RcButton>
       ),

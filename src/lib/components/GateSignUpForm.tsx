@@ -23,6 +23,7 @@ interface IGateSignUpFormProps {
   initShownEmailLogin?: boolean;
   simplePassword?: boolean;
   showSignUpFirst?: boolean;
+  withFederated?: boolean;
   withApple?: boolean;
 }
 
@@ -35,6 +36,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   initShownEmailLogin,
   simplePassword,
   showSignUpFirst = false,
+  withFederated = true,
   withApple,
 }) => {
   const useObserver = withUseGateObserver(gate);
@@ -199,6 +201,8 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
             onChange={(e) => setValue('email', e.target.value)}
             hlColor={gateParams.input.hlColor}
             error={vErrors.email}
+            fontSize={gateParams.font.size}
+            labelFontSize={gateParams.font.size}
           />
           <RcError error={vErrors.email} />
         </Fragment>
@@ -213,6 +217,8 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
             onChange={(e) => setValue('code', e.target.value)}
             hlColor={gateParams.input.hlColor}
             error={vErrors.code}
+            fontSize={gateParams.font.size}
+            labelFontSize={gateParams.font.size}
           />
           <RcError error={vErrors.code} />
         </Fragment>
@@ -244,6 +250,8 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
             onChange={(e) => setValue('password', e.target.value)}
             hlColor={gateParams.input.hlColor}
             error={vErrors.password}
+            fontSize={gateParams.font.size}
+            labelFontSize={gateParams.font.size}
           />
           <RcError error={vErrors.password} />
         </Fragment>
@@ -327,11 +335,11 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
           onClick={async () => await submit()}
           color={gateParams.button.color}
           backgroundColor={gateParams.button.bgColor}
-          fontWeight={gateParams.button.font.weight}
-          fontSize={gateParams.button.font.size}
-          width={gateParams.button.width}
+          width={gateParams.button.widthSubmit}
           height={gateParams.button.height}
           borderRadius={gateParams.button.radius}
+          fontSize={gateParams.button.fontSize}
+          fontWeight={gateParams.button.fontWeight}
         >
           {isConfirm
             ? t('confirm').toUpperCase()
@@ -367,21 +375,23 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
 
   return (
     <div css={s.root}>
-      <GateFederatedButtons gate={gate} logo={logo} withApple={withApple} />
+      {logo}
+
+      {withFederated && <GateFederatedButtons gate={gate} withApple={withApple} />}
 
       {mayHideEmailLogin ? (
         <Fragment>
           {renderShowHide()}
           {showEmailLogin && (
             <Fragment>
-              <GateOrLine />
+              {withFederated && <GateOrLine />}
               {renderEmailLogin()}
             </Fragment>
           )}
         </Fragment>
       ) : (
         <Fragment>
-          <GateOrLine />
+          {withFederated && <GateOrLine />}
           {renderEmailLogin()}
         </Fragment>
       )}

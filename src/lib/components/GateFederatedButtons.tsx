@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { ReactNode } from 'react';
 import { IconLogoApple } from '@cpmech/iricons/IconLogoApple';
 import { IconLogoFacebook } from '@cpmech/iricons/IconLogoFacebook';
 import { IconLogoGoogle } from '@cpmech/iricons/IconLogoGoogle';
@@ -12,18 +11,11 @@ const s = gateStyles.federatedButtons;
 
 interface IGateFederatedButtonsProps {
   gate: GateStore;
-  logo?: ReactNode;
   withApple?: boolean;
 }
 
-export const GateFederatedButtons: React.FC<IGateFederatedButtonsProps> = ({
-  gate,
-  logo,
-  withApple,
-}) => (
-  <div css={logo ? s.rootWithLogo : s.root}>
-    {logo && <div>{logo}</div>}
-
+export const GateFederatedButtons: React.FC<IGateFederatedButtonsProps> = ({ gate, withApple }) => (
+  <div css={s.root}>
     <RcButton
       onClick={async () => await gate.facebookSignIn()}
       color={gateParams.button.facebook.color}
@@ -31,14 +23,14 @@ export const GateFederatedButtons: React.FC<IGateFederatedButtonsProps> = ({
       hoverColor={gateParams.button.facebook.hoverColor}
       borderRadius={gateParams.button.radius}
       height={gateParams.button.height}
-      fontSize={gateParams.button.font.size}
-      fontWeight={gateParams.button.font.weight}
+      fontSize={gateParams.button.fontSize}
+      fontWeight={gateParams.button.fontWeight}
       width="100%"
     >
       <RcPair
         left={<IconLogoFacebook />}
         right={<div>{t('facebook').toUpperCase()}</div>}
-        spaceBetween={true}
+        spacing={gateParams.hspace}
       />
     </RcButton>
 
@@ -49,14 +41,14 @@ export const GateFederatedButtons: React.FC<IGateFederatedButtonsProps> = ({
       hoverColor="#7f7f7f"
       borderRadius={gateParams.button.radius}
       height={gateParams.button.height}
-      fontSize={gateParams.button.font.size}
-      fontWeight={gateParams.button.font.weight}
+      fontSize={gateParams.button.fontSize}
+      fontWeight={gateParams.button.fontWeight}
       width="100%"
     >
       <RcPair
         left={<IconLogoGoogle />}
         right={<div>{t('google').toUpperCase()}</div>}
-        spaceBetween={true}
+        spacing={gateParams.hspace}
       />
     </RcButton>
 
@@ -68,14 +60,14 @@ export const GateFederatedButtons: React.FC<IGateFederatedButtonsProps> = ({
         hoverColor="#313131"
         borderRadius={gateParams.button.radius}
         height={gateParams.button.height}
-        fontSize={gateParams.button.font.size}
-        fontWeight={gateParams.button.font.weight}
+        fontSize={gateParams.button.fontSize}
+        fontWeight={gateParams.button.fontWeight}
         width="100%"
       >
         <RcPair
           left={<IconLogoApple />}
           right={<div>{t('apple').toUpperCase()}</div>}
-          spaceBetween={true}
+          spacing={gateParams.hspace}
         />
       </RcButton>
     )}

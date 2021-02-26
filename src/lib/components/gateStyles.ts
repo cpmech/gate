@@ -8,49 +8,25 @@ export const gateColors = {
 };
 
 export const gateParams = {
-  vspace: {
-    tiny: '5px',
-    small: '10px',
-    normal: '20px',
-    medium: '30px',
-    large: '50px',
-    huge: '80px',
-  },
-  hspace: {
-    tiny: '10px',
-    small: '15px',
-    normal: '25px',
-    medium: '35px',
-    large: '55px',
-    huge: '85px',
-  },
-  vpadding: {
-    small: '5px',
-    normal: '10px',
-    large: '20px',
-    huge: '30px',
-  },
-  hpadding: {
-    small: '10px',
-    normal: '20px',
-    large: '40px',
-    huge: '60px',
+  maxWidth: '300px',
+  vspace: '20px',
+  hspace: '10px',
+  hpadding: '20px',
+  font: {
+    size: '18px',
+    family: 'Arial, Helvetica, sans-serif',
   },
   input: {
-    width: '300px',
     hlColor: gateColors.blue,
   },
   button: {
-    font: {
-      size: '14px',
-      weight: 'bold',
-      family: 'Arial, Helvetica, sans-serif',
-    },
-    width: '100%',
+    fontSize: '14px',
+    fontWeight: 'normal',
+    widthSubmit: '220px',
     color: '#ffffff',
     bgColor: '#5d5c61',
     height: '45px',
-    radius: '300px',
+    radius: '8px',
     facebook: {
       color: '#ffffff',
       backgroundColor: '#4267b2',
@@ -74,60 +50,46 @@ export const gateParams = {
   link: {
     underline: true,
   },
+  orLine: {
+    gap: '30px',
+    color: '#828282',
+  },
 };
 
 export const gateStyles = {
   federatedButtons: {
-    rootWithLogo: css`
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: ${gateParams.vspace.normal};
-      padding-left: ${gateParams.hpadding.normal};
-      padding-right: ${gateParams.hpadding.normal};
-      margin-top: 18px;
-      width: ${gateParams.input.width};
-      font-family: ${gateParams.button.font.family};
-    `,
-
     root: css`
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding-left: ${gateParams.hpadding.normal};
-      padding-right: ${gateParams.hpadding.normal};
-      margin-top: 30px;
-      @media only screen and (min-width: 360px) {
-        margin-top: 60px;
-      }
-      @media only screen and (min-width: 375px) {
-        margin-top: 60px;
-      }
-      @media only screen and (min-width: 600px) {
-        margin-top: 160px;
-      }
-      width: ${gateParams.input.width};
+      gap: ${gateParams.vspace};
+      max-width: ${gateParams.maxWidth};
+      overflow: hidden;
+      font-size: ${gateParams.font.size};
+      font-family: ${gateParams.font.family};
     `,
   },
 
   signUpForm: {
     root: css`
+      max-width: ${gateParams.maxWidth};
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      gap: ${gateParams.vspace.normal};
-      padding-left: ${gateParams.hpadding.normal};
-      padding-right: ${gateParams.hpadding.normal};
+      gap: ${gateParams.vspace};
+      padding-left: ${gateParams.hpadding};
+      padding-right: ${gateParams.hpadding};
+      font-size: ${gateParams.font.size};
+      font-family: ${gateParams.font.family};
     `,
 
     container: css`
       display: flex;
       flex-direction: column;
-      gap: ${gateParams.vspace.normal};
-      width: ${gateParams.input.width};
+      gap: ${gateParams.vspace};
     `,
 
     centered: css`
@@ -142,7 +104,7 @@ export const gateStyles = {
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
-      gap: ${gateParams.hspace.tiny};
+      gap: ${gateParams.hspace};
       width: 100%;
     `,
 
@@ -171,10 +133,6 @@ export const gateStyles = {
       flex-direction: column;
       font-size: 0.8em;
       color: #484848;
-    `,
-
-    submitButton: css`
-      width: 180px;
     `,
   },
 
@@ -206,6 +164,24 @@ export const gateStyles = {
 
     icon: css`
       color: #737373;
+    `,
+  },
+
+  orLine: {
+    root: css`
+      min-width: 200px;
+      text-align: center;
+      border-bottom: 1px solid #bbb;
+      line-height: 0.1em;
+      color: ${gateParams.orLine.color};
+      margin-top: ${gateParams.orLine.gap};
+      margin-bottom: ${gateParams.orLine.gap};
+    `,
+    line: css`
+      background: #fff;
+      padding: 0 25px;
+      font-size: 14px;
+      font-weight: 500;
     `,
   },
 };
