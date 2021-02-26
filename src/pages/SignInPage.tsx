@@ -10,7 +10,7 @@ const Logo: React.FC = () => (
       height: 150px;
       background: url('/assets/earth.jpg');
       border-radius: 50%;
-      background-size: 610px;
+      background-size: 305px;
       box-shadow: inset 8px 36px 80px 36px rgb(0, 0, 0, 0.6),
         inset -6px 0 12px 4px rgba(255, 255, 255, 0.3);
       animation-name: rotate;
@@ -27,7 +27,7 @@ const Logo: React.FC = () => (
           background-position: 0px 0px;
         }
         to {
-          background-position: 610px 0px;
+          background-position: 305px 0px;
         }
       }
       @-webkit-keyframes rotate {
@@ -35,7 +35,7 @@ const Logo: React.FC = () => (
           background-position: 0px 0px;
         }
         to {
-          background-position: 610px 0px;
+          background-position: 305px 0px;
         }
       }
     `}
