@@ -59,7 +59,6 @@ export const SignInPage: React.FC = () => {
       css={css`
         background-color: #ffffff;
         margin: 60px 20px;
-        font-size: 2em;
         display: flex;
         flex-direction: row;
         justify-content: center;
