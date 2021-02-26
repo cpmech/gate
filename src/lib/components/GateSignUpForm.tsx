@@ -37,7 +37,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   simplePassword,
   showSignUpFirst = false,
   withFederated = true,
-  withApple,
+  withApple = false,
 }) => {
   const useObserver = withUseGateObserver(gate);
   const {

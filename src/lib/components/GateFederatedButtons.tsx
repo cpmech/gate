@@ -36,9 +36,9 @@ export const GateFederatedButtons: React.FC<IGateFederatedButtonsProps> = ({ gat
 
     <RcButton
       onClick={async () => await gate.googleSignIn()}
-      color="#ffffff"
-      backgroundColor="#aaaaaa"
-      hoverColor="#7f7f7f"
+      color={gateParams.button.google.color}
+      backgroundColor={gateParams.button.google.backgroundColor}
+      hoverColor={gateParams.button.google.hoverColor}
       borderRadius={gateParams.button.radius}
       height={gateParams.button.height}
       fontSize={gateParams.button.fontSize}
@@ -55,9 +55,9 @@ export const GateFederatedButtons: React.FC<IGateFederatedButtonsProps> = ({ gat
     {withApple && (
       <RcButton
         onClick={async () => await gate.appleSignIn()}
-        color="#ffffff"
-        backgroundColor="#000000"
-        hoverColor="#313131"
+        color={gateParams.button.apple.color}
+        backgroundColor={gateParams.button.apple.backgroundColor}
+        hoverColor={gateParams.button.apple.hoverColor}
         borderRadius={gateParams.button.radius}
         height={gateParams.button.height}
         fontSize={gateParams.button.fontSize}
