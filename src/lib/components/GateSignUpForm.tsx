@@ -6,10 +6,7 @@ import { IconChevronDown } from '@cpmech/iricons/IconChevronDown';
 import { IconChevronUp } from '@cpmech/iricons/IconChevronUp';
 import { RcLinkOrDiv, RcButton, RcError, RcPopup, RcInput } from '../../rcomps';
 import { GateFederatedButtons } from './GateFederatedButtons';
-import { GateVSpace } from './GateVSpace';
-import { GateVSpaceLarge } from './GateVSpaceLarge';
-import { GateVSpaceSmall } from './GateVSpaceSmall';
-import { gateStyles, gateColors, gateParams } from './gateStyles';
+import { gateStyles, gateParams } from './gateStyles';
 import { withUseGateObserver } from './withUseGateObserver';
 import { t } from '../locale';
 import { GateStore, ISignUpValues, ISignUpErrors, signUpValues2errors } from '../service';
@@ -21,32 +18,24 @@ interface IGateSignUpFormProps {
   gate: GateStore;
   iniEmail?: string;
   iniPassword?: string;
-  buttonWidth?: string;
-  buttonBgColor?: string;
-  colorTitleLoading?: string;
-  colorSpinner?: string;
-  hlColor?: string;
   logo?: ReactNode;
   mayHideEmailLogin?: boolean;
   initShownEmailLogin?: boolean;
   simplePassword?: boolean;
   showSignUpFirst?: boolean;
+  withApple?: boolean;
 }
 
 export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
   gate,
   iniEmail = '',
   iniPassword = '',
-  buttonWidth = '220px',
-  buttonBgColor = '#5d5c61',
-  colorTitleLoading = '#236cd2',
-  colorSpinner = '#236cd2',
-  hlColor = gateColors.blue,
   logo,
   mayHideEmailLogin,
   initShownEmailLogin,
   simplePassword,
   showSignUpFirst = false,
+  withApple,
 }) => {
   const useObserver = withUseGateObserver(gate);
   const {
@@ -204,12 +193,11 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
       {/* ----------------------- input email ------------------------ */}
       {!resetPasswordStep2 && (
         <Fragment>
-          <GateVSpaceSmall />
           <RcInput
             label="Email"
             value={values.email}
             onChange={(e) => setValue('email', e.target.value)}
-            hlColor={hlColor}
+            hlColor={gateParams.input.hlColor}
             error={vErrors.email}
           />
           <RcError error={vErrors.email} />
@@ -219,12 +207,11 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
       {/* ----------------------- input code ------------------------- */}
       {(isConfirm || resetPasswordStep2) && (
         <Fragment>
-          <GateVSpace />
           <RcInput
             label={t('confirmationCode')}
             value={values.code}
             onChange={(e) => setValue('code', e.target.value)}
-            hlColor={hlColor}
+            hlColor={gateParams.input.hlColor}
             error={vErrors.code}
           />
           <RcError error={vErrors.code} />
@@ -234,10 +221,12 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
       {/* ----- footnote: resend code -- (resetPasswordStep2) -------- */}
       {resetPasswordStep2 && (
         <Fragment>
-          <GateVSpaceSmall />
           <div css={s.smallFootnote}>
             <span>{t('lostCode')}&nbsp;</span>
-            <RcLinkOrDiv onClick={async () => await resendCodeInResetPwdView()}>
+            <RcLinkOrDiv
+              onClick={async () => await resendCodeInResetPwdView()}
+              underline={gateParams.link.underline}
+            >
               {t('resendCode')}
             </RcLinkOrDiv>
           </div>
@@ -247,14 +236,13 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
       {/* --------------------- input password ----------------------- */}
       {!(isConfirm || resetPasswordStep1) && (
         <Fragment>
-          <GateVSpaceSmall />
           <RcInput
             label={resetPasswordStep2 ? t('newPassword') : t('password')}
             value={values.password}
             password={!showPassword}
             suffix={renderPasswordIcon()}
             onChange={(e) => setValue('password', e.target.value)}
-            hlColor={hlColor}
+            hlColor={gateParams.input.hlColor}
             error={vErrors.password}
           />
           <RcError error={vErrors.password} />
@@ -264,7 +252,6 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
       {/* ----------------- footnote: reset password ----------------- */}
       {isSignIn && !atNextPage && (
         <Fragment>
-          <GateVSpaceSmall />
           <div css={s.smallFootnote}>
             <span>{t('forgotPassword')}&nbsp;</span>
             <RcLinkOrDiv
@@ -272,6 +259,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
                 clearErrors();
                 setResetPasswordStep1(true);
               }}
+              underline={gateParams.link.underline}
             >
               {t('resetPassword')}
             </RcLinkOrDiv>
@@ -282,25 +270,23 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
       {/* ----------------- footnote: resend code -------------------- */}
       {isConfirm && (
         <Fragment>
-          <GateVSpace />
           <div css={s.smallFootnote}>
             <span>{t('lostCode')}&nbsp;</span>
-            <RcLinkOrDiv onClick={async () => await resendCodeInConfirmView()}>
+            <RcLinkOrDiv
+              onClick={async () => await resendCodeInConfirmView()}
+              underline={gateParams.link.underline}
+            >
               {t('resendCode')}
             </RcLinkOrDiv>
           </div>
         </Fragment>
       )}
 
-      {resetPasswordStep1 && <GateVSpaceLarge />}
-
       {/* ----------------------- submit button ---------------------- */}
-      <GateVSpaceLarge />
       <div css={s.row}>
         {/* ....... footnote: go back ....... */}
         {atNextPage && (
           <Fragment>
-            <GateVSpace />
             <div css={s.footnote}>
               <RcLinkOrDiv
                 onClick={() => {
@@ -310,6 +296,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
                   resetPasswordStep1 && setResetPasswordStep1(false);
                   resetPasswordStep2 && gate.notify({ resetPasswordStep2: false });
                 }}
+                underline={gateParams.link.underline}
               >
                 {t('back')}
               </RcLinkOrDiv>
@@ -320,34 +307,31 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
         {/* ....... footnote: signIn or signUp ....... */}
         {!atNextPage && (
           <Fragment>
-            <GateVSpace />
             <div css={s.footnote}>
               <span>{isSignIn ? t('noAccount') : t('haveAnAccount')}&nbsp;</span>
-              <div css={s.link}>
-                <RcLinkOrDiv
-                  onClick={() => {
-                    clearErrors();
-                    setIsSignIn(!isSignIn);
-                  }}
-                >
-                  {isSignIn ? t('signUp') : t('gotoSignIn')}
-                </RcLinkOrDiv>
-              </div>
+              <RcLinkOrDiv
+                onClick={() => {
+                  clearErrors();
+                  setIsSignIn(!isSignIn);
+                }}
+                underline={gateParams.link.underline}
+              >
+                {isSignIn ? t('signUp') : t('gotoSignIn')}
+              </RcLinkOrDiv>
             </div>
           </Fragment>
         )}
 
         {/* ....... submit ....... */}
-        <GateVSpace />
         <RcButton
           onClick={async () => await submit()}
-          color="#ffffff"
-          fontWeight="bold"
-          fontSize="14px"
-          width={buttonWidth}
-          height={gateParams.buttonHeight}
-          borderRadius={gateParams.buttonRadius}
-          backgroundColor={buttonBgColor}
+          color={gateParams.button.color}
+          backgroundColor={gateParams.button.bgColor}
+          fontWeight={gateParams.button.font.weight}
+          fontSize={gateParams.button.font.size}
+          width={gateParams.button.width}
+          height={gateParams.button.height}
+          borderRadius={gateParams.button.radius}
         >
           {isConfirm
             ? t('confirm').toUpperCase()
@@ -364,7 +348,6 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
       {/* ----------------- footnote: want to confirm ---------------- */}
       {!atNextPage && (
         <Fragment>
-          <GateVSpace />
           <div css={s.smallFootnote}>
             <span>{t('wantToConfirm')}&nbsp;</span>
             <RcLinkOrDiv
@@ -372,6 +355,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
                 clearErrors();
                 setWantToConfirm(true);
               }}
+              underline={gateParams.link.underline}
             >
               {t('gotoConfirm')}
             </RcLinkOrDiv>
@@ -383,7 +367,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
 
   return (
     <div css={s.root}>
-      <GateFederatedButtons gate={gate} logo={logo} />
+      <GateFederatedButtons gate={gate} logo={logo} withApple={withApple} />
 
       {mayHideEmailLogin ? (
         <Fragment>
@@ -407,8 +391,8 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
           title={t('loading')}
           fontSizeTitle="0.8em"
           isLoading={true}
-          colorTitleLoading={colorTitleLoading}
-          colorSpinner={colorSpinner}
+          colorTitleLoading={gateParams.loading.colorTitle}
+          colorSpinner={gateParams.loading.colorSpinner}
         />
       )}
 

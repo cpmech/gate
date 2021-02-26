@@ -17,6 +17,7 @@ export const gateParams = {
     huge: '80px',
   },
   hspace: {
+    tiny: '10px',
     small: '15px',
     normal: '25px',
     medium: '35px',
@@ -35,9 +36,44 @@ export const gateParams = {
     large: '40px',
     huge: '60px',
   },
-  inputWidth: '300px',
-  buttonHeight: '45px',
-  buttonRadius: '300px',
+  input: {
+    width: '300px',
+    hlColor: gateColors.blue,
+  },
+  button: {
+    font: {
+      size: '14px',
+      weight: 'bold',
+      family: 'Arial, Helvetica, sans-serif',
+    },
+    width: '100%',
+    color: '#ffffff',
+    bgColor: '#5d5c61',
+    height: '45px',
+    radius: '300px',
+    facebook: {
+      color: '#ffffff',
+      backgroundColor: '#4267b2',
+      hoverColor: '#314d85',
+    },
+    google: {
+      color: '#ffffff',
+      backgroundColor: '#aaaaaa',
+      hoverColor: '#7f7f7f',
+    },
+    apple: {
+      color: '#ffffff',
+      backgroundColor: '#000000',
+      hoverColor: '#313131',
+    },
+  },
+  loading: {
+    colorTitle: '#236cd2',
+    colorSpinner: '#236cd2',
+  },
+  link: {
+    underline: true,
+  },
 };
 
 export const gateStyles = {
@@ -47,10 +83,12 @@ export const gateStyles = {
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      gap: ${gateParams.vspace.normal};
       padding-left: ${gateParams.hpadding.normal};
       padding-right: ${gateParams.hpadding.normal};
       margin-top: 18px;
-      width: ${gateParams.inputWidth};
+      width: ${gateParams.input.width};
+      font-family: ${gateParams.button.font.family};
     `,
 
     root: css`
@@ -70,83 +108,26 @@ export const gateStyles = {
       @media only screen and (min-width: 600px) {
         margin-top: 160px;
       }
-      width: ${gateParams.inputWidth};
-    `,
-
-    rowCen: css`
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      width: 200px;
-    `,
-
-    facebook: css`
-      font-size: 14px;
-      font-weight: bold;
-      color: white;
-      background-color: #4267b2;
-      height: ${gateParams.buttonHeight};
-      text-align: center;
-      width: 100%;
-      border: 0;
-      cursor: pointer;
-      &:hover {
-        background-color: #314d85;
-      }
-      border-radius: 200px;
-    `,
-
-    google: css`
-      font-size: 14px;
-      font-weight: bold;
-      color: white;
-      background-color: #aaaaaa;
-      height: ${gateParams.buttonHeight};
-      text-align: center;
-      width: 100%;
-      border: 0;
-      cursor: pointer;
-      &:hover {
-        background-color: #7f7f7f;
-      }
-      border-radius: 200px;
-      margin-top: 12px;
-    `,
-
-    apple: css`
-      font-size: 14px;
-      font-weight: bold;
-      color: white;
-      background-color: #000;
-      height: ${gateParams.buttonHeight};
-      text-align: center;
-      width: 100%;
-      border: 0;
-      cursor: pointer;
-      &:hover {
-        background-color: #2d2d2d;
-      }
-      border-radius: 200px;
-      margin-top: 12px;
+      width: ${gateParams.input.width};
     `,
   },
 
   signUpForm: {
-    link: css`
-      text-decoration: underline;
-    `,
-
     root: css`
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      gap: ${gateParams.vspace.normal};
       padding-left: ${gateParams.hpadding.normal};
       padding-right: ${gateParams.hpadding.normal};
     `,
 
     container: css`
-      width: ${gateParams.inputWidth};
+      display: flex;
+      flex-direction: column;
+      gap: ${gateParams.vspace.normal};
+      width: ${gateParams.input.width};
     `,
 
     centered: css`
@@ -161,6 +142,7 @@ export const gateStyles = {
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
+      gap: ${gateParams.hspace.tiny};
       width: 100%;
     `,
 

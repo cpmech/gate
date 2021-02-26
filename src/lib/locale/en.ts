@@ -19,10 +19,10 @@ export const en = {
   username: 'Username',
 
   // ConfirmSignIn
-  doConfirmCode: 'Confirmar código',
-  code: 'Código',
-  confirm: 'Confirmar',
-  back: 'Voltar',
+  doConfirmCode: 'Confirm code',
+  code: 'Code',
+  confirm: 'Confirm',
+  back: 'Back',
 
   // ConfirmSignUp
   confirmSignUp: 'Confirm Sign Up',

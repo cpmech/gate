@@ -3,9 +3,8 @@ import { ReactNode } from 'react';
 import { IconLogoApple } from '@cpmech/iricons/IconLogoApple';
 import { IconLogoFacebook } from '@cpmech/iricons/IconLogoFacebook';
 import { IconLogoGoogle } from '@cpmech/iricons/IconLogoGoogle';
-import { RcPair } from '../../rcomps';
-import { GateVSpaceLarge } from './GateVSpaceLarge';
-import { gateStyles } from './gateStyles';
+import { RcButton, RcPair } from '../../rcomps';
+import { gateParams, gateStyles } from './gateStyles';
 import { GateStore } from '../service';
 import { t } from '../locale';
 
@@ -23,34 +22,62 @@ export const GateFederatedButtons: React.FC<IGateFederatedButtonsProps> = ({
   withApple,
 }) => (
   <div css={logo ? s.rootWithLogo : s.root}>
-    {logo && (
-      <div>
-        {logo}
-        <GateVSpaceLarge />
-      </div>
-    )}
+    {logo && <div>{logo}</div>}
 
-    <button css={s.facebook} onClick={async () => await gate.facebookSignIn()}>
+    <RcButton
+      onClick={async () => await gate.facebookSignIn()}
+      color={gateParams.button.facebook.color}
+      backgroundColor={gateParams.button.facebook.backgroundColor}
+      hoverColor={gateParams.button.facebook.hoverColor}
+      borderRadius={gateParams.button.radius}
+      height={gateParams.button.height}
+      fontSize={gateParams.button.font.size}
+      fontWeight={gateParams.button.font.weight}
+      width="100%"
+    >
       <RcPair
         left={<IconLogoFacebook />}
-        right={<div css={s.rowCen}>{t('facebook').toUpperCase()}</div>}
+        right={<div>{t('facebook').toUpperCase()}</div>}
+        spaceBetween={true}
       />
-    </button>
+    </RcButton>
 
-    <button css={s.google} onClick={async () => await gate.googleSignIn()}>
+    <RcButton
+      onClick={async () => await gate.googleSignIn()}
+      color="#ffffff"
+      backgroundColor="#aaaaaa"
+      hoverColor="#7f7f7f"
+      borderRadius={gateParams.button.radius}
+      height={gateParams.button.height}
+      fontSize={gateParams.button.font.size}
+      fontWeight={gateParams.button.font.weight}
+      width="100%"
+    >
       <RcPair
         left={<IconLogoGoogle />}
-        right={<div css={s.rowCen}>{t('google').toUpperCase()}</div>}
+        right={<div>{t('google').toUpperCase()}</div>}
+        spaceBetween={true}
       />
-    </button>
+    </RcButton>
 
     {withApple && (
-      <button css={s.apple} onClick={async () => await gate.appleSignIn()}>
+      <RcButton
+        onClick={async () => await gate.appleSignIn()}
+        color="#ffffff"
+        backgroundColor="#000000"
+        hoverColor="#313131"
+        borderRadius={gateParams.button.radius}
+        height={gateParams.button.height}
+        fontSize={gateParams.button.font.size}
+        fontWeight={gateParams.button.font.weight}
+        width="100%"
+      >
         <RcPair
           left={<IconLogoApple />}
-          right={<div css={s.rowCen}>{t('apple').toUpperCase()}</div>}
+          right={<div>{t('apple').toUpperCase()}</div>}
+          spaceBetween={true}
         />
-      </button>
+      </RcButton>
     )}
   </div>
 );

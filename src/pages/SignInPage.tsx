@@ -11,8 +11,6 @@ export const SignInPage: React.FC = () => {
   ) : (
     <GateSignUpForm
       gate={gate as GateStore}
-      colorSpinner={styles.colors.grey()}
-      colorTitleLoading={styles.colors.grey()}
       logo={<IconEarth size="100px" />}
       mayHideEmailLogin={false}
       initShownEmailLogin={false}

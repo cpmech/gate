@@ -3,8 +3,6 @@ import { useState, ReactNode, Fragment } from 'react';
 import { IconEye } from '@cpmech/iricons/IconEye';
 import { IconEyeOff } from '@cpmech/iricons/IconEyeOff';
 import { RcLinkOrDiv, RcButton, RcError, RcPopup, RcInput } from '../../rcomps';
-import { GateVSpace } from './GateVSpace';
-import { GateVSpaceLarge } from './GateVSpaceLarge';
 import { gateStyles, gateColors, gateParams } from './gateStyles';
 import { withUseGateObserver } from './withUseGateObserver';
 import { t } from '../locale';
@@ -16,8 +14,6 @@ interface ILocalGateSignUpFormProps {
   gate: LocalGateStore;
   iniEmail?: string;
   iniPassword?: string;
-  buttonWidth?: string;
-  buttonBgColor?: string;
   ignoreErrors?: boolean;
   logo?: ReactNode;
 }
@@ -26,8 +22,6 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
   gate,
   iniEmail = '',
   iniPassword = '',
-  buttonWidth = '220px',
-  buttonBgColor = '#5d5c61',
   ignoreErrors,
   logo,
 }) => {
@@ -107,12 +101,7 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
 
   return (
     <div css={s.root}>
-      {logo && (
-        <div>
-          <GateVSpaceLarge />
-          {logo}
-        </div>
-      )}
+      {logo && <div>{logo}</div>}
 
       <form css={s.container}>
         {/* ----------------------- show header ------------------------ */}
@@ -125,7 +114,6 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
         {/* ----------------------- input email ------------------------ */}
         {!isClearStorage && (
           <Fragment>
-            <GateVSpace />
             <RcInput
               label={'Email'}
               value={values.email}
@@ -140,7 +128,6 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
         {/* --------------------- input password ----------------------- */}
         {!isClearStorage && (
           <Fragment>
-            <GateVSpace />
             <RcInput
               label={t('password')}
               value={values.password}
@@ -155,18 +142,17 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
         )}
 
         {/* ----------------------- submit button ---------------------- */}
-        <GateVSpaceLarge />
         <div css={s.row}>
           {/* ....... footnote: go back ....... */}
           {isClearStorage && (
             <Fragment>
-              <GateVSpace />
               <div css={s.footnote}>
                 <RcLinkOrDiv
                   onClick={() => {
                     clearErrors();
                     setIsClearStorage(false);
                   }}
+                  underline={gateParams.link.underline}
                 >
                   {t('back')}
                 </RcLinkOrDiv>
@@ -177,34 +163,31 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
           {/* ....... footnote: signIn or signUp ....... */}
           {!isClearStorage && (
             <Fragment>
-              <GateVSpace />
               <div css={s.footnote}>
                 <span>{isSignIn ? t('noAccount') : t('haveAnAccount')}&nbsp;</span>
-                <div css={s.link}>
-                  <RcLinkOrDiv
-                    onClick={() => {
-                      clearErrors();
-                      setIsSignIn(!isSignIn);
-                    }}
-                  >
-                    {isSignIn ? t('signUp') : t('gotoSignIn')}
-                  </RcLinkOrDiv>
-                </div>
+                <RcLinkOrDiv
+                  onClick={() => {
+                    clearErrors();
+                    setIsSignIn(!isSignIn);
+                  }}
+                  underline={gateParams.link.underline}
+                >
+                  {isSignIn ? t('signUp') : t('gotoSignIn')}
+                </RcLinkOrDiv>
               </div>
             </Fragment>
           )}
 
           {/* ....... submit ....... */}
-          <GateVSpace />
           <RcButton
             onClick={async () => await submit()}
-            color="#ffffff"
-            fontWeight="bold"
-            fontSize="14px"
-            width={buttonWidth}
-            height={gateParams.buttonHeight}
-            borderRadius={gateParams.buttonRadius}
-            backgroundColor={buttonBgColor}
+            color={gateParams.button.color}
+            backgroundColor={gateParams.button.bgColor}
+            fontWeight={gateParams.button.font.weight}
+            fontSize={gateParams.button.font.size}
+            width={gateParams.button.width}
+            height={gateParams.button.height}
+            borderRadius={gateParams.button.radius}
           >
             {isClearStorage
               ? t('clear').toUpperCase()
@@ -217,13 +200,13 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
         {/* ----------------- footnote: remove account ----------------- */}
         {!isClearStorage && (
           <Fragment>
-            <GateVSpaceLarge />
             <div css={s.smallFootnote}>
               <RcLinkOrDiv
                 onClick={() => {
                   clearErrors();
                   setIsClearStorage(true);
                 }}
+                underline={gateParams.link.underline}
               >
                 {t('clearLocalStorage')}
               </RcLinkOrDiv>
