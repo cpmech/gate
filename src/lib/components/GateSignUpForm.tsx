@@ -203,6 +203,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
             error={vErrors.email}
             fontSize={gateParams.font.size}
             labelFontSize={gateParams.font.size}
+            borderRadius={gateParams.input.radius}
           />
           <RcError error={vErrors.email} />
         </Fragment>
@@ -219,6 +220,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
             error={vErrors.code}
             fontSize={gateParams.font.size}
             labelFontSize={gateParams.font.size}
+            borderRadius={gateParams.input.radius}
           />
           <RcError error={vErrors.code} />
         </Fragment>
@@ -252,6 +254,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
             error={vErrors.password}
             fontSize={gateParams.font.size}
             labelFontSize={gateParams.font.size}
+            borderRadius={gateParams.input.radius}
           />
           <RcError error={vErrors.password} />
         </Fragment>

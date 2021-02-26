@@ -18,6 +18,7 @@ export const gateParams = {
   },
   input: {
     hlColor: gateColors.blue,
+    radius: '8px',
   },
   button: {
     fontSize: '14px',
