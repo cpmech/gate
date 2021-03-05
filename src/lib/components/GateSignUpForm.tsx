@@ -253,6 +253,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
             password={!showPassword}
             suffix={renderPasswordIcon()}
             onChange={(e) => setValue('password', e.target.value)}
+            onEnterKeyUp={async () => await submit()}
             hlColor={gateParams.input.hlColor}
             error={vErrors.password}
             fontSize={gateParams.font.size}

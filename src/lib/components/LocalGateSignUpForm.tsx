@@ -137,6 +137,7 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
               password={!showPassword}
               suffix={passwordIcon}
               onChange={(e) => setValue('password', e.target.value)}
+              onEnterKeyUp={async () => await submit()}
               hlColor={gateColors.blue}
               error={vErrors.password}
               borderRadius={gateParams.input.radius}
