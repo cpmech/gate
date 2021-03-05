@@ -115,6 +115,7 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
         {!isClearStorage && (
           <Fragment>
             <RcInput
+              name="email"
               label={'Email'}
               value={values.email}
               onChange={(e) => setValue('email', e.target.value)}
@@ -130,6 +131,7 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
         {!isClearStorage && (
           <Fragment>
             <RcInput
+              name="password"
               label={t('password')}
               value={values.password}
               password={!showPassword}

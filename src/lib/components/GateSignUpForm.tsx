@@ -196,6 +196,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
       {!resetPasswordStep2 && (
         <Fragment>
           <RcInput
+            name="email"
             label="Email"
             value={values.email}
             onChange={(e) => setValue('email', e.target.value)}
@@ -213,6 +214,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
       {(isConfirm || resetPasswordStep2) && (
         <Fragment>
           <RcInput
+            name="confirmationCode"
             label={t('confirmationCode')}
             value={values.code}
             onChange={(e) => setValue('code', e.target.value)}
@@ -245,6 +247,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
       {!(isConfirm || resetPasswordStep1) && (
         <Fragment>
           <RcInput
+            name="password"
             label={resetPasswordStep2 ? t('newPassword') : t('password')}
             value={values.password}
             password={!showPassword}
