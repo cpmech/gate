@@ -18,3 +18,14 @@ if [[ -d "./node_modules/@cpmech/gate/gate" ]]; then
     cp -rf ./node_modules/@cpmech/gate/gate ./src/
 fi
 ```
+
+## Package updates
+
+**Important**: If using `ncu -u`, keep the following versions fixed:
+
+```
+    "babel-loader": "8.1.0",
+    "jest": "26.6.0",
+    "ts-jest": "26.5.2",
+```
+
