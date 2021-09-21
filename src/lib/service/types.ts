@@ -44,7 +44,7 @@ export interface IGateUser {
 
 export interface IDelays {
   constructor: number; // in the constructor, when calling Amplify.configure => wait until all subscribers are ready so no one will miss the configure notification
-  onChange: number; // to allow calling begin/end one after another immediatelly and force re-rendering
+  onChange: number; // to allow calling begin/end one after another immediately and force re-rendering
   resendCode: number; // to let the user find the email and/or to prevent sending many codes
   fedKeepLoading: number; // keep loading until federation login starts
 }
