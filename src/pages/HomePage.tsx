@@ -1,12 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { Fragment } from 'react';
-
-const welcome = (
-  <Fragment>
-    <h1>WELCOME</h1>
-  </Fragment>
-);
+import { RcButton } from '../rcomps';
+import { useNav } from '../service';
 
 const signin = (
   <Fragment>
@@ -21,6 +17,15 @@ export interface HomePageProps {
 }
 
 export const HomePage: React.FC<HomePageProps> = ({ signInSuccessful }) => {
+  const { goto } = useNav();
+
+  const welcome = (
+    <Fragment>
+      <h1>WELCOME</h1>
+      <RcButton onClick={() => goto({ route: 'signin' })}>ACCESS</RcButton>
+    </Fragment>
+  );
+
   return (
     <div
       css={css`
