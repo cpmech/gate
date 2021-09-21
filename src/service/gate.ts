@@ -11,16 +11,21 @@ const storage: IStorage = {
 
 export const isLocal = true;
 
+const mustBeInGroups = ['customers'];
+
 export const gate = isLocal
   ? new LocalGateStore('@cpmech/gate', storage)
-  : new GateStore({
-      userPoolId: 'us-east-1_1HweE3Ykl',
-      userPoolWebClientId: '6cseuviljoiasveoevl5qilaqj',
-      oauthDomain: 'gate-login-dev.auth.us-east-1.amazoncognito.com',
-      redirectSignIn: 'https://dev.dorival.link/',
-      redirectSignOut: 'https://dev.dorival.link/',
-      awsRegion: 'us-east-1',
-    });
+  : new GateStore(
+      {
+        userPoolId: 'us-east-1_1HweE3Ykl',
+        userPoolWebClientId: '6cseuviljoiasveoevl5qilaqj',
+        oauthDomain: 'gate-login-dev.auth.us-east-1.amazoncognito.com',
+        redirectSignIn: 'https://dev.dorival.link/',
+        redirectSignOut: 'https://dev.dorival.link/',
+        awsRegion: 'us-east-1',
+      },
+      mustBeInGroups,
+    );
 
 // subscribe a function to capture when the user signs-in
 gate.subscribe(() => {
@@ -28,6 +33,7 @@ gate.subscribe(() => {
     return;
   }
   if (gate.user.hasAccess && gate.user.username) {
+    console.log(gate.user);
     store.loadData();
   }
 }, 'store.loadData');

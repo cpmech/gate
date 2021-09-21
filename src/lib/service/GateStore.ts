@@ -398,13 +398,14 @@ export class GateStore {
     const { idToken } = signInUserSession;
     const { payload } = idToken;
 
+    // extract groups
+    const groups =
+      payload && payload['cognito:groups'] ? (payload['cognito:groups'] as string[]) : [];
+
     // find whether this user belongs to the required groups
     let hasAccess = false;
     if (this.mustBeInGroups) {
-      if (payload && payload['cognito:groups']) {
-        const groups = payload['cognito:groups'] as string[];
-        hasAccess = this.mustBeInGroups.some((g) => groups.includes(g));
-      }
+      hasAccess = this.mustBeInGroups.some((g) => groups.includes(g));
     } else {
       hasAccess = true;
     }
@@ -426,6 +427,7 @@ export class GateStore {
     this.user.email = attributes.email;
     this.user.username = amplifyUser.username;
     this.user.idToken = idToken.jwtToken;
+    this.user.groups = groups;
     this.user.hasAccess = hasAccess;
   };
 }
