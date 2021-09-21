@@ -2,15 +2,7 @@
 import { css } from '@emotion/react';
 import { Fragment } from 'react';
 import { RcButton } from '../rcomps';
-import { useNav } from '../service';
-
-const signin = (
-  <Fragment>
-    <h1>ACCESS GRANTED</h1>
-    <p>Thanks for signing up!</p>
-    <p style={{ fontSize: 40 }}>😀</p>
-  </Fragment>
-);
+import { gate, useNav } from '../service';
 
 export interface HomePageProps {
   signInSuccessful?: boolean;
@@ -22,7 +14,23 @@ export const HomePage: React.FC<HomePageProps> = ({ signInSuccessful }) => {
   const welcome = (
     <Fragment>
       <h1>WELCOME</h1>
-      <RcButton onClick={() => goto({ route: 'signin' })}>ACCESS</RcButton>
+      <RcButton onClick={() => goto({ route: 'signin' })}>SIGN IN</RcButton>
+    </Fragment>
+  );
+
+  const granted = (
+    <Fragment>
+      <h1>ACCESS GRANTED</h1>
+      <p>Thanks for signing up!</p>
+      <p style={{ fontSize: 40 }}>😀</p>
+      <RcButton
+        onClick={async () => {
+          await gate.signOut();
+          goto({ route: '' });
+        }}
+      >
+        SIGN OUT
+      </RcButton>
     </Fragment>
   );
 
@@ -34,7 +42,7 @@ export const HomePage: React.FC<HomePageProps> = ({ signInSuccessful }) => {
         font-size: 1.3em;
       `}
     >
-      {signInSuccessful ? signin : welcome}
+      {signInSuccessful ? granted : welcome}
     </div>
   );
 };
