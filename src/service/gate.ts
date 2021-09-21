@@ -28,7 +28,6 @@ gate.subscribe(() => {
     return;
   }
   if (gate.user.hasAccess && gate.user.username) {
-    store.doStart('');
-    store.handleRedirect();
+    store.loadData();
   }
-}, 'store.doStart');
+}, 'store.loadData');

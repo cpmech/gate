@@ -101,7 +101,7 @@ export class GateStore {
     try {
       this.flags.doneSendCode = false;
       await Auth.signUp({ username: email, password });
-    } catch (error) {
+    } catch (error: any) {
       // only capturing AuthError here because the listener will capture others
       if (error.name === 'AuthError') {
         return this.end(t('UnknownSignUpException'));
@@ -120,7 +120,7 @@ export class GateStore {
         await Auth.signIn(email, password);
         // do not call this.end() because the listener will deal with it
       }
-    } catch (error) {
+    } catch (error: any) {
       if (error.message === 'User cannot be confirmed. Current status is CONFIRMED') {
         return this.end(t('errorAlreadyConfirmed'));
       }
@@ -141,7 +141,7 @@ export class GateStore {
       } else {
         return this.end(t('errorConfirm'));
       }
-    } catch (error) {
+    } catch (error: any) {
       if (error.message === 'User cannot be confirmed. Current status is CONFIRMED') {
         return this.end(t('errorAlreadyConfirmed'));
       }
@@ -160,7 +160,7 @@ export class GateStore {
       await sleep(delays.resendCode);
       this.flags.doneSendCode = true;
       return this.end();
-    } catch (error) {
+    } catch (error: any) {
       if (error.message === 'User is already confirmed.') {
         return this.end(t('errorAlreadyConfirmed'));
       }
@@ -181,7 +181,7 @@ export class GateStore {
     this.begin();
     try {
       await Auth.signIn(email, password);
-    } catch (error) {
+    } catch (error: any) {
       // only capturing AuthError here because the listener will capture others
       if (error.name === 'AuthError') {
         return this.end(t('UnknownSignUpException'));

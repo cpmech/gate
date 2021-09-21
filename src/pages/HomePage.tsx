@@ -1,7 +1,26 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { Fragment } from 'react';
 
-export const HomePage: React.FC = () => {
+const welcome = (
+  <Fragment>
+    <h1>WELCOME</h1>
+  </Fragment>
+);
+
+const signin = (
+  <Fragment>
+    <h1>ACCESS GRANTED</h1>
+    <p>Thanks for signing up!</p>
+    <p style={{ fontSize: 40 }}>😀</p>
+  </Fragment>
+);
+
+export interface HomePageProps {
+  signInSuccessful?: boolean;
+}
+
+export const HomePage: React.FC<HomePageProps> = ({ signInSuccessful }) => {
   return (
     <div
       css={css`
@@ -10,9 +29,7 @@ export const HomePage: React.FC = () => {
         font-size: 1.3em;
       `}
     >
-      <h1>WELCOME</h1>
-
-      <p>Work in progress...</p>
+      {signInSuccessful ? signin : welcome}
     </div>
   );
 };
