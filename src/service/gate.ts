@@ -1,5 +1,6 @@
 import { GateStore, gateLocale, LocalGateStore, IStorage } from '../lib';
 import { store } from './store';
+import { config } from './config';
 
 gateLocale.setLocale('en');
 
@@ -9,23 +10,23 @@ const storage: IStorage = {
   removeItem: async (key: string) => window.localStorage.removeItem(key),
 };
 
-export const isLocal = true;
-
 const mustBeInGroups = ['customers'];
 
-export const gate = isLocal
-  ? new LocalGateStore('@cpmech/gate', storage)
-  : new GateStore(
+export const isLocal = !config.liveGate;
+
+export const gate = config.liveGate
+  ? new GateStore(
       {
-        userPoolId: 'us-east-1_1HweE3Ykl',
-        userPoolWebClientId: '6cseuviljoiasveoevl5qilaqj',
-        oauthDomain: 'gate-login-dev.auth.us-east-1.amazoncognito.com',
-        redirectSignIn: 'https://dev.dorival.link/',
-        redirectSignOut: 'https://dev.dorival.link/',
+        userPoolId: config.cognitoPoolId,
+        userPoolWebClientId: config.cognitoClientId,
+        oauthDomain: `dp-login-${config.stage}.auth.us-east-1.amazoncognito.com`,
+        redirectSignIn: `https://${config.stage === 'dev' ? 'dev.' : ''}${config.domain}/`,
+        redirectSignOut: `https://${config.stage === 'dev' ? 'dev.' : ''}${config.domain}/`,
         awsRegion: 'us-east-1',
       },
       mustBeInGroups,
-    );
+    )
+  : new LocalGateStore('@cpmech/gate', storage);
 
 // subscribe a function to capture when the user signs-in
 gate.subscribe(() => {
