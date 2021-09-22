@@ -9,8 +9,10 @@
   },
   "repository": "cpmech/gate",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "react-scripts": "react-scripts",
+    "start": "bash ./zscripts/npm_start.bash",
+    "start:lg": "bash ./zscripts/npm_start.bash true",
+    "build": "bash ./zscripts/npm_build.bash",
     "test": "jest --verbose",
     "tw": "jest --watch --verbose",
     "tsc": "tsc",
@@ -84,5 +86,8 @@
     "react-responsive": "^8.2.0",
     "react-scripts": "4.0.3",
     "web-vitals": "^2.1.0"
+  },
+  "dependencies": {
+    "@cpmech/envars": "^2.31.0"
   }
 }

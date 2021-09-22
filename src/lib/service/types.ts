@@ -39,6 +39,7 @@ export interface IGateUser {
   email: string;
   username: string;
   idToken: string;
+  groups: string[];
   hasAccess: boolean; // signedIn and belongs to the required groups
 }
 
@@ -73,5 +74,6 @@ export const newBlankUser = (): IGateUser => ({
   email: '',
   username: '',
   idToken: '',
+  groups: [],
   hasAccess: false,
 });
