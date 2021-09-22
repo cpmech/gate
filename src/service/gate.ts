@@ -19,7 +19,7 @@ export const gate = config.liveGate
       {
         userPoolId: config.cognitoPoolId,
         userPoolWebClientId: config.cognitoClientId,
-        oauthDomain: `dp-login-${config.stage}.auth.us-east-1.amazoncognito.com`,
+        oauthDomain: `${config.appKey}-login-${config.stage}.auth.us-east-1.amazoncognito.com`,
         redirectSignIn: `https://${config.stage === 'dev' ? 'dev.' : ''}${config.domain}/`,
         redirectSignOut: `https://${config.stage === 'dev' ? 'dev.' : ''}${config.domain}/`,
         awsRegion: 'us-east-1',

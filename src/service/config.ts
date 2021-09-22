@@ -1,6 +1,7 @@
 import { initEnvars } from '@cpmech/envars';
 
 const envars = {
+  REACT_APP_KEY: '',
   REACT_APP_STAGE: '',
   REACT_APP_LIVEGATE: '',
   REACT_APP_DOMAIN: '',
@@ -12,6 +13,7 @@ const envars = {
 initEnvars(envars);
 
 export const config = {
+  appKey: envars.REACT_APP_KEY,
   stage: envars.REACT_APP_STAGE,
   liveGate: envars.REACT_APP_LIVEGATE === 'true',
   domain: envars.REACT_APP_DOMAIN,

@@ -10,6 +10,7 @@ npm run lint
 
 if [ "$STAGE" = "prod" ]; then
     echo "...build...prod..."
+    REACT_APP_KEY="gate" \
     REACT_APP_STAGE="prod" \
     REACT_APP_LIVEGATE="true" \
     REACT_APP_DOMAIN=${GATE_DOMAIN} \
@@ -19,6 +20,7 @@ if [ "$STAGE" = "prod" ]; then
     npm run react-scripts -- build
 else
     echo "...build...dev..."
+    REACT_APP_KEY="gate" \
     REACT_APP_STAGE="dev" \
     REACT_APP_LIVEGATE="true" \
     REACT_APP_DOMAIN=${GATE_DOMAIN} \

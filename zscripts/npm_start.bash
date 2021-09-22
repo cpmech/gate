@@ -5,6 +5,7 @@ MYIP=`ip route get 1 | sed -n 's/^.*src \([0-9.]*\) .*$/\1/p'`
 
 if [ "$LIVEGATE" = "true" ]; then
     echo "...with live gate..."
+    REACT_APP_KEY="gate" \
     REACT_APP_STAGE="dev" \
     REACT_APP_LIVEGATE="true" \
     REACT_APP_DOMAIN=${GATE_DOMAIN} \
@@ -15,6 +16,7 @@ if [ "$LIVEGATE" = "true" ]; then
 else
     echo "...with local gate..."
     REACT_APP_STAGE="dev" \
+    REACT_APP_KEY="gate" \
     REACT_APP_LIVEGATE="false" \
     REACT_APP_DOMAIN=${GATE_DOMAIN} \
     REACT_APP_APIURL="http://${MYIP}:4444/" \
