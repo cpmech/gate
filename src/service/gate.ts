@@ -10,7 +10,7 @@ const storage: IStorage = {
   removeItem: async (key: string) => window.localStorage.removeItem(key),
 };
 
-const mustBeInGroups = ['customers'];
+const mustBeInGroups = ['guests', 'awesome'];
 
 export const isLocal = !config.liveGate;
 
