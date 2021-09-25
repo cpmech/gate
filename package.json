@@ -41,9 +41,9 @@
   },
   "devDependencies": {
     "@cpmech/basic": "^4.33.0",
-    "@cpmech/iricons": "^0.4.1",
+    "@cpmech/iricons": "^0.5.1",
     "@cpmech/js2ts": "^2.30.0",
-    "@cpmech/rcomps": "^5.13.1",
+    "@cpmech/rcomps": "^5.14.1",
     "@cpmech/simple-state": "^3.3.0",
     "@cpmech/util": "^1.36.0",
     "@emotion/react": "^11.4.1",
@@ -75,9 +75,9 @@
   "peerDependencies": {
     "@cpmech/basic": "^4.33.0",
     "@cpmech/envars": "^2.33.0",
-    "@cpmech/iricons": "^0.4.1",
+    "@cpmech/iricons": "^0.5.1",
     "@cpmech/js2ts": "^2.30.0",
-    "@cpmech/rcomps": "^5.13.1",
+    "@cpmech/rcomps": "^5.14.1",
     "@cpmech/util": "^1.36.0",
     "@emotion/react": "^11.4.1",
     "async-mutex": "^0.3.2",
