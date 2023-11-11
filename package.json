@@ -73,6 +73,8 @@
     "wouter": "^2.7.5"
   },
   "peerDependencies": {
+    "@aws-amplify/auth": "^4.3.0",
+    "@aws-amplify/core": "^4.3.0",
     "@cpmech/basic": "^4.33.0",
     "@cpmech/envars": "^2.33.0",
     "@cpmech/iricons": "^0.5.1",
