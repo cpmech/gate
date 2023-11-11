@@ -152,7 +152,7 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
     setValues(newValues);
     if (touchedButtons) {
       const res = signUpValues2errors(newValues);
-      setVerrors({ ...vErrors, [key]: (res as any)[key] });
+      setVerrors({ ...vErrors, [key]: (res.errors as any)[key] });
     }
   };
 
@@ -351,12 +351,12 @@ export const GateSignUpForm: React.FC<IGateSignUpFormProps> = ({
           {isConfirm
             ? t('confirm').toUpperCase()
             : resetPasswordStep1
-            ? t('sendCode').toUpperCase()
-            : resetPasswordStep2
-            ? t('submit').toUpperCase()
-            : isSignIn
-            ? t('enter').toUpperCase()
-            : t('signUp').toUpperCase()}
+              ? t('sendCode').toUpperCase()
+              : resetPasswordStep2
+                ? t('submit').toUpperCase()
+                : isSignIn
+                  ? t('enter').toUpperCase()
+                  : t('signUp').toUpperCase()}
         </RcButton>
       </div>
 

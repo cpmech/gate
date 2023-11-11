@@ -89,7 +89,7 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
     setValues(newValues);
     if (touchedButtons) {
       const res = signUpValues2errors(newValues);
-      setVerrors({ ...vErrors, [key]: (res as any)[key] });
+      setVerrors({ ...vErrors, [key]: (res.errors as any)[key] });
     }
   };
 
@@ -197,8 +197,8 @@ export const LocalGateSignUpForm: React.FC<ILocalGateSignUpFormProps> = ({
             {isClearStorage
               ? t('clear').toUpperCase()
               : isSignIn
-              ? t('enter').toUpperCase()
-              : t('signUp').toUpperCase()}
+                ? t('enter').toUpperCase()
+                : t('signUp').toUpperCase()}
           </RcButton>
         </div>
 
